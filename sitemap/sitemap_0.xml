@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
+  <loc>http://comdan66.github.io/blog/article/%E6%8A%95%E4%BF%A1%E8%AA%8D%E9%A4%8A%E8%82%A1.html</loc>
+  <priority>0.8</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2016-07-08</lastmod>
+ </url>
+ <url>
   <loc>http://comdan66.github.io/blog/article/CV_20160708.html</loc>
   <priority>0.8</priority>
   <changefreq>daily</changefreq>
