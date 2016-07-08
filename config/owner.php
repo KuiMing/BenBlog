@@ -37,10 +37,6 @@
     ),
     'tags' => array (
       'title'   => "Ben's Tags"
-    ),
-    'githubbadge' => array (
-      'title'   => "Ben's GitHub",
-      'content' => '<iframe src="http://githubbadge.appspot.com/KuiMing" frameBorder="0"></iframe>'
     )
     // 'facebook' => array (
     //   'title'   => "Ben's Facebook",
