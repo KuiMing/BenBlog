@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>ipython notebook</title>
+
+</head>
+<body>
+<p>今天再次完成<a href="https://www.codecademy.com/learn/python">Codecademy的Python課程</a>，這次主要是複習，把之前忘記的部份補回來。這次主要的收穫是一些學習Python的技巧，還有求救方式，以下幾點可以作為日後參考：</p>
+
+<h2>ipython notebook</h2>
+
+<ul>
+<li>一定要實際使用ipython notebook(jupyter)或python學習，在codecademy無法先試著執行程式，確認自己是否正確，但是在自己的電腦直接使用ipython notebook，很快就會知道答案了。</li>
+</ul>
+
+
+<h2>tab</h2>
+
+<ul>
+<li><p>在ipython notebook上愛用<code>tab</code>鍵，可以幫助自己觀察每個object之下還有哪些method或變數。</p>
+
+<p>  <img src="img/tab_jupyter.png" alt="" /></p></li>
+</ul>
+
+
+<h2>tutorialspoint</h2>
+
+<ul>
+<li><a href="http://www.tutorialspoint.com/python/index.htm">http://www.tutorialspoint.com/python/index.htm</a>: 好用的網站，一些基本的規則可以在這邊看，搭配jupyter服用，效果加倍。</li>
+</ul>
+
+
+<h2>hellp</h2>
+
+<ul>
+<li><p>愛用help：在ipython notebook上，<code>import module</code>後，用<code>help(module)</code>或<code>help(function)</code>，可以觀察這些module和function的用法。如果在python使用，可以先打<code>help()</code>進入online help utility，再直接打上module或function的名稱就可以查詢了。（module其實就像R的package）</p>
+
+<pre><code>  import math
+  help(math.ceil)
+</code></pre>
+
+<p>  Help on built-in function ceil in module math:</p>
+
+<p>  ceil(...)</p>
+
+<p>   ceil(x)</p>
+
+<p>   Return the ceiling of x as a float.</p>
+
+<p>   This is the smallest integral value >= x.</p></li>
+</ul>
+
+</body>
+</html>
