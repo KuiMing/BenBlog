@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>Gitter</title>
+
+</head>
+<body>
+<p>有時候程式就是會跑比較久，不可能總是盯著terminal等待，但又很想跑完的一瞬間就趕快看一下結果，或者一旦出錯，立刻收到通知。這邊提供三個方法：</p>
+
+<h2>Gitter</h2>
+
+<p>只要有github帳號就可以申請gitter帳號，在gitter內開一個聊天室之後，可以利用R將想說的話POST到聊天室。手機可以安裝gitter app，當有訊息傳到聊天室，手機便能同步提醒。Code可以參考<a href="http://wush.ghost.io/customize-r-environment/">Wush的Blog</a>。不過，這邊有幾件事情要提醒各位：</p>
+
+<ul>
+<li><p>Room ID: 透過對網頁的觀察才會找到room ID。
+<img src="img/room_id.png" alt="" /></p></li>
+<li><p>Token: 以Giiter帳號登入<a href="https://developer.gitter.im/docs/authentication">Gitter Developer</a>，就可以直接看到Token了。</p></li>
+<li><p>用自己的gitter帳號POST訊息到給自己的聊天室，手機不會發出通知，因為畢竟是“自己”發的。所以，若希望手機會發出通知，最簡單的方法是去申請另一個帳號，以此帳號發出POST，這樣手機就會收到通知了。</p></li>
+</ul>
+
+
+<center><img src='img/gitter_phone.png' height=400></img></center>
+
+
+<h2>Gmail</h2>
+
+<p>R的套件<code>gmailr</code>可透過gmail API連結自己的gmail帳號寄信，以下的步驟做完應該就沒問題了：</p>
+
+<ol>
+<li><p>一開始先執行這一段code吧～～</p>
+
+<pre><code> library(gmailr)
+ msg = mime() %&gt;%
+     from("your@gmail.com") %&gt;%
+     to("towhom0901@gmail.com") %&gt;%
+     subject("Test") %&gt;%
+     html_body("Gmailr is a very handy package!")
+ send_message(msg)
+</code></pre></li>
+<li><p>接著會出現以下的畫面，請選擇2，如果這個步驟已經執行過了，應該是不會出現這個畫面：
+<img src="img/gmail_OAuth.png" alt="" /></p></li>
+<li><p>然後，會在預設的瀏覽器開啟網頁，要求使用者登入，並允許各項權限。</p></li>
+<li>完成上述步驟，信件就寄出了。</li>
+<li>萬一要換帳號，可以<code>clear_token</code>清理掉之前的權限，然後重開R，執行步驟1~2，選擇你要使用的帳號。</li>
+</ol>
+
+
+<h2>OSX say</h2>
+
+<p>有時候，只是希望主機發出一些聲音，讓我知道發生了什麼事情，<code>say</code>其實就足夠幫忙了，用法也非常簡單：</p>
+
+<ul>
+<li><p><code>say "{{something you want to say}}"</code></p></li>
+<li><p>這還能選擇你喜歡的聲音：<code>say -v Samantha "{{Hello}}"</code></p></li>
+<li><p><code>say -v ?</code>可列出可以使用的聲音</p></li>
+<li><p>跑完R code想要出點聲音，可以這麼做<code>system('say -v Samantha "{{It was Done}}"')</code></p></li>
+<li><p>或者直接把錯誤訊息念出來：</p>
+
+<pre><code>  paste0('say "{{', geterrmessage(), '}}"') %&gt;% system()
+</code></pre></li>
+</ul>
+
+
+<h3>上述幾招，之後配合Raspberry Pi應該可以做到遙控某些機器的功能，下次來嘗試一下。</h3>
+</body>
+</html>
