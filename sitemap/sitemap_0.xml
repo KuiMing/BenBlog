@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
+  <loc>http://comdan66.github.io/blog/article/oil_and_stock.html</loc>
+  <priority>0.8</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2016-07-18</lastmod>
+ </url>
+ <url>
   <loc>http://comdan66.github.io/blog/article/%E6%94%B6%E5%88%B0%E8%B7%91%E5%AE%8C%E7%A8%8B%E5%BC%8F%E7%9A%84%E9%80%9A%E7%9F%A5.html</loc>
   <priority>0.8</priority>
   <changefreq>daily</changefreq>
