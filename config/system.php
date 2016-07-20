@@ -10,7 +10,7 @@
   $_domain = 'http://kuiming.github.io/';
 
   /* Git Repository 名稱 */
-  $_git_name = 'blog';
+  $_git_name = 'BenBlog';
 
   /* 靜態文章列表 存放位置 */
   $_list = './articles';

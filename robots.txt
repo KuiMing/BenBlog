@@ -1,2 +1,2 @@
-Sitemap: http://kuiming.github.io/blog/sitemap/sitemap_index.xml
+Sitemap: http://kuiming.github.io/BenBlog/sitemap/sitemap_index.xml
 User-agent: *

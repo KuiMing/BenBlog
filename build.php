@@ -89,7 +89,7 @@
         array_push ($blocks, array (
           'name' => $folder['file_name'],
           'date' => preg_replace ('#(\d{4})-(\d{1,2})-(\d{1,2})_(\d{1,2})-(\d{1,2})-(\d{1,2})#', '$1-$2-$3 $4:$5:$6', $folder['date']),
-          'content' => mb_strimwidth (preg_replace ('/\n*/m', '', strip_tags ($html)), 0, $_list_preview_length, '…', 'UTF-8'),
+        //  'content' => mb_strimwidth (preg_replace ('/\n*/m', '', strip_tags ($html)), 0, $_list_preview_length, '…', 'UTF-8'),
           'href' => '../../' . preg_replace ('#(^\.\/)#', '', $_article) . '/' . rawurlencode ($folder['file_name'] ). $_oput_format,
           'tags' => $folder['tags'],
           'tag_base_url' => $_tags . DIRECTORY_SEPARATOR
