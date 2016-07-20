@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。</title>
+
+</head>
+<body>
+<h3>R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。</h3>
+
+<h2>從Yahoo! Finance抓資料</h2>
+
+<pre><code>import pandas.io.data as web
+from datetime import datetime
+df = web.DataReader('1707.TW', 'yahoo', datetime(2015, 10, 1), datetime(2016, 7, 19))
+</code></pre>
+
+<h3>這跟<code>quantmod</code>的<code>getSymbols</code>的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CSV，所以這部份可以另外寫爬蟲抓取網頁，這部分就算是用<code>quantmod</code>也是一樣的。而且，google只提供台股2006年之後的資料，太舊的資料就無法從google取得了。</h3>
+
+<h2>利用plotly畫圖</h2>
+
+<h3>原本R的<code>Quantmod</code>雖然可以畫出美美的圖，各種指標也可以輕鬆畫出，但是由於不是互動式的，所以觀察走勢的時候，並不是那麼方便。利用Python的<code>plotly</code>模組，便可以簡單畫出互動式K線圖了！</h3>
+
+<pre><code>import plotly.plotly as py
+from plotly.tools import FigureFactory as FF
+
+fig = FF.create_candlestick(df.Open, df.High, df.Low, df.Close, dates=df.index)
+py.iplot(fig,  validate=False)
+</code></pre>
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~benjamin0901/79.embed" height="525px" width="100%"></iframe>
+
+
+<h3>從Yahoo! Finance抓到的資料其實偶爾會有不齊全的情況，比如像上圖，六月份幾乎只有收盤價。所以，之後希望資料齊全的話，還是要從證券交易所直接抓會比較保險。除了K線，各種均線也可以畫：</h3>
+
+<pre><code>import numpy as np
+
+# 算均線
+def moving_average(a, n=3) :
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n
+
+from plotly.graph_objs import Scatter, Layout, Line
+
+# 月線
+SMA20=moving_average(df.Close.values, 20)
+add_line = Scatter(
+    x=df.index[-len(SMA20):],
+    y=SMA20,
+    name= '20SMA',
+    line=Line(color='rgb(200, 200, 250)')
+    )
+# 10日線
+fig['data'].extend([add_line])
+SMA10=moving_average(df.Close.values, 10)
+add_line = Scatter(
+    x=df.index[-len(SMA10):],
+    y=SMA10,
+    name= '10SMA',
+    line=Line(color='rgb(150, 150, 200)')
+    )
+fig['data'].extend([add_line])
+# 週線
+SMA5=moving_average(df.Close.values,5)
+add_line = Scatter(
+    x=df.index[-len(SMA5):],
+    y=SMA5,
+    name= '5SMA',
+    line=Line(color='rgb(100, 100, 150)')
+    )
+fig['data'].extend([add_line])
+py.iplot(fig,  validate=False)
+</code></pre>
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~benjamin0901/81.embed" height="525px" width="100%"></iframe>
+
+
+<h3>再加上barplot，就可以輕鬆畫出成交量</h3>
+
+<pre><code>import plotly.graph_objs as go
+data = [go.Bar(
+            x=df.index.values,
+            y=df.Volume.values
+    )]
+
+py.iplot(data, filename='basic-bar')
+</code></pre>
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~benjamin0901/2.embed" height="525px" width="100%"></iframe>
+
+
+<h3>這邊還是有一些小問題，尚未克服</h3>
+
+<ol>
+<li>尚未找到合併K線圖與成交量的方法</li>
+<li>假日雖然沒有值，畫圖的時候plotly不會直接把沒有值的日期直接忽略，圖形看起來就會一堆空白。</li>
+</ol>
+
+</body>
+</html>

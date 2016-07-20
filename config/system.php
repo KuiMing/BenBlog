@@ -7,7 +7,7 @@
 /* Build.php 相關程式設定 */
 
   /* Domain name，結尾記得加 斜線 */
-  $_domain = 'http://comdan66.github.io/';
+  $_domain = 'http://kuiming.github.io/';
 
   /* Git Repository 名稱 */
   $_git_name = 'blog';
@@ -62,4 +62,3 @@
 
   /* 標簽檔案名稱 */
   $_tags_file_name = 'tags.txt';
-
