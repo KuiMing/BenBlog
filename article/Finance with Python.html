@@ -9,14 +9,14 @@
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
     <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Python | Stock" />
-    <meta name="description" content="R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。從Yahoo! Finance抓資料import pandas.io.data as webfrom datetime import datetimedf = web.DataReader('1707.TW', 'yahoo', datetime(2015, 10, 1), datetime(2016, 7, 19))這跟quantmod的getSymbols的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CSV，所以這部份可以另…" />
+    <meta name="description" content="      R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。¶從Yahoo! Finance抓資料¶In [23]:    import pandas.io.data as webfrom datetime import datetimedf = web.DataReader('1707.TW', 'yahoo', datetime(2015, 10, 1), datetime(2016, 7, 19))這跟quantmod的getSymbols的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CS…" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
     <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
     <meta property="og:title" content="Finance with Python - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。從Yahoo! Finance抓資料import pandas.io.data as webfrom datetime import datetimedf = web.DataReader('1707.TW', 'yahoo', datetime(2015, 10, 1), datetime(2016, 7, 19))這跟quantmod的getSymbols的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CSV，所以這部份可以另…" />
+    <meta property="og:description" content="      R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。¶從Yahoo! Finance抓資料¶In [23]:    import pandas.io.data as webfrom datetime import datetimedf = web.DataReader('1707.TW', 'yahoo', datetime(2015, 10, 1), datetime(2016, 7, 19))這跟quantmod的getSymbols的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CS…" />
     <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/Finance with Python.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
@@ -92,96 +92,228 @@
             <div class='date timeago' data-time="2016-07-20 15:13:57">2016-07-20 15:13:57</div>
           </div>
           <div class='content'>
-<h3>R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。</h3>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
 
-<h2>從Yahoo! Finance抓資料</h2>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。">R有Quantmod，但Python似乎並沒有相對應的工具。不過，有幾個Module可以分別達到Quantmod的部分功能，先介紹兩個部分：抓取股票資料以及畫圖。<a class="anchor-link" href="#R%E6%9C%89Quantmod%EF%BC%8C%E4%BD%86Python%E4%BC%BC%E4%B9%8E%E4%B8%A6%E6%B2%92%E6%9C%89%E7%9B%B8%E5%B0%8D%E6%87%89%E7%9A%84%E5%B7%A5%E5%85%B7%E3%80%82%E4%B8%8D%E9%81%8E%EF%BC%8C%E6%9C%89%E5%B9%BE%E5%80%8BModule%E5%8F%AF%E4%BB%A5%E5%88%86%E5%88%A5%E9%81%94%E5%88%B0Quantmod%E7%9A%84%E9%83%A8%E5%88%86%E5%8A%9F%E8%83%BD%EF%BC%8C%E5%85%88%E4%BB%8B%E7%B4%B9%E5%85%A9%E5%80%8B%E9%83%A8%E5%88%86%EF%BC%9A%E6%8A%93%E5%8F%96%E8%82%A1%E7%A5%A8%E8%B3%87%E6%96%99%E4%BB%A5%E5%8F%8A%E7%95%AB%E5%9C%96%E3%80%82">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="從Yahoo!-Finance抓資料">從Yahoo! Finance抓資料<a class="anchor-link" href="#%E5%BE%9EYahoo!-Finance%E6%8A%93%E8%B3%87%E6%96%99">¶</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">pandas.io.data</span> <span class="kn">as</span> <span class="nn">web</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">DataReader</span><span class="p">(</span><span class="s">'1707.TW'</span><span class="p">,</span> <span class="s">'yahoo'</span><span class="p">,</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">19</span><span class="p">))</span>
+</pre></div>
 
-<pre><code>import pandas.io.data as web
-from datetime import datetime
-df = web.DataReader('1707.TW', 'yahoo', datetime(2015, 10, 1), datetime(2016, 7, 19))
-</code></pre>
+</div>
+</div>
+</div>
 
-<h3>這跟<code>quantmod</code>的<code>getSymbols</code>的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CSV，所以這部份可以另外寫爬蟲抓取網頁，這部分就算是用<code>quantmod</code>也是一樣的。而且，google只提供台股2006年之後的資料，太舊的資料就無法從google取得了。</h3>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="這跟quantmod的getSymbols的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CSV，所以這部份可以另外寫爬蟲抓取網頁，這部分就算是用quantmod也是一樣的。而且，google只提供台股2006年之後的資料，太舊的資料就無法從google取得了。">這跟<code>quantmod</code>的<code>getSymbols</code>的功能幾乎一模一樣，資料來源也可以改成google。但是，若要從google查台股的話，會出現error，原因是這個程式是直接抓每檔股票的歷史資料的CSV檔，但台股並沒有被存成CSV，所以這部份可以另外寫爬蟲抓取網頁，這部分就算是用<code>quantmod</code>也是一樣的。而且，google只提供台股2006年之後的資料，太舊的資料就無法從google取得了。<a class="anchor-link" href="#%E9%80%99%E8%B7%9Fquantmod%E7%9A%84getSymbols%E7%9A%84%E5%8A%9F%E8%83%BD%E5%B9%BE%E4%B9%8E%E4%B8%80%E6%A8%A1%E4%B8%80%E6%A8%A3%EF%BC%8C%E8%B3%87%E6%96%99%E4%BE%86%E6%BA%90%E4%B9%9F%E5%8F%AF%E4%BB%A5%E6%94%B9%E6%88%90google%E3%80%82%E4%BD%86%E6%98%AF%EF%BC%8C%E8%8B%A5%E8%A6%81%E5%BE%9Egoogle%E6%9F%A5%E5%8F%B0%E8%82%A1%E7%9A%84%E8%A9%B1%EF%BC%8C%E6%9C%83%E5%87%BA%E7%8F%BEerror%EF%BC%8C%E5%8E%9F%E5%9B%A0%E6%98%AF%E9%80%99%E5%80%8B%E7%A8%8B%E5%BC%8F%E6%98%AF%E7%9B%B4%E6%8E%A5%E6%8A%93%E6%AF%8F%E6%AA%94%E8%82%A1%E7%A5%A8%E7%9A%84%E6%AD%B7%E5%8F%B2%E8%B3%87%E6%96%99%E7%9A%84CSV%E6%AA%94%EF%BC%8C%E4%BD%86%E5%8F%B0%E8%82%A1%E4%B8%A6%E6%B2%92%E6%9C%89%E8%A2%AB%E5%AD%98%E6%88%90CSV%EF%BC%8C%E6%89%80%E4%BB%A5%E9%80%99%E9%83%A8%E4%BB%BD%E5%8F%AF%E4%BB%A5%E5%8F%A6%E5%A4%96%E5%AF%AB%E7%88%AC%E8%9F%B2%E6%8A%93%E5%8F%96%E7%B6%B2%E9%A0%81%EF%BC%8C%E9%80%99%E9%83%A8%E5%88%86%E5%B0%B1%E7%AE%97%E6%98%AF%E7%94%A8quantmod%E4%B9%9F%E6%98%AF%E4%B8%80%E6%A8%A3%E7%9A%84%E3%80%82%E8%80%8C%E4%B8%94%EF%BC%8Cgoogle%E5%8F%AA%E6%8F%90%E4%BE%9B%E5%8F%B0%E8%82%A12006%E5%B9%B4%E4%B9%8B%E5%BE%8C%E7%9A%84%E8%B3%87%E6%96%99%EF%BC%8C%E5%A4%AA%E8%88%8A%E7%9A%84%E8%B3%87%E6%96%99%E5%B0%B1%E7%84%A1%E6%B3%95%E5%BE%9Egoogle%E5%8F%96%E5%BE%97%E4%BA%86%E3%80%82">¶</a>
+</h3>
+<h2 id="利用plotly畫圖">利用plotly畫圖<a class="anchor-link" href="#%E5%88%A9%E7%94%A8plotly%E7%95%AB%E5%9C%96">¶</a>
+</h2>
+<h3 id="原本R的Quantmod雖然可以畫出美美的圖，各種指標也可以輕鬆畫出，但是由於不是互動式的，所以觀察走勢的時候，並不是那麼方便。利用Python的plotly模組，便可以簡單畫出互動式K線圖了！">原本R的<code>Quantmod</code>雖然可以畫出美美的圖，各種指標也可以輕鬆畫出，但是由於不是互動式的，所以觀察走勢的時候，並不是那麼方便。利用Python的<code>plotly</code>模組，便可以簡單畫出互動式K線圖了！<a class="anchor-link" href="#%E5%8E%9F%E6%9C%ACR%E7%9A%84Quantmod%E9%9B%96%E7%84%B6%E5%8F%AF%E4%BB%A5%E7%95%AB%E5%87%BA%E7%BE%8E%E7%BE%8E%E7%9A%84%E5%9C%96%EF%BC%8C%E5%90%84%E7%A8%AE%E6%8C%87%E6%A8%99%E4%B9%9F%E5%8F%AF%E4%BB%A5%E8%BC%95%E9%AC%86%E7%95%AB%E5%87%BA%EF%BC%8C%E4%BD%86%E6%98%AF%E7%94%B1%E6%96%BC%E4%B8%8D%E6%98%AF%E4%BA%92%E5%8B%95%E5%BC%8F%E7%9A%84%EF%BC%8C%E6%89%80%E4%BB%A5%E8%A7%80%E5%AF%9F%E8%B5%B0%E5%8B%A2%E7%9A%84%E6%99%82%E5%80%99%EF%BC%8C%E4%B8%A6%E4%B8%8D%E6%98%AF%E9%82%A3%E9%BA%BC%E6%96%B9%E4%BE%BF%E3%80%82%E5%88%A9%E7%94%A8Python%E7%9A%84plotly%E6%A8%A1%E7%B5%84%EF%BC%8C%E4%BE%BF%E5%8F%AF%E4%BB%A5%E7%B0%A1%E5%96%AE%E7%95%AB%E5%87%BA%E4%BA%92%E5%8B%95%E5%BC%8FK%E7%B7%9A%E5%9C%96%E4%BA%86%EF%BC%81">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="kn">as</span> <span class="nn">py</span>
+<span class="kn">from</span> <span class="nn">plotly.tools</span> <span class="kn">import</span> <span class="n">FigureFactory</span> <span class="k">as</span> <span class="n">FF</span>
 
-<h2>利用plotly畫圖</h2>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">FF</span><span class="o">.</span><span class="n">create_candlestick</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Open</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">High</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">Low</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">Close</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span>  <span class="n">validate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
 
-<h3>原本R的<code>Quantmod</code>雖然可以畫出美美的圖，各種指標也可以輕鬆畫出，但是由於不是互動式的，所以觀察走勢的時候，並不是那麼方便。利用Python的<code>plotly</code>模組，便可以簡單畫出互動式K線圖了！</h3>
+</div>
+</div>
+</div>
 
-<pre><code>import plotly.plotly as py
-from plotly.tools import FigureFactory as FF
+<div class="output_wrapper">
+<div class="output">
 
-fig = FF.create_candlestick(df.Open, df.High, df.Low, df.Close, dates=df.index)
-py.iplot(fig,  validate=False)
-</code></pre>
 
+<div class="output_area">
+<div class="prompt output_prompt">Out[38]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
 <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~benjamin0901/79.embed" height="525px" width="100%"></iframe>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="從Yahoo!-Finance抓到的資料其實偶爾會有不齊全的情況，比如像上圖，六月份幾乎只有收盤價。所以，之後希望資料齊全的話，還是要從證券交易所直接抓會比較保險。除了K線，各種均線也可以畫：">從Yahoo! Finance抓到的資料其實偶爾會有不齊全的情況，比如像上圖，六月份幾乎只有收盤價。所以，之後希望資料齊全的話，還是要從證券交易所直接抓會比較保險。除了K線，各種均線也可以畫：<a class="anchor-link" href="#%E5%BE%9EYahoo!-Finance%E6%8A%93%E5%88%B0%E7%9A%84%E8%B3%87%E6%96%99%E5%85%B6%E5%AF%A6%E5%81%B6%E7%88%BE%E6%9C%83%E6%9C%89%E4%B8%8D%E9%BD%8A%E5%85%A8%E7%9A%84%E6%83%85%E6%B3%81%EF%BC%8C%E6%AF%94%E5%A6%82%E5%83%8F%E4%B8%8A%E5%9C%96%EF%BC%8C%E5%85%AD%E6%9C%88%E4%BB%BD%E5%B9%BE%E4%B9%8E%E5%8F%AA%E6%9C%89%E6%94%B6%E7%9B%A4%E5%83%B9%E3%80%82%E6%89%80%E4%BB%A5%EF%BC%8C%E4%B9%8B%E5%BE%8C%E5%B8%8C%E6%9C%9B%E8%B3%87%E6%96%99%E9%BD%8A%E5%85%A8%E7%9A%84%E8%A9%B1%EF%BC%8C%E9%82%84%E6%98%AF%E8%A6%81%E5%BE%9E%E8%AD%89%E5%88%B8%E4%BA%A4%E6%98%93%E6%89%80%E7%9B%B4%E6%8E%A5%E6%8A%93%E6%9C%83%E6%AF%94%E8%BC%83%E4%BF%9D%E9%9A%AA%E3%80%82%E9%99%A4%E4%BA%86K%E7%B7%9A%EF%BC%8C%E5%90%84%E7%A8%AE%E5%9D%87%E7%B7%9A%E4%B9%9F%E5%8F%AF%E4%BB%A5%E7%95%AB%EF%BC%9A">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c"># 算均線</span>
+<span class="k">def</span> <span class="nf">moving_average</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="p">:]</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ret</span><span class="p">[:</span><span class="o">-</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="kn">from</span> <span class="nn">plotly.graph_objs</span> <span class="kn">import</span> <span class="n">Scatter</span><span class="p">,</span> <span class="n">Layout</span><span class="p">,</span> <span class="n">Line</span>
+
+<span class="c"># 月線</span>
+<span class="n">SMA20</span><span class="o">=</span><span class="n">moving_average</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">add_line</span> <span class="o">=</span> <span class="n">Scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">SMA20</span><span class="p">):],</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">SMA20</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span> <span class="s">'20SMA'</span><span class="p">,</span>
+    <span class="n">line</span><span class="o">=</span><span class="n">Line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">'rgb(200, 200, 250)'</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="c"># 10日線</span>
+<span class="n">fig</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">add_line</span><span class="p">])</span>
+<span class="n">SMA10</span><span class="o">=</span><span class="n">moving_average</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">add_line</span> <span class="o">=</span> <span class="n">Scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">SMA10</span><span class="p">):],</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">SMA10</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span> <span class="s">'10SMA'</span><span class="p">,</span>
+    <span class="n">line</span><span class="o">=</span><span class="n">Line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">'rgb(150, 150, 200)'</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="n">fig</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">add_line</span><span class="p">])</span>
+<span class="c"># 週線</span>
+<span class="n">SMA5</span><span class="o">=</span><span class="n">moving_average</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">Close</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">add_line</span> <span class="o">=</span> <span class="n">Scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">SMA5</span><span class="p">):],</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">SMA5</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span> <span class="s">'5SMA'</span><span class="p">,</span>
+    <span class="n">line</span><span class="o">=</span><span class="n">Line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s">'rgb(100, 100, 150)'</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="n">fig</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">add_line</span><span class="p">])</span>
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span>  <span class="n">validate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
 
 
-<h3>從Yahoo! Finance抓到的資料其實偶爾會有不齊全的情況，比如像上圖，六月份幾乎只有收盤價。所以，之後希望資料齊全的話，還是要從證券交易所直接抓會比較保險。除了K線，各種均線也可以畫：</h3>
+<div class="output_area">
+<div class="prompt output_prompt">Out[39]:</div>
 
-<pre><code>import numpy as np
-
-# 算均線
-def moving_average(a, n=3) :
-    ret = np.cumsum(a, dtype=float)
-    ret[n:] = ret[n:] - ret[:-n]
-    return ret[n - 1:] / n
-
-from plotly.graph_objs import Scatter, Layout, Line
-
-# 月線
-SMA20=moving_average(df.Close.values, 20)
-add_line = Scatter(
-    x=df.index[-len(SMA20):],
-    y=SMA20,
-    name= '20SMA',
-    line=Line(color='rgb(200, 200, 250)')
-    )
-# 10日線
-fig['data'].extend([add_line])
-SMA10=moving_average(df.Close.values, 10)
-add_line = Scatter(
-    x=df.index[-len(SMA10):],
-    y=SMA10,
-    name= '10SMA',
-    line=Line(color='rgb(150, 150, 200)')
-    )
-fig['data'].extend([add_line])
-# 週線
-SMA5=moving_average(df.Close.values,5)
-add_line = Scatter(
-    x=df.index[-len(SMA5):],
-    y=SMA5,
-    name= '5SMA',
-    line=Line(color='rgb(100, 100, 150)')
-    )
-fig['data'].extend([add_line])
-py.iplot(fig,  validate=False)
-</code></pre>
-
+<div class="output_html rendered_html output_subarea output_execute_result">
 <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~benjamin0901/81.embed" height="525px" width="100%"></iframe>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="再加上barplot，就可以輕鬆畫出成交量">再加上barplot，就可以輕鬆畫出成交量<a class="anchor-link" href="#%E5%86%8D%E5%8A%A0%E4%B8%8Abarplot%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BC%95%E9%AC%86%E7%95%AB%E5%87%BA%E6%88%90%E4%BA%A4%E9%87%8F">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="kn">as</span> <span class="nn">go</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">Volume</span><span class="o">.</span><span class="n">values</span>
+    <span class="p">)]</span>
+
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">'basic-bar'</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
 
 
-<h3>再加上barplot，就可以輕鬆畫出成交量</h3>
+<div class="output_area">
+<div class="prompt output_prompt">Out[40]:</div>
 
-<pre><code>import plotly.graph_objs as go
-data = [go.Bar(
-            x=df.index.values,
-            y=df.Volume.values
-    )]
-
-py.iplot(data, filename='basic-bar')
-</code></pre>
-
+<div class="output_html rendered_html output_subarea output_execute_result">
 <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~benjamin0901/2.embed" height="525px" width="100%"></iframe>
+</div>
 
+</div>
 
-<h3>這邊還是有一些小問題，尚未克服</h3>
+</div>
+</div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="這邊還是有一些小問題，尚未克服">這邊還是有一些小問題，尚未克服<a class="anchor-link" href="#%E9%80%99%E9%82%8A%E9%82%84%E6%98%AF%E6%9C%89%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%95%8F%E9%A1%8C%EF%BC%8C%E5%B0%9A%E6%9C%AA%E5%85%8B%E6%9C%8D">¶</a>
+</h3>
 <ol>
 <li>尚未找到合併K線圖與成交量的方法</li>
 <li>假日雖然沒有值，畫圖的時候plotly不會直接把沒有值的日期直接忽略，圖形看起來就會一堆空白。</li>
 </ol>
+</div>
+</div>
+</div>
+    </div>
+  </div>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
