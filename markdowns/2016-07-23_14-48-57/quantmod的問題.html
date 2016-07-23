@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="quantmod的問題_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="quantmod的問題_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="quantmod的問題_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="quantmod的問題_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="quantmod的問題_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="quantmod的問題_files/navigation-1.0/tabsets.js"></script>
+<script>
+
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+
+
+
+<div id="quantmodyahoo-finance" class="section level3">
+<h3>之前就曾經提過，<code>quantmod</code>其實有一些問題，抓到的台股資料有時候會有缺漏，原因是資料來源是Yahoo! Finance，這裡所提供的資料有時並不齊全。舉例來說：</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(quantmod)
+x=<span class="kw">getSymbols</span>(<span class="st">&#39;1707.TW&#39;</span>, <span class="dt">from=</span><span class="st">&#39;2016-07-01&#39;</span>, 
+             <span class="dt">auto.assign =</span> F)
+<span class="kw">chartSeries</span>(x, <span class="dt">name =</span> <span class="st">&#39;1707&#39;</span>)</code></pre>
+<p><img src="quantmod%E7%9A%84%E5%95%8F%E9%A1%8C_files/figure-html/unnamed-chunk-1-1.png" width="960" /></p>
+</div>
+<div class="section level3">
+<h3>從圖上可以很明顯看出兩個問題：</h3>
+<ol style="list-style-type: decimal">
+<li><p>葡萄王的股價在2016/07/01~2016/07/15這段期間，開盤價、收盤價、最高和最低價都相同。</p></li>
+<li><p>而且，有幾天的交易量為零。</p></li>
+</ol>
+</div>
+<div class="section level3">
+<h3>為了解決這種問題，最簡單的方法就是去證券交易所抓資料，以下提供偷懶的做法：</h3>
+<ol style="list-style-type: decimal">
+<li>假裝人類上網的行為，先進去證券交易所『個股日成交資訊』的頁面，然後查詢葡萄王七月份股價：</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(httr)
+<span class="kw">library</span>(XML)
+url &lt;-<span class="st"> &quot;http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php&quot;</span>
+res &lt;-<span class="st"> </span><span class="kw">POST</span>(url,
+            <span class="dt">body =</span> <span class="st">&#39;myear=2016&amp;mmon=7&amp;STK_NO=1707&amp;B1=+Query+&#39;</span>)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>接著，直接抓取葡萄王七月份股價：</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">url &lt;-<span class="st">&quot;http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/genpage/Report201607/201607_F3_1_8_1707.php?STK_NO=1707&amp;myear=2016&amp;mmon=07&quot;</span>
+res &lt;-<span class="st"> </span><span class="kw">GET</span>(url,
+           <span class="kw">add_headers</span>(
+             <span class="dt">Referer=</span> <span class="st">&quot;http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php&quot;</span>),
+           <span class="dt">encoding=</span><span class="st">&#39;utf8&#39;</span>)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>這邊先以bin data的形式存下來（這是try and error的結果）</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r">resStr &lt;-<span class="st"> </span><span class="kw">content</span>(res,<span class="dt">as=</span><span class="st">&quot;raw&quot;</span>,<span class="dt">encoding =</span> <span class="st">&#39;utf8&#39;</span>)
+<span class="kw">writeBin</span>(resStr, <span class="st">&quot;myfile.txt&quot;</span>)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>然後，再重新讀檔，並整理資料：</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+tables &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&#39;myfile.txt&#39;</span>,<span class="dt">warn =</span> <span class="ot">FALSE</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">htmlParse</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">readHTMLTable</span>() %&gt;%<span class="st"> </span>
+<span class="st">  </span>.[[<span class="dv">8</span>]] 
+
+tables &lt;-<span class="st"> </span>tables[-<span class="dv">1</span>,<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">4</span>:<span class="dv">7</span>)]
+tables[,<span class="dv">2</span>:<span class="dv">6</span>] &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">2</span>:<span class="dv">6</span>, function(i){
+  <span class="kw">as.numeric</span>(<span class="kw">unlist</span>(<span class="kw">gsub</span>(<span class="st">&#39;,&#39;</span>,<span class="st">&#39;&#39;</span>,<span class="kw">as.character</span>(tables[,i]))))
+})
+tables &lt;-<span class="st"> </span><span class="kw">mutate</span>(tables,<span class="dt">V1=</span><span class="kw">gsub</span>(<span class="st">&#39;/&#39;</span>,<span class="st">&#39;-&#39;</span>,V1)) %&gt;%<span class="st"> </span>
+<span class="st">  `</span><span class="dt">colnames&lt;-</span><span class="st">`</span>(<span class="kw">c</span>(<span class="st">&quot;date&quot;</span>,<span class="st">&quot;Volume&quot;</span>,<span class="st">&quot;Open&quot;</span>,<span class="st">&quot;High&quot;</span>,<span class="st">&quot;Low&quot;</span>,<span class="st">&quot;Close&quot;</span>))
+
+<span class="co"># 要轉成zoo與xts的格式，才可以用chartSeries作圖</span>
+tables &lt;-<span class="st"> </span><span class="kw">xts</span>(tables[,<span class="dv">2</span>:<span class="dv">6</span>], <span class="kw">as.Date</span>(tables[,<span class="dv">1</span>])) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">as.zoo</span>()</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>最後，直接畫圖：</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chartSeries</span>(tables, <span class="dt">name =</span> <span class="st">&#39;1707&#39;</span>)</code></pre>
+<p><img src="quantmod%E7%9A%84%E5%95%8F%E9%A1%8C_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
+</div>
+<div class="section level3">
+<h3>如此一來，所有該有的東西就都有囉！</h3>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+

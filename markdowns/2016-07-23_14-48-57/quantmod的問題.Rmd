@@ -1,0 +1,81 @@
+---
+title: 
+output: 
+  html_document:
+    self_contained: false
+    highlight: tango
+---
+
+### 之前就曾經提過，`quantmod`其實有一些問題，抓到的台股資料有時候會有缺漏，原因是資料來源是Yahoo! Finance，這裡所提供的資料有時並不齊全。舉例來說：
+
+```{r, warning=FALSE,message=FALSE,fig.width=10}
+library(quantmod)
+x=getSymbols('1707.TW', from='2016-07-01', 
+             auto.assign = F)
+chartSeries(x, name = '1707')
+```
+
+### 從圖上可以很明顯看出兩個問題：
+
+1. 葡萄王的股價在2016/07/01~2016/07/15這段期間，開盤價、收盤價、最高和最低價都相同。
+
+2. 而且，有幾天的交易量為零。
+
+### 為了解決這種問題，最簡單的方法就是去證券交易所抓資料，以下提供偷懶的做法：
+
+1. 假裝人類上網的行為，先進去證券交易所『個股日成交資訊』的頁面，然後查詢葡萄王七月份股價：
+
+```{r, warning=FALSE,message=FALSE}
+library(httr)
+library(XML)
+url <- "http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php"
+res <- POST(url,
+            body = 'myear=2016&mmon=7&STK_NO=1707&B1=+Query+')
+```
+
+2. 接著，直接抓取葡萄王七月份股價：
+
+```{r, warning=FALSE,message=FALSE}
+url <-"http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/genpage/Report201607/201607_F3_1_8_1707.php?STK_NO=1707&myear=2016&mmon=07"
+res <- GET(url,
+           add_headers(
+             Referer= "http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php"),
+           encoding='utf8')
+```
+
+3. 這邊先以bin data的形式存下來（這是try and error的結果）
+
+```{r, warning=FALSE,message=FALSE}
+resStr <- content(res,as="raw",encoding = 'utf8')
+writeBin(resStr, "myfile.txt")
+```
+
+4. 然後，再重新讀檔，並整理資料：
+
+```{r, warning=FALSE,message=FALSE}
+library(dplyr)
+tables <- readLines('myfile.txt',warn = FALSE) %>% 
+  paste(collapse = "") %>% 
+  htmlParse() %>% 
+  readHTMLTable() %>% 
+  .[[8]] 
+
+tables <- tables[-1,c(1:2,4:7)]
+tables[,2:6] <- sapply(2:6, function(i){
+  as.numeric(unlist(gsub(',','',as.character(tables[,i]))))
+})
+tables <- mutate(tables,V1=gsub('/','-',V1)) %>% 
+  `colnames<-`(c("date","Volume","Open","High","Low","Close"))
+
+# 要轉成zoo與xts的格式，才可以用chartSeries作圖
+tables <- xts(tables[,2:6], as.Date(tables[,1])) %>% 
+  as.zoo()
+```
+
+5. 最後，直接畫圖：
+
+```{r, fig.width=10}
+chartSeries(tables, name = '1707')
+```
+
+### 如此一來，所有該有的東西就都有囉！
