@@ -1,0 +1,95 @@
+---
+title: 
+output: 
+  html_document:
+    self_contained: false
+    highlight: tango
+---
+
+### 之前，就想過用`rmarkdown`搭配現在的blog格式，來發文章，但是遇到不少問題：
+
+#### 1. 文章的摘要內容無法正常顯示：
+
+![](img/blog_abstract.png)
+
+#### 2. 進入文章後，會有奇怪的黑色條紋：
+
+![](img/blog_header.png)
+
+#### 3. 直接以`rmarkdown`產出的圖片無法正常顯示，但若直接開啟`rmarkdown`所輸出的html檔，是可以正常顯示的。
+
+
+### 第一個問題是因為目前所套用的php無法正常辨別原本html檔的code，不過這段code可以直接刪除，不影響內容。
+
+### 第二個問題也是類似的情況，多出一段與title有關的code，所以也是可以直接刪除。
+
+### 第三個問題則是可以利用`rmarkdown`的語法解決，不要讓圖片直接鑲嵌在html檔裡，而是獨立存成檔案。
+
+### 以下直接提供實際作法：
+
+#### 1. 設定`rmarkdown`輸出：
+    
+```{r,eval=FALSE}
+title: 
+output: 
+  html_document:
+    self_contained: false #存成html檔時，將所有檔案另外存成一個資料夾
+    highlight: tango # 這部分是為了讓code可以搭配css，先選一個css格式，這裡選了tango
+```
+
+#### 2. 直接刪除多餘的html code：
+
+```{r, eval=FALSE}
+library(httr)
+library(XML)
+library(magrittr)
+rm_for_blog <- function(file){
+  # 直接抓Rmarkdown輸出的html檔
+  res <- GET(paste0('file:///Users/benjamin/',file))
+  resStr <- content(res,type='text',encoding = 'utf8')
+  # 刪掉會產生黑條紋的code
+  resStr <- sub('<div class=\"fluid-row\" id=\"header\">\n\n\n\n\n</div>','',resStr)
+  # 刪掉會出現奇怪abstract的部分
+  resStr <- sub('<style type = \"text/css\">\n.main-container \\{\n  max-width: 940px;\n  margin-left: auto;\n  margin-right: auto;\n\\}\ncode \\{\n  color: inherit;\n  background-color: rgba\\(0, 0, 0, 0.04\\);\n\\}\nimg \\{\n  max-width:100%;\n  height: auto;\n\\}\n.tabbed-pane \\{\n  padding-top: 12px;\n\\}\nbutton.code-folding-btn:focus \\{\n  outline: none;\n\\}\n</style>',
+                '',resStr)
+  resStr <- sub(
+    '\\$\\(document\\).ready\\(function \\(\\) \\{\n  window.buildTabsets\\(\"TOC\"\\);\n\\}\\);',
+    '',resStr)
+  # 重新存檔
+  write(resStr,file=file)
+}
+```
+
+#### 3. 為了方便之後放到blog，產生一個以日期與時間為名的資料夾，把所有相關檔案都塞進去：
+
+```{r, eval=FALSE}
+mv_for_blog <- function(file){
+  file=sub('.html','',file)
+  # create file folder by time
+  repo <- format(Sys.time(),"%Y-%m-%d_%H-%M-%S")
+  command <- paste("mkdir ",repo)
+  system(command)
+  # move file folder of Rmarkdown output
+  command <- paste0("mv -f ",file,'_files/ ',
+                    repo, '/',file,'_files/')
+  system(command)
+  # move Rmd and html files
+  command <- paste0("mv ", file,'* ', repo)
+  system(command)
+}
+```
+
+#### 4. 將上述兩個function合併，並且直接執行：
+```{r, eval=FALSE}
+rm_mv <- function(file){
+  rm_for_blog(file)
+  mv_for_blog(file)
+}
+
+rm_mv('quantmod的問題.html')
+```
+
+
+### 接下來就可以，開心的以`rmarkdown`發文了，本篇和[quantmod的問題](https://kuiming.github.io/BenBlog/article/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C.html)都是以上述方法發文的。
+
+#### 不過，還是有問題還沒解決，比如：直接在文章中畫互動式圖表......，這個無法直接以此方法產出，應該就是要直接把圖表存成html再用iframe解決了，有機會再試試看。

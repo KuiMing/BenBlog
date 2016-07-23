@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
+  <loc>http://kuiming.github.io/BenBlog/article/%E4%BB%A5Rmarkdown%E7%99%BCblog.html</loc>
+  <priority>0.8</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2016-07-23</lastmod>
+ </url>
+ <url>
   <loc>http://kuiming.github.io/BenBlog/article/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C.html</loc>
   <priority>0.8</priority>
   <changefreq>daily</changefreq>

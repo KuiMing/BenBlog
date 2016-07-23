@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="以Rmarkdown發blog_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="以Rmarkdown發blog_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="以Rmarkdown發blog_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="以Rmarkdown發blog_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="以Rmarkdown發blog_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="以Rmarkdown發blog_files/navigation-1.0/tabsets.js"></script>
+<script>
+
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+
+
+
+<div id="rmarkdownblog" class="section level3">
+<h3>之前，就想過用<code>rmarkdown</code>搭配現在的blog格式，來發文章，但是遇到不少問題：</h3>
+<div class="section level4">
+<h4>1. 文章的摘要內容無法正常顯示：</h4>
+<div class="figure">
+<img src="img/blog_abstract.png" />
+</div>
+</div>
+<div class="section level4">
+<h4>2. 進入文章後，會有奇怪的黑色條紋：</h4>
+<div class="figure">
+<img src="img/blog_header.png" />
+</div>
+</div>
+<div id="rmarkdownrmarkdownhtml" class="section level4">
+<h4>3. 直接以<code>rmarkdown</code>產出的圖片無法正常顯示，但若直接開啟<code>rmarkdown</code>所輸出的html檔，是可以正常顯示的。</h4>
+</div>
+</div>
+<div id="phphtmlcodecode" class="section level3">
+<h3>第一個問題是因為目前所套用的php無法正常辨別原本html檔的code，不過這段code可以直接刪除，不影響內容。</h3>
+</div>
+<div id="titlecode" class="section level3">
+<h3>第二個問題也是類似的情況，多出一段與title有關的code，所以也是可以直接刪除。</h3>
+</div>
+<div id="rmarkdownhtml" class="section level3">
+<h3>第三個問題則是可以利用<code>rmarkdown</code>的語法解決，不要讓圖片直接鑲嵌在html檔裡，而是獨立存成檔案。</h3>
+</div>
+<div class="section level3">
+<h3>以下直接提供實際作法：</h3>
+<div id="rmarkdown" class="section level4">
+<h4>1. 設定<code>rmarkdown</code>輸出：</h4>
+<pre class="sourceCode r"><code class="sourceCode r">title:<span class="st"> </span>
+output:<span class="st"> </span>
+<span class="st">  </span>html_document:
+<span class="st">    </span>self_contained:<span class="st"> </span>false <span class="co">#存成html檔時，將所有檔案另外存成一個資料夾</span>
+    highlight:<span class="st"> </span>tango <span class="co"># 這部分是為了讓code可以搭配css，先選一個css格式，這裡選了tango</span></code></pre>
+</div>
+<div id="html-code" class="section level4">
+<h4>2. 直接刪除多餘的html code：</h4>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(httr)
+<span class="kw">library</span>(XML)
+<span class="kw">library</span>(magrittr)
+rm_for_blog &lt;-<span class="st"> </span>function(file){
+  <span class="co"># 直接抓Rmarkdown輸出的html檔</span>
+  res &lt;-<span class="st"> </span><span class="kw">GET</span>(<span class="kw">paste0</span>(<span class="st">&#39;file:///Users/benjamin/&#39;</span>,file))
+  resStr &lt;-<span class="st"> </span><span class="kw">content</span>(res,<span class="dt">type=</span><span class="st">&#39;text&#39;</span>,<span class="dt">encoding =</span> <span class="st">&#39;utf8&#39;</span>)
+  <span class="co"># 刪掉會產生黑條紋的code</span>
+  resStr &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;&lt;div class=</span><span class="ch">\&quot;</span><span class="st">fluid-row</span><span class="ch">\&quot;</span><span class="st"> id=</span><span class="ch">\&quot;</span><span class="st">header</span><span class="ch">\&quot;</span><span class="st">&gt;</span><span class="ch">\n\n\n\n\n</span><span class="st">&lt;/div&gt;&#39;</span>,<span class="st">&#39;&#39;</span>,resStr)
+  <span class="co"># 刪掉會出現奇怪abstract的部分</span>
+  resStr &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;&lt;style type = </span><span class="ch">\&quot;</span><span class="st">text/css</span><span class="ch">\&quot;</span><span class="st">&gt;</span><span class="ch">\n</span><span class="st">.main-container </span><span class="ch">\\</span><span class="st">{</span><span class="ch">\n</span><span class="st">  max-width: 940px;</span><span class="ch">\n</span><span class="st">  margin-left: auto;</span><span class="ch">\n</span><span class="st">  margin-right: auto;</span><span class="ch">\n\\</span><span class="st">}</span><span class="ch">\n</span><span class="st">code </span><span class="ch">\\</span><span class="st">{</span><span class="ch">\n</span><span class="st">  color: inherit;</span><span class="ch">\n</span><span class="st">  background-color: rgba</span><span class="ch">\\</span><span class="st">(0, 0, 0, 0.04</span><span class="ch">\\</span><span class="st">);</span><span class="ch">\n\\</span><span class="st">}</span><span class="ch">\n</span><span class="st">img </span><span class="ch">\\</span><span class="st">{</span><span class="ch">\n</span><span class="st">  max-width:100%;</span><span class="ch">\n</span><span class="st">  height: auto;</span><span class="ch">\n\\</span><span class="st">}</span><span class="ch">\n</span><span class="st">.tabbed-pane </span><span class="ch">\\</span><span class="st">{</span><span class="ch">\n</span><span class="st">  padding-top: 12px;</span><span class="ch">\n\\</span><span class="st">}</span><span class="ch">\n</span><span class="st">button.code-folding-btn:focus </span><span class="ch">\\</span><span class="st">{</span><span class="ch">\n</span><span class="st">  outline: none;</span><span class="ch">\n\\</span><span class="st">}</span><span class="ch">\n</span><span class="st">&lt;/style&gt;&#39;</span>,
+                <span class="st">&#39;&#39;</span>,resStr)
+  resStr &lt;-<span class="st"> </span><span class="kw">sub</span>(
+    <span class="st">&#39;</span><span class="ch">\\</span><span class="st">$</span><span class="ch">\\</span><span class="st">(document</span><span class="ch">\\</span><span class="st">).ready</span><span class="ch">\\</span><span class="st">(function </span><span class="ch">\\</span><span class="st">(</span><span class="ch">\\</span><span class="st">) </span><span class="ch">\\</span><span class="st">{</span><span class="ch">\n</span><span class="st">  window.buildTabsets</span><span class="ch">\\</span><span class="st">(</span><span class="ch">\&quot;</span><span class="st">TOC</span><span class="ch">\&quot;\\</span><span class="st">);</span><span class="ch">\n\\</span><span class="st">}</span><span class="ch">\\</span><span class="st">);&#39;</span>,
+    <span class="st">&#39;&#39;</span>,resStr)
+  <span class="co"># 重新存檔</span>
+  <span class="kw">write</span>(resStr,<span class="dt">file=</span>file)
+}</code></pre>
+</div>
+<div id="blog" class="section level4">
+<h4>3. 為了方便之後放到blog，產生一個以日期與時間為名的資料夾，把所有相關檔案都塞進去：</h4>
+<pre class="sourceCode r"><code class="sourceCode r">mv_for_blog &lt;-<span class="st"> </span>function(file){
+  file=<span class="kw">sub</span>(<span class="st">&#39;.html&#39;</span>,<span class="st">&#39;&#39;</span>,file)
+  <span class="co"># create file folder by time</span>
+  repo &lt;-<span class="st"> </span><span class="kw">format</span>(<span class="kw">Sys.time</span>(),<span class="st">&quot;%Y-%m-%d_%H-%M-%S&quot;</span>)
+  command &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;mkdir &quot;</span>,repo)
+  <span class="kw">system</span>(command)
+  <span class="co"># move file folder of Rmarkdown output</span>
+  command &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;mv -f &quot;</span>,file,<span class="st">&#39;_files/ &#39;</span>,
+                    repo, <span class="st">&#39;/&#39;</span>,file,<span class="st">&#39;_files/&#39;</span>)
+  <span class="kw">system</span>(command)
+  <span class="co"># move Rmd and html files</span>
+  command &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;mv &quot;</span>, file,<span class="st">&#39;* &#39;</span>, repo)
+  <span class="kw">system</span>(command)
+}</code></pre>
+</div>
+<div id="function" class="section level4">
+<h4>4. 將上述兩個function合併，並且直接執行：</h4>
+<pre class="sourceCode r"><code class="sourceCode r">rm_mv &lt;-<span class="st"> </span>function(file){
+  <span class="kw">rm_for_blog</span>(file)
+  <span class="kw">mv_for_blog</span>(file)
+}
+
+<span class="kw">rm_mv</span>(<span class="st">&#39;quantmod的問題.html&#39;</span>)</code></pre>
+</div>
+</div>
+<div id="rmarkdownquantmod" class="section level3">
+<h3>接下來就可以，開心的以<code>rmarkdown</code>發文了，本篇和<a href="https://kuiming.github.io/BenBlog/article/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C.html">quantmod的問題</a>都是以上述方法發文的。</h3>
+<div id="htmliframe" class="section level4">
+<h4>不過，還是有問題還沒解決，比如：直接在文章中畫互動式圖表……，這個無法直接以此方法產出，應該就是要直接把圖表存成html再用iframe解決了，有機會再試試看。</h4>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
