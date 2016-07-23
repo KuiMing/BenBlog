@@ -8,7 +8,7 @@
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | R | rmarkdown" />
     <meta name="description" content="之前，就想過用rmarkdown搭配現在的blog格式，來發文章，但是遇到不少問題：1. 文章的摘要內容無法正常顯示：2. 進入文章後，會有奇怪的黑色條紋：3. 直接以rmarkdown產出的圖片無法正常顯示，但若直接開啟rmarkdown所輸出的html檔，是可以正常顯示的。第一個問題是因為目前所套用的php無法正常辨別原本html檔的code，不過這段code可以直接刪除，不影響內容。第二個問題也是類似的情況，多出一段與title有關的code，所以也是可以直接刪除。第三個問題則是可以利用rmarkdown的語法解決，不要讓圖片直接鑲嵌在html檔裡，而是獨立存成檔案。…" />
 
     <meta property="og:site_name" content="Ben's blog" />
@@ -55,9 +55,10 @@
                                 <div class="unit shimmer">生日: 1984/09/01</div>
                                 <div class='unit title'>Ben's Tags</div>
 
-                                    <a href=".././tag/r"><div class='unit'>r(3)</div></a>
+                                    <a href=".././tag/r"><div class='unit'>r(4)</div></a>
                                     <a href=".././tag/stock"><div class='unit'>stock(3)</div></a>
                                     <a href=".././tag/python"><div class='unit'>python(2)</div></a>
+                                    <a href=".././tag/rmarkdown"><div class='unit'>rmarkdown(1)</div></a>
                                     <a href=".././tag/osx"><div class='unit'>osx(1)</div></a>
                                     <a href=".././tag/cv"><div class='unit'>cv(1)</div></a>
                             <div class='unit title'>Ben's Link</div>
@@ -216,7 +217,9 @@ $(document).ready(function () {
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
-        &nbsp;&nbsp;            </div>
+                          <span><a href=".././tag/r">R</a></span>
+                            <span><a href=".././tag/rmarkdown">rmarkdown</a></span>
+                      </div>
           </div>
         </div>
       </div>
@@ -272,9 +275,10 @@ $(document).ready(function () {
                 </div>
                         <div class='pin tags clearfix'>
                   <div class='title'>Ben's Tags</div>
-                                <a href=".././tag/r"><span class="tag"><div class="doc"></div><div class="name">r (3)</div></span></a>
+                                <a href=".././tag/r"><span class="tag"><div class="doc"></div><div class="name">r (4)</div></span></a>
                                 <a href=".././tag/stock"><span class="tag"><div class="doc"></div><div class="name">stock (3)</div></span></a>
                                 <a href=".././tag/python"><span class="tag"><div class="doc"></div><div class="name">python (2)</div></span></a>
+                                <a href=".././tag/rmarkdown"><span class="tag"><div class="doc"></div><div class="name">rmarkdown (1)</div></span></a>
                                 <a href=".././tag/osx"><span class="tag"><div class="doc"></div><div class="name">osx (1)</div></span></a>
                                 <a href=".././tag/cv"><span class="tag"><div class="doc"></div><div class="name">cv (1)</div></span></a>
                             </div>
