@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="quantmod的問題-爬蟲修正_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="quantmod的問題-爬蟲修正_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="quantmod的問題-爬蟲修正_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="quantmod的問題-爬蟲修正_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="quantmod的問題-爬蟲修正_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; }
+code > span.dt { color: #204a87; }
+code > span.dv { color: #0000cf; }
+code > span.bn { color: #0000cf; }
+code > span.fl { color: #0000cf; }
+code > span.ch { color: #4e9a06; }
+code > span.st { color: #4e9a06; }
+code > span.co { color: #8f5902; font-style: italic; }
+code > span.ot { color: #8f5902; }
+code > span.al { color: #ef2929; }
+code > span.fu { color: #000000; }
+code > span.er { font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="quantmod的問題-爬蟲修正_files/navigation-1.0/tabsets.js"></script>
+<script>
+
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+
+
+
+<div class="section level1">
+<h1>爬蟲修正！</h1>
+<div id="quantmodtwserequest-headerrequest-headerheaderfunction" class="section level3">
+<h3>此篇用來修正<a href="https://kuiming.github.io/BenBlog/article/quantmod的問題.html">quantmod的問題</a>中，抓取TWSE個股每日成交資訊的方法。之前偷懶，沒把Request header加上去，發現抓取的資料就會有缺，似乎是只能抓到上一次以瀏覽器（或者網站以為是以瀏覽器）查詢的資料。所以這一篇來補足一下，把Request header全都加進去，就沒有問題了。雖然這樣還是偷懶，沒找出網站真正辨識的header，直接全塞，但也足以抓到所有資料了。順手包成function：</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(httr)
+<span class="kw">library</span>(XML)
+<span class="kw">library</span>(dplyr)
+TWSE &lt;-<span class="st"> </span>function(<span class="dt">stock=</span><span class="st">&quot;1215&quot;</span>,year_in,month_in){
+  <span class="co"># Post query </span>
+  url &lt;-<span class="st"> &quot;http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAY.php&quot;</span>
+  year &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(year_in)
+  month &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(month_in)
+  query_str &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;myear=&#39;</span>, year, <span class="st">&#39;&amp;mmon=&#39;</span>,
+                      month,<span class="st">&#39;&amp;STK_NO=&#39;</span>,
+                      stock,<span class="st">&#39;&amp;login_btn=+Query+&#39;</span>)
+  
+  header &lt;-<span class="st"> </span><span class="kw">add_headers</span>(
+                <span class="dt">Connection =</span> <span class="st">&quot;keep-alive&quot;</span>,
+                <span class="st">`</span><span class="dt">Content-Length</span><span class="st">`</span> =<span class="st"> </span><span class="dv">47</span>,
+                <span class="st">`</span><span class="dt">Cache-Control</span><span class="st">`</span> =<span class="st"> &quot;max-age=0&quot;</span>,
+                <span class="dt">Accept =</span> <span class="st">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;</span>,
+                <span class="dt">Origin =</span> <span class="st">&quot;http://www.twse.com.tw&quot;</span>,
+                <span class="st">`</span><span class="dt">Upgrade-Insecure-Requests</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span>,
+                <span class="st">`</span><span class="dt">User-Agent</span><span class="st">`</span> =<span class="st"> &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36&quot;</span>,
+                <span class="st">`</span><span class="dt">Content-Type</span><span class="st">`</span> =<span class="st"> &quot;application/x-www-form-urlencoded&quot;</span>,
+                <span class="st">`</span><span class="dt">Accept-Encoding</span><span class="st">`</span> =<span class="st"> &quot;gzip, deflate&quot;</span>,
+                <span class="st">`</span><span class="dt">Accept-Language</span><span class="st">`</span> =<span class="st"> &quot;zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2&quot;</span>)
+  
+  res &lt;-<span class="st"> </span><span class="kw">POST</span>(url, header, <span class="dt">body =</span> query_str)
+  
+  <span class="co"># Get data</span>
+  x=year_in
+  i=month_in
+  url &lt;-<span class="st"> &quot;http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/genpage/Report&quot;</span> %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">paste0</span>(x, i, <span class="st">&quot;/&quot;</span>, x, i, <span class="st">&quot;_F3_1_8_&quot;</span>, stock, 
+           <span class="st">&quot;.php?STK_NO=&quot;</span>, stock, <span class="st">&quot;&amp;myear=&quot;</span>, x,
+           <span class="st">&quot;&amp;mmon=&quot;</span>, i)
+  
+  header &lt;-<span class="st"> </span><span class="kw">add_headers</span>(
+               <span class="dt">Host =</span> <span class="st">&#39;www.twse.com.tw&#39;</span>,
+               <span class="dt">Connection =</span> <span class="st">&#39;keep-alive&#39;</span>,
+               <span class="dt">Accept =</span> <span class="st">&#39;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&#39;</span>,
+               <span class="st">`</span><span class="dt">Upgrade-Insecure-Requests</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span>,
+               <span class="st">`</span><span class="dt">User-Agent</span><span class="st">`</span> =<span class="st"> &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36&quot;</span>,
+               <span class="dt">Referer =</span> <span class="st">&quot;http://www.twse.com.tw/en/trading/exchange/STOCK_DAY_AVG/STOCK_DAY_AVG.php&quot;</span>,
+               <span class="st">`</span><span class="dt">Accept-Encoding</span><span class="st">`</span> =<span class="st"> &quot;gzip, deflate, sdch&quot;</span>,
+               <span class="st">`</span><span class="dt">Accept-Language</span><span class="st">`</span>=<span class="st"> &quot;zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2&quot;</span>)
+  
+  res &lt;-<span class="st"> </span><span class="kw">GET</span>(url, header, <span class="dt">encoding=</span><span class="st">&#39;utf8&#39;</span>)
+  resStr &lt;-<span class="st"> </span><span class="kw">content</span>(res, <span class="dt">as=</span><span class="st">&quot;raw&quot;</span>, <span class="dt">encoding =</span> <span class="st">&#39;utf8&#39;</span>)
+  <span class="kw">writeBin</span>(resStr, <span class="st">&quot;myfile.txt&quot;</span>)
+  
+  <span class="co"># Extract table</span>
+  tables &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">&#39;myfile.txt&#39;</span>, <span class="dt">warn =</span> <span class="ot">FALSE</span>) %&gt;%
+<span class="st">    </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">&quot;&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">htmlParse</span>() %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">readHTMLTable</span>() %&gt;%<span class="st"> </span>
+<span class="st">    </span>.[[<span class="dv">8</span>]]
+  
+  <span class="co"># transform to xts and zoo class</span>
+  tables &lt;-<span class="st"> </span>tables[-<span class="dv">1</span>, <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">4</span>:<span class="dv">7</span>)]
+  tables[,<span class="dv">2</span>:<span class="dv">6</span>] &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">2</span>:<span class="dv">6</span>, function(i){
+    <span class="kw">as.character</span>(tables[,i]) %&gt;%<span class="st"> </span>
+<span class="st">      </span><span class="kw">gsub</span>(<span class="st">&#39;,&#39;</span>, <span class="st">&#39;&#39;</span>, .) %&gt;%<span class="st"> </span>
+<span class="st">      </span><span class="kw">unlist</span>() %&gt;%<span class="st"> </span>
+<span class="st">      </span><span class="kw">as.numeric</span>()
+  })
+  tables &lt;-<span class="st"> </span><span class="kw">mutate</span>(tables,<span class="dt">V1=</span><span class="kw">gsub</span>(<span class="st">&#39;/&#39;</span>,<span class="st">&#39;-&#39;</span>,V1)) %&gt;%<span class="st"> </span>
+<span class="st">    `</span><span class="dt">colnames&lt;-</span><span class="st">`</span>(<span class="kw">c</span>(<span class="st">&quot;date&quot;</span>,<span class="st">&quot;Volume&quot;</span>,<span class="st">&quot;Open&quot;</span>,
+                   <span class="st">&quot;High&quot;</span>,<span class="st">&quot;Low&quot;</span>,<span class="st">&quot;Close&quot;</span>))
+  
+  tables &lt;-<span class="st"> </span><span class="kw">xts</span>(tables[,<span class="dv">2</span>:<span class="dv">6</span>], <span class="kw">as.Date</span>(tables[,<span class="dv">1</span>])) %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">as.zoo</span>()
+}</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
