@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>quantmod的問題-爬蟲修正 - Ben's blog</title>
+    <title>TWSE似乎改版了 - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | R | Stock" />
-    <meta name="description" content="爬蟲修正！此篇用來修正quantmod的問題中，抓取TWSE個股每日成交資訊的方法。之前偷懶，沒把Request header加上去，發現抓取的資料就會有缺，似乎是只能抓到上一次以瀏覽器（或者網站以為是以瀏覽器）查詢的資料。所以這一篇來補足一下，把Request header全都加進去，就沒有問題了。雖然這樣還是偷懶，沒找出網站真正辨識的header，直接全塞，但也足以抓到所有資料了。順手包成function：library(httr)library(XML)library(dplyr)TWSE &lt;- function(stock='1215',year_in,month_in){  # Post query   url &lt;- 'http://www.twse.com.t…" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | R | Python | Stock" />
+    <meta name="description" content="TWSE真的很麻煩，個股日成交資訊的網頁似乎又改版了，似乎已經沒辦法直接抓網頁了，一定得下載CSV。山不轉路轉！基本上，做法還是跟之前差不多，甚至更簡單，一樣還是要利用POST執行查詢的動作，接著下載CSV的時候，可以觀察到下載網址，接下來就可以靠R自動化了R# 方法一download.file(url, destfile='tmp.csv')tables = read.csv('tmp.csv', header=F)# 方法二tables = read.csv(url, header=F)Pythonimport pandas as pdpd.read_csv(url)簡單吧～～應該還可以再撐一段時間不用改code吧......" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
     <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
-    <meta property="og:title" content="quantmod的問題-爬蟲修正 - Ben's blog" />
+    <meta property="og:title" content="TWSE似乎改版了 - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="爬蟲修正！此篇用來修正quantmod的問題中，抓取TWSE個股每日成交資訊的方法。之前偷懶，沒把Request header加上去，發現抓取的資料就會有缺，似乎是只能抓到上一次以瀏覽器（或者網站以為是以瀏覽器）查詢的資料。所以這一篇來補足一下，把Request header全都加進去，就沒有問題了。雖然這樣還是偷懶，沒找出網站真正辨識的header，直接全塞，但也足以抓到所有資料了。順手包成function：library(httr)library(XML)library(dplyr)TWSE &lt;- function(stock='1215',year_in,month_in){  # Post query   url &lt;- 'http://www.twse.com.t…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/quantmod的問題-爬蟲修正.html" />
+    <meta property="og:description" content="TWSE真的很麻煩，個股日成交資訊的網頁似乎又改版了，似乎已經沒辦法直接抓網頁了，一定得下載CSV。山不轉路轉！基本上，做法還是跟之前差不多，甚至更簡單，一樣還是要利用POST執行查詢的動作，接著下載CSV的時候，可以觀察到下載網址，接下來就可以靠R自動化了R# 方法一download.file(url, destfile='tmp.csv')tables = read.csv('tmp.csv', header=F)# 方法二tables = read.csv(url, header=F)Pythonimport pandas as pdpd.read_csv(url)簡單吧～～應該還可以再撐一段時間不用改code吧......" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/TWSE似乎改版了.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -90,120 +90,34 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>quantmod的問題-爬蟲修正</h2>
-            <div class='date timeago' data-time="2016-07-29 09:00:55">2016-07-29 09:00:55</div>
+            <h2>TWSE似乎改版了</h2>
+            <div class='date timeago' data-time="2016-08-05 14:37:04">2016-08-05 14:37:04</div>
           </div>
           <div class='content'>
+<h3>TWSE真的很麻煩，個股日成交資訊的網頁似乎又改版了，似乎已經沒辦法直接抓網頁了，一定得下載CSV。山不轉路轉！基本上，做法還是跟之前差不多，甚至更簡單，一樣還是要利用POST執行查詢的動作，接著下載CSV的時候，可以觀察到下載網址，接下來就可以靠R自動化了</h3>
 
+<h2>R</h2>
 
+<pre><code># 方法一
+download.file(url, destfile="tmp.csv")
+tables = read.csv("tmp.csv", header=F)
 
+# 方法二
+tables = read.csv(url, header=F)
+</code></pre>
 
-<div class="container-fluid main-container">
+<h2>Python</h2>
 
-<!-- tabsets -->
-<script src=".././markdowns/2016-07-29_09-00-55/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C-%E7%88%AC%E8%9F%B2%E4%BF%AE%E6%AD%A3_files/navigation-1.0/tabsets.js"></script><script>
+<pre><code>import pandas as pd
+pd.read_csv(url)
+</code></pre>
 
-</script><!-- code folding --><div class="section level1">
-<h1>爬蟲修正！</h1>
-<div id="quantmodtwserequest-headerrequest-headerheaderfunction" class="section level3">
-<h3>此篇用來修正<a href="https://kuiming.github.io/BenBlog/article/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C.html">quantmod的問題</a>中，抓取TWSE個股每日成交資訊的方法。之前偷懶，沒把Request header加上去，發現抓取的資料就會有缺，似乎是只能抓到上一次以瀏覽器（或者網站以為是以瀏覽器）查詢的資料。所以這一篇來補足一下，把Request header全都加進去，就沒有問題了。雖然這樣還是偷懶，沒找出網站真正辨識的header，直接全塞，但也足以抓到所有資料了。順手包成function：</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(httr)
-<span class="kw">library</span>(XML)
-<span class="kw">library</span>(dplyr)
-TWSE &lt;-<span class="st"> </span>function(<span class="dt">stock=</span><span class="st">"1215"</span>,year_in,month_in){
-  <span class="co"># Post query </span>
-  url &lt;-<span class="st"> "http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAY.php"</span>
-  year &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(year_in)
-  month &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(month_in)
-  query_str &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">'myear='</span>, year, <span class="st">'&amp;mmon='</span>,
-                      month,<span class="st">'&amp;STK_NO='</span>,
-                      stock,<span class="st">'&amp;login_btn=+Query+'</span>)
-  
-  header &lt;-<span class="st"> </span><span class="kw">add_headers</span>(
-                <span class="dt">Connection =</span> <span class="st">"keep-alive"</span>,
-                <span class="st">`</span><span class="dt">Content-Length</span><span class="st">`</span> =<span class="st"> </span><span class="dv">47</span>,
-                <span class="st">`</span><span class="dt">Cache-Control</span><span class="st">`</span> =<span class="st"> "max-age=0"</span>,
-                <span class="dt">Accept =</span> <span class="st">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"</span>,
-                <span class="dt">Origin =</span> <span class="st">"http://www.twse.com.tw"</span>,
-                <span class="st">`</span><span class="dt">Upgrade-Insecure-Requests</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span>,
-                <span class="st">`</span><span class="dt">User-Agent</span><span class="st">`</span> =<span class="st"> "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"</span>,
-                <span class="st">`</span><span class="dt">Content-Type</span><span class="st">`</span> =<span class="st"> "application/x-www-form-urlencoded"</span>,
-                <span class="st">`</span><span class="dt">Accept-Encoding</span><span class="st">`</span> =<span class="st"> "gzip, deflate"</span>,
-                <span class="st">`</span><span class="dt">Accept-Language</span><span class="st">`</span> =<span class="st"> "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2"</span>)
-  
-  res &lt;-<span class="st"> </span><span class="kw">POST</span>(url, header, <span class="dt">body =</span> query_str)
-  
-  <span class="co"># Get data</span>
-  x=year_in
-  i=month_in
-  url &lt;-<span class="st"> "http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/genpage/Report"</span> %&gt;%<span class="st"> </span>
-<span class="st">    </span><span class="kw">paste0</span>(x, i, <span class="st">"/"</span>, x, i, <span class="st">"_F3_1_8_"</span>, stock, 
-           <span class="st">".php?STK_NO="</span>, stock, <span class="st">"&amp;myear="</span>, x,
-           <span class="st">"&amp;mmon="</span>, i)
-  
-  header &lt;-<span class="st"> </span><span class="kw">add_headers</span>(
-               <span class="dt">Host =</span> <span class="st">'www.twse.com.tw'</span>,
-               <span class="dt">Connection =</span> <span class="st">'keep-alive'</span>,
-               <span class="dt">Accept =</span> <span class="st">'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'</span>,
-               <span class="st">`</span><span class="dt">Upgrade-Insecure-Requests</span><span class="st">`</span> =<span class="st"> </span><span class="dv">1</span>,
-               <span class="st">`</span><span class="dt">User-Agent</span><span class="st">`</span> =<span class="st"> "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"</span>,
-               <span class="dt">Referer =</span> <span class="st">"http://www.twse.com.tw/en/trading/exchange/STOCK_DAY_AVG/STOCK_DAY_AVG.php"</span>,
-               <span class="st">`</span><span class="dt">Accept-Encoding</span><span class="st">`</span> =<span class="st"> "gzip, deflate, sdch"</span>,
-               <span class="st">`</span><span class="dt">Accept-Language</span><span class="st">`</span>=<span class="st"> "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2"</span>)
-  
-  res &lt;-<span class="st"> </span><span class="kw">GET</span>(url, header, <span class="dt">encoding=</span><span class="st">'utf8'</span>)
-  resStr &lt;-<span class="st"> </span><span class="kw">content</span>(res, <span class="dt">as=</span><span class="st">"raw"</span>, <span class="dt">encoding =</span> <span class="st">'utf8'</span>)
-  <span class="kw">writeBin</span>(resStr, <span class="st">"myfile.txt"</span>)
-  
-  <span class="co"># Extract table</span>
-  tables &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">'myfile.txt'</span>, <span class="dt">warn =</span> <span class="ot">FALSE</span>) %&gt;%
-<span class="st">    </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">""</span>) %&gt;%<span class="st"> </span>
-<span class="st">    </span><span class="kw">htmlParse</span>() %&gt;%<span class="st"> </span>
-<span class="st">    </span><span class="kw">readHTMLTable</span>() %&gt;%<span class="st"> </span>
-<span class="st">    </span>.[[<span class="dv">8</span>]]
-  
-  <span class="co"># transform to xts and zoo class</span>
-  tables &lt;-<span class="st"> </span>tables[-<span class="dv">1</span>, <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">4</span>:<span class="dv">7</span>)]
-  tables[,<span class="dv">2</span>:<span class="dv">6</span>] &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">2</span>:<span class="dv">6</span>, function(i){
-    <span class="kw">as.character</span>(tables[,i]) %&gt;%<span class="st"> </span>
-<span class="st">      </span><span class="kw">gsub</span>(<span class="st">','</span>, <span class="st">''</span>, .) %&gt;%<span class="st"> </span>
-<span class="st">      </span><span class="kw">unlist</span>() %&gt;%<span class="st"> </span>
-<span class="st">      </span><span class="kw">as.numeric</span>()
-  })
-  tables &lt;-<span class="st"> </span><span class="kw">mutate</span>(tables,<span class="dt">V1=</span><span class="kw">gsub</span>(<span class="st">'/'</span>,<span class="st">'-'</span>,V1)) %&gt;%<span class="st"> </span>
-<span class="st">    `</span><span class="dt">colnames&lt;-</span><span class="st">`</span>(<span class="kw">c</span>(<span class="st">"date"</span>,<span class="st">"Volume"</span>,<span class="st">"Open"</span>,
-                   <span class="st">"High"</span>,<span class="st">"Low"</span>,<span class="st">"Close"</span>))
-  
-  tables &lt;-<span class="st"> </span><span class="kw">xts</span>(tables[,<span class="dv">2</span>:<span class="dv">6</span>], <span class="kw">as.Date</span>(tables[,<span class="dv">1</span>])) %&gt;%<span class="st"> </span>
-<span class="st">    </span><span class="kw">as.zoo</span>()
-}</code></pre>
-</div>
-</div>
-
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-$(document).ready(function () {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-});
-
-</script><!-- dynamically load mathjax for compatibility with self-contained --><script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
+<h3>簡單吧～～應該還可以再撐一段時間不用改code吧......</h3>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
                           <span><a href=".././tag/r">R</a></span>
+                            <span><a href=".././tag/python">Python</a></span>
                             <span><a href=".././tag/stock">Stock</a></span>
                       </div>
           </div>
@@ -212,7 +126,7 @@ $(document).ready(function () {
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="quantmod的問題-爬蟲修正"></div>
+                <div class='message hide' data-name="TWSE似乎改版了"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>
