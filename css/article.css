@@ -81,7 +81,21 @@ html body #container .left .block .content pre code{
   -webkit-border-radius:0;
   border-radius:0
 }
-html body #container .left .block .content sup{font-size:0.83em;vertical-align:top;line-height:10px;margin-right:5px;margin-left:2px}
+html body #container .left .block .content sup{
+  font-size:0.83em;
+  vertical-align:top;
+  line-height:10px;
+  margin-right:5px;
+  margin-left:2px
+}
+.output_execute_result pre{
+  color: #e6db74;
+  font-weight: bold;
+}
+.output_stdout pre{
+  color: #008000;
+  font-weight: bold;
+}
 .hll { background-color: #ffffcc }
 .c { color: #408080; font-style: italic } /* Comment */
  .err { border: 1px solid #FF0000 } /* Error */
