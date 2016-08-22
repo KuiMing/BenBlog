@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="crontab_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="crontab_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="crontab_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="crontab_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="crontab_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="crontab_files/navigation-1.1/tabsets.js"></script>
+<script>
+
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+
+
+
+<div id="crontabrebootraspberry-pi" class="section level3">
+<h3>之前不知道crontab原來有<code>@reboot</code>這個用法，這是在裝Raspberry Pi的過程中發現的，這邊特地紀錄一下。</h3>
+<pre><code>   string          meaning
+   ------          -------
+   @reboot         Run once, at startup of cron.
+   @yearly         Run once a year, &quot;0 0 1 1 *&quot;.
+   @annually           (same as @yearly)
+   @monthly        Run once a month, &quot;0 0 1 * *&quot;.
+   @weekly         Run once a week, &quot;0 0 * * 0&quot;.
+   @daily          Run once a day, &quot;0 0 * * *&quot;.
+   @midnight           (same as @daily)
+   @hourly         Run once an hour, &quot;0 * * * *&quot;.
+   @every_minute   Run once a minute, &quot;*/1 * * * *&quot;.
+   @every_second   Run once a second.</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
