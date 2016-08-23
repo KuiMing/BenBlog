@@ -1,0 +1,58 @@
+---
+title: 
+output: 
+  html_document:
+    self_contained: false
+    highlight: tango
+---
+
+## 安裝R
+
+### 在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行`sudo apt-get install r-base`一定可以裝好，但是問題來了，無法安裝dplpr，因為:
+
+```{r,eval=FALSE}
+dplyr not available for r 3.1.1
+```
+
+### 這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行`sudo apt-get update`和`sudo apt-get upgrade`也無法解決。在網路上找到的解法是，把`r-base`、`r-base-dev`刪掉後，再修改`/etc/apt/sources.list`，新增兩行：
+
+```{r, eval=FALSE}
+deb http://cran.stat.ucla.edu/bin/linux/debian jessie-cran3/
+deb-src http://cran.stat.ucla.edu/bin/linux/debian jessie-cran3/
+```
+
+### 然後再重新`update`、`upgrade`和安裝`r-base`和`r-base-dev`。可是，依然會出現error，表示`r-base-core`是3.1.1的版本，不夠潮，所以不能裝R。即便砍掉重練，依然只會抓到3.1.1的版本。這時候只能想辦法自己找deb檔來裝了。所幸，[http://ftp.us.debian.org/](http://ftp.us.debian.org/debian/pool/main/r/r-base/)提供了各種R的安裝檔，只要下載與ARM（Advanced RISC Machine）架構相容的安裝檔，就可以安裝在Raspberry Pi。這裡選擇下載了`r-base-core_3.3.1-1~bpo8+1_armhf.deb`、`r-base-dev_3.3.1-1~bpo8+1_all.deb`和`r-base_3.3.1-1~bpo8+1_all.deb`，並且**依序**安裝（一定要依序，否則會裝不起來），就可以裝好R了。
+
+## 檔案權限
+
+### 安裝套件之前，一定要更改`/usr/local/lib/R/site-library`的使用權限，才能直接在R裡安裝套件，所以執行`sudo chmod 2777 /usr/local/lib/R/site-library`。
+
+### 在terminal執行`ls -l`，可以看到每個檔案和資料夾的權限，如`drw-r-xrwx`。
+1. 第1個字母
+  - d: directory
+  - -: file
+2. 第2~4個字母代表使用者的權限，第5~7個字母代表group的權限，第8~10個字母則為others的權限。
+
+3. r代表read，w代表write，x代表execute。s代表 setUID或setGID，目的是使一般使用者執行此檔案時，能以檔案的擁有者身份來執行此檔案。-就代表無此權限。例如：rwx代表讀寫和執行都可以，r--就只有讀的權限。
+
+4. 在使用`chmod`時，後面的數字代表每個角色的權限，r/w/x各自有各自的代表數字，分別是4/2/1，以相加的方式來表示，例如：rwx就是4+2+1=7，r--就是4+0+0=4；若一個檔案的權限為rwxr-xr--，就可以表示為754，
+
+5. s則是在上述的數列最前面加上4(setUID)或2(setGID)。
+
+## install packages
+
+### 接下來就可以在R console直接用`install.packages`，安裝套件了。但偶爾還是會有dependency的問題，這時候就會需要額外安裝linux的套件了，以下舉例：
+
+#### - 安裝`XML`，需要先執行：
+
+```{r, eval=FALSE}
+sudo apt-get install libxml2-dev
+```
+
+#### - 安裝`httr`，需要先執行：
+
+```{r, eval=FALSE}
+sudo apt-get libcurl4-openssl-dev
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libssl-dev
+```

@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>從零開始Raspberry_Pi - Ben's blog</title>
+    <title>在Raspberry_Pi裝R - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Raspberry Pi" />
-    <meta name="description" content="為了以最小金額架伺服器，Raspberry Pi 變成最近研究的課題了。在網路上很容易可以買到Raspberry Pi以及相關的配件，身為一個新手，不想要耗費太多大腦，所以購入最適合新手的品項：1. Raspberry Pi 3 Model B2. 工控 ABS 透明殼(可壁掛) + 三片散熱片 NT$1503. 樹莓派記憶卡: 加購 金士頓 16G / C10 含安裝 NOOBS 多系統開機4. 樹莓派大電流供電組: 東芝 TOSHIBA 10W USB 電源器 + JBL 5V4A 數據電源線 NT$2205. 其他配件選購: SONY HDMI v1.4 視訊傳輸線 NT$95開始安裝Raspberry PiRaspberry Pi的基本硬體安裝不是太困難，一開始只要接…" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Raspberry Pi | R | OSX" />
+    <meta name="description" content="安裝R在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行sudo apt-get install r-base一定可以裝好，但是問題來了，無法安裝dplpr，因為:dplyr not available for r 3.1.1這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行sudo apt-get update和sudo apt-get upgrade也無法解決。在網路上找到的解法是，把r-base、r-base-dev刪掉後，再修改/etc/apt/sources.list，新增兩行：deb http://cran.stat.ucla.edu/bin/linux/debian jessie-cran3/deb-src http://cran.stat.ucla.edu/bin/linux/debian jessie-c…" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2016-08-22_10-40-54/img/noobs.jpg" />
-    <meta property="og:title" content="從零開始Raspberry_Pi - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="在Raspberry_Pi裝R - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="為了以最小金額架伺服器，Raspberry Pi 變成最近研究的課題了。在網路上很容易可以買到Raspberry Pi以及相關的配件，身為一個新手，不想要耗費太多大腦，所以購入最適合新手的品項：1. Raspberry Pi 3 Model B2. 工控 ABS 透明殼(可壁掛) + 三片散熱片 NT$1503. 樹莓派記憶卡: 加購 金士頓 16G / C10 含安裝 NOOBS 多系統開機4. 樹莓派大電流供電組: 東芝 TOSHIBA 10W USB 電源器 + JBL 5V4A 數據電源線 NT$2205. 其他配件選購: SONY HDMI v1.4 視訊傳輸線 NT$95開始安裝Raspberry PiRaspberry Pi的基本硬體安裝不是太困難，一開始只要接…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/從零開始Raspberry_Pi.html" />
+    <meta property="og:description" content="安裝R在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行sudo apt-get install r-base一定可以裝好，但是問題來了，無法安裝dplpr，因為:dplyr not available for r 3.1.1這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行sudo apt-get update和sudo apt-get upgrade也無法解決。在網路上找到的解法是，把r-base、r-base-dev刪掉後，再修改/etc/apt/sources.list，新增兩行：deb http://cran.stat.ucla.edu/bin/linux/debian jessie-cran3/deb-src http://cran.stat.ucla.edu/bin/linux/debian jessie-c…" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/在Raspberry_Pi裝R.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -91,8 +91,8 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>從零開始Raspberry_Pi</h2>
-            <div class='date timeago' data-time="2016-08-22 10:40:54">2016-08-22 10:40:54</div>
+            <h2>在Raspberry_Pi裝R</h2>
+            <div class='date timeago' data-time="2016-08-23 20:40:52">2016-08-23 20:40:52</div>
           </div>
           <div class='content'>
 
@@ -102,120 +102,59 @@
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src=".././markdowns/2016-08-22_10-40-54/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8BRaspberry_Pi_files/navigation-1.1/tabsets.js"></script><script>
+<script src=".././markdowns/2016-08-23_20-40-52/%E5%9C%A8Raspberry_Pi%E8%A3%9DR_files/navigation-1.1/tabsets.js"></script><script>
 
-</script><!-- code folding --><div id="raspberry-pi-raspberry-pi" class="section level3">
-<h3>為了以最小金額架伺服器，Raspberry Pi 變成最近研究的課題了。在網路上很容易可以買到Raspberry Pi以及相關的配件，身為一個新手，不想要耗費太多大腦，所以購入最適合新手的品項：</h3>
-<div id="raspberry-pi-3-model-b" class="section level4">
-<h4>1. Raspberry Pi 3 Model B</h4>
+</script><!-- code folding --><div id="r" class="section level2">
+<h2>安裝R</h2>
+<div id="raspberry-pirsudo-apt-get-install-r-basedplpr" class="section level3">
+<h3>在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行<code>sudo apt-get install r-base</code>一定可以裝好，但是問題來了，無法安裝dplpr，因為:</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dplyr not available for r <span class="fl">3.1.1</span></code></pre></div>
 </div>
-<div id="-abs---nt150" class="section level4">
-<h4>2. 工控 ABS 透明殼(可壁掛) + 三片散熱片 NT$150</h4>
+<div id="sudo-apt-get-updatesudo-apt-get-upgrader-baser-base-devetcaptsources.list" class="section level3">
+<h3>這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行<code>sudo apt-get update</code>和<code>sudo apt-get upgrade</code>也無法解決。在網路上找到的解法是，把<code>r-base</code>、<code>r-base-dev</code>刪掉後，再修改<code>/etc/apt/sources.list</code>，新增兩行：</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deb http:<span class="er">//</span>cran.stat.ucla.edu/bin/linux/debian jessie-cran3/
+deb-src http:<span class="er">//</span>cran.stat.ucla.edu/bin/linux/debian jessie-cran3/</code></pre></div>
 </div>
-<div id="---16g-c10--noobs-" class="section level4">
-<h4>3. 樹莓派記憶卡: 加購 金士頓 16G / C10 含安裝 NOOBS 多系統開機</h4>
-</div>
-<div id="--toshiba-10w-usb--jbl-5v4a--nt220" class="section level4">
-<h4>4. 樹莓派大電流供電組: 東芝 TOSHIBA 10W USB 電源器 + JBL 5V4A 數據電源線 NT$220</h4>
-</div>
-<div id="-sony-hdmi-v1.4--nt95" class="section level4">
-<h4>5. 其他配件選購: SONY HDMI v1.4 視訊傳輸線 NT$95</h4>
-</div>
-</div>
-<div id="raspberry-pi" class="section level2">
-<h2>開始安裝Raspberry Pi</h2>
-<div id="raspberry-pisdsdnoobsnoobsraspbianraspbiandebain-based-linuxdebian-linux" class="section level3">
-<h3>Raspberry Pi的基本硬體安裝不是太困難，一開始只要接上滑鼠、鍵盤和螢幕，插入SD卡，最後接上電源，就可以看到開機畫面。由於這次買的配件，根本就是新手包，SD卡已經內裝NOOBS了，所以省掉下載作業系統安裝程式的時間。NOOBS是給新手用的作業系統安裝程式，內涵Raspbian，而Raspbian則是Debain-based 的Linux作業系統，所以接下來都可以用Debian Linux的指令操作。</h3>
-</div>
-<div id="rsapbianraspbianinstall" class="section level3">
-<h3>安裝Rsapbian非常簡單，大概是這篇中最簡單的部分，只要選擇Raspbian，點下install，然後等個半小時左右就結束了。</h3>
-<div class="figure">
-<img src=".././markdowns/2016-08-22_10-40-54/img/noobs.jpg" alt="noobs"><p class="caption">noobs</p>
-</div>
+<div id="updateupgrader-baser-base-deverrorr-base-core3.1.1r3.1.1debhttpftp.us.debian.orgrarmadvanced-risc-machineraspberry-pir-base-core_3.3.1-1bpo81_armhf.debr-base-dev_3.3.1-1bpo81_all.debr-base_3.3.1-1bpo81_all.debr" class="section level3">
+<h3>然後再重新<code>update</code>、<code>upgrade</code>和安裝<code>r-base</code>和<code>r-base-dev</code>。可是，依然會出現error，表示<code>r-base-core</code>是3.1.1的版本，不夠潮，所以不能裝R。即便砍掉重練，依然只會抓到3.1.1的版本。這時候只能想辦法自己找deb檔來裝了。所幸，<a href="http://ftp.us.debian.org/debian/pool/main/r/r-base/">http://ftp.us.debian.org/</a>提供了各種R的安裝檔，只要下載與ARM（Advanced RISC Machine）架構相容的安裝檔，就可以安裝在Raspberry Pi。這裡選擇下載了<code>r-base-core_3.3.1-1~bpo8+1_armhf.deb</code>、<code>r-base-dev_3.3.1-1~bpo8+1_all.deb</code>和<code>r-base_3.3.1-1~bpo8+1_all.deb</code>，並且<strong>依序</strong>安裝（一定要依序，否則會裝不起來），就可以裝好R了。</h3>
 </div>
 </div>
 <div class="section level2">
-<h2>安裝中文環境</h2>
-<div id="pokemon-gorazz-berryraspbian" class="section level3">
-<h3>安裝完之後，畫面就是一個大樹莓的桌面（跟Pokemon Go的Razz Berry有九成像），似乎一切都很美好，但打開瀏覽器，就會發現，這時的Raspbian沒有中文環境……，身為一個台灣人還是需要中文環境啊~~所以需要來調整一下語言環境：</h3>
-<div id="update" class="section level4">
-<h4>1. 調整之前先update一下套件</h4>
-<pre class="shell"><code>sudo apt-get update</code></pre>
+<h2>檔案權限</h2>
+<div id="usrlocallibrsite-libraryrsudo-chmod-2777-usrlocallibrsite-library" class="section level3">
+<h3>安裝套件之前，一定要更改<code>/usr/local/lib/R/site-library</code>的使用權限，才能直接在R裡安裝套件，所以執行<code>sudo chmod 2777 /usr/local/lib/R/site-library</code>。</h3>
 </div>
-<div class="section level4">
-<h4>2. 然後安裝中文字型：文泉驛微米黑、文泉驛正黑、文泉驛點陣宋體。（這裡真的要感謝葉難的網誌)</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get install ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy</code></pre></div>
-</div>
-</div>
-<div class="section level3">
-<h3>經過以上步驟，現在應該就可以顯示中文了，不過還是不能輸入中文，所以還需要以下步驟：</h3>
-<div id="locales" class="section level4">
-<h4>3. 設定locales</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo dpkg-reconfigure locales</code></pre></div>
-</div>
-<div id="en_us.utf-8-utf-8zh_tw-big5zh_tw.euc_tw-euc-twzh_tw.utf-8-utf-8" class="section level4">
-<h4>選擇en_US.UTF-8 UTF-8、zh_TW BIG5、zh_TW.EUC_TW EUC-TW、zh_TW.UTF-8 UTF-8，使用空白鍵選擇。這個步驟如果選錯，那之後的中文輸入就會變得很怪異。</h4>
-<div class="figure">
-<img src=".././markdowns/2016-08-22_10-40-54/img/locales.png" alt="">
+<div id="terminalls--ldrw-r-xrwx" class="section level3">
+<h3>在terminal執行<code>ls -l</code>，可以看到每個檔案和資料夾的權限，如<code>drw-r-xrwx</code>。</h3>
+<ol style="list-style-type: decimal">
+<li>第1個字母</li>
+</ol>
+<ul>
+<li>d: directory</li>
+<li>-: file</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p>第2<sub>4個字母代表使用者的權限，第5</sub>7個字母代表group的權限，第8~10個字母則為others的權限。</p></li>
+<li><p>r代表read，w代表write，x代表execute。s代表 setUID或setGID，目的是使一般使用者執行此檔案時，能以檔案的擁有者身份來執行此檔案。-就代表無此權限。例如：rwx代表讀寫和執行都可以，r–就只有讀的權限。</p></li>
+<li><p>在使用<code>chmod</code>時，後面的數字代表每個角色的權限，r/w/x各自有各自的代表數字，分別是4/2/1，以相加的方式來表示，例如：rwx就是4+2+1=7，r–就是4+0+0=4；若一個檔案的權限為rwxr-xr–，就可以表示為754，</p></li>
+<li><p>s則是在上述的數列最前面加上4(setUID)或2(setGID)。</p></li>
+</ol>
 </div>
 </div>
-<div id="scim-chewing" class="section level4">
-<h4>4. 安裝中文輸入法<code>scim-chewing</code>。</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get install scim scim-table-zh scim-chewing</code></pre></div>
+<div id="install-packages" class="section level2">
+<h2>install packages</h2>
+<div id="r-consoleinstall.packagesdependencylinux" class="section level3">
+<h3>接下來就可以在R console直接用<code>install.packages</code>，安裝套件了。但偶爾還是會有dependency的問題，這時候就會需要額外安裝linux的套件了，以下舉例：</h3>
+<div id="xml" class="section level4">
+<h4>- 安裝<code>XML</code>，需要先執行：</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get install libxml2-dev</code></pre></div>
 </div>
+<div id="httr" class="section level4">
+<h4>- 安裝<code>httr</code>，需要先執行：</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get libcurl4-openssl-dev
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libssl-dev</code></pre></div>
 </div>
-<div id="ctrlspace" class="section level3">
-<h3>接下來就可以使用中文輸入了，<code>Ctrl+space</code>可以轉換中英文輸入，跟一般用法相同。</h3>
-</div>
-</div>
-<div class="section level2">
-<h2>遠端控制</h2>
-<div id="ipraspberry-pissh" class="section level3">
-<h3>遠端控制最好要有固定IP，否則出門在外，就不容易連進家裡的Raspberry Pi了。除了用<code>ssh</code>之外，介紹兩個方法：</h3>
-<div id="teamviewerteamviewerraspberry-piipidraspberry-pihttpswww.teamviewer.comiotcontest" class="section level4">
-<h4>- TeamViewer：相信大家都對此不陌生，TeamViewer也有出給Raspberry Pi的版本，讓大家可以不用固定IP，也可以靠ID連進Raspberry Pi，網址：<a href="https://www.teamviewer.com/iotcontest/" class="uri">https://www.teamviewer.com/iotcontest/</a>。不過，這是免費版本，畫面有點小，而且連線三小時斷線之後，就可能連不上了……。</h4>
-</div>
-<div id="microsoft-remote-desktopipraspberry-pisudo-apt-get--y-install-xrdpxrdpmicrosoft-remote-desktop" class="section level4">
-<h4>- Microsoft Remote Desktop：這個真的頗好用，不過從外面連進來，一樣會需要固定IP。首先，會需要在Raspberry Pi執行<code>sudo apt-get -y install xrdp</code>，安裝xrdp。接著，在自己的電腦安裝Microsoft Remote Desktop，再設定一下連線的參數，就可以開心連線了。</h4>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2>設定時區</h2>
-<div id="raspberry-pi" class="section level3">
-<h3>因為Raspberry Pi是英國生產的，所以時區當然是英國時區，這對台灣人來說不太方便，按照以下步驟可以改成台灣時區：</h3>
-<div id="terminaltzselectasiataiwan" class="section level4">
-<h4>1. 在terminal執行<code>tzselect</code>，選擇Asia，再選擇Taiwan。</h4>
-</div>
-<div id="homepinano-.profile.profiletzasiataipei-export-tz" class="section level4">
-<h4>2. 在<code>/home/pi/</code>執行<code>nano .profile</code>之後，進入<code>.profile</code>新增一行<code>TZ='Asia/Taipei'; export TZ</code>，然後重開機。</h4>
-</div>
-<div id="sudo-cp-usrsharezoneinfoasiataipei-etclocaltimcrontab" class="section level4">
-<h4>3. 執行<code>sudo cp /usr/share/zoneinfo/Asia/Taipei /etc/localtim</code>，這一步影響到<strong><em>crontab</em></strong>的時間，非常重要！</h4>
-</div>
-</div>
-<div id="raspberry-pi" class="section level3">
-<h3>接下來，應該Raspberry Pi就完全是台北標準時間了！</h3>
-</div>
-</div>
-<div id="chrome--chromium" class="section level2">
-<h2>安裝chrome的姊妹品- Chromium</h2>
-<div id="raspbianwebchromechromiumchromiumchromearch-linuxchromium" class="section level3">
-<h3>雖然Raspbian有內建瀏覽器<code>Web</code>，不過還是有一點不習慣，但似乎也沒辦法直接安裝Chrome，所以只好安裝Chromium了。Chromium相當於Chrome的工程版，之前Arch Linux也需要安裝Chromium。執行以下指令，就可以完成安裝了：</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 抓安裝檔</span>
-wget https:<span class="er">//</span>dl.dropboxusercontent.com/u/<span class="dv">87113035</span>/chromium-browser-l10n_45<span class="fl">.0.2454.85</span>-0ubuntu0<span class="fl">.15.04.1</span>.1181_all.deb
-wget https:<span class="er">//</span>dl.dropboxusercontent.com/u/<span class="dv">87113035</span>/chromium-browser_45<span class="fl">.0.2454.85</span>-0ubuntu0<span class="fl">.15.04.1</span>.1181_armhf.deb
-wget https:<span class="er">//</span>dl.dropboxusercontent.com/u/<span class="dv">87113035</span>/chromium-codecs-ffmpeg-extra_45<span class="fl">.0.2454.85</span>-0ubuntu0<span class="fl">.15.04.1</span>.1181_armhf.deb
-
-<span class="co">#開始安裝</span>
-sudo dpkg -i chromium-codecs-ffmpeg-extra_45<span class="fl">.0.2454.85</span>-0ubuntu0<span class="fl">.15.04.1</span>.1181_armhf.deb
-sudo dpkg -i chromium-browser-l10n_45<span class="fl">.0.2454.85</span>-0ubuntu0<span class="fl">.15.04.1</span>.1181_all.deb chromium-browser_45<span class="fl">.0.2454.85</span>-0ubuntu0<span class="fl">.15.04.1</span>.1181_armhf.deb</code></pre></div>
-<div class="figure">
-<img src=".././markdowns/2016-08-22_10-40-54/img/chromium.png" alt="">
-</div>
-</div>
-<div id="raspberry-pir" class="section level3">
-<h3>做到這一步，Raspberry Pi就比較像是一台普通人可以使用的電腦了！不過，接下來還有各種地雷要踩，下一個就是來裝<code>R</code>了……</h3>
 </div>
 </div>
 
@@ -243,6 +182,8 @@ $(document).ready(function () {
           <div class='info clearfix'>
             <div class='tags all'>
                           <span><a href=".././tag/raspberry%20pi">Raspberry Pi</a></span>
+                            <span><a href=".././tag/r">R</a></span>
+                            <span><a href=".././tag/osx">OSX</a></span>
                       </div>
           </div>
         </div>
@@ -250,7 +191,7 @@ $(document).ready(function () {
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="從零開始Raspberry_Pi"></div>
+                <div class='message hide' data-name="在Raspberry_Pi裝R"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>

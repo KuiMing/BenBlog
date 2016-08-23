@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="在Raspberry_Pi裝R_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="在Raspberry_Pi裝R_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="在Raspberry_Pi裝R_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="在Raspberry_Pi裝R_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="在Raspberry_Pi裝R_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="在Raspberry_Pi裝R_files/navigation-1.1/tabsets.js"></script>
+<script>
+
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+
+
+
+<div id="r" class="section level2">
+<h2>安裝R</h2>
+<div id="raspberry-pirsudo-apt-get-install-r-basedplpr" class="section level3">
+<h3>在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行<code>sudo apt-get install r-base</code>一定可以裝好，但是問題來了，無法安裝dplpr，因為:</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dplyr not available for r <span class="fl">3.1.1</span></code></pre></div>
+</div>
+<div id="sudo-apt-get-updatesudo-apt-get-upgrader-baser-base-devetcaptsources.list" class="section level3">
+<h3>這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行<code>sudo apt-get update</code>和<code>sudo apt-get upgrade</code>也無法解決。在網路上找到的解法是，把<code>r-base</code>、<code>r-base-dev</code>刪掉後，再修改<code>/etc/apt/sources.list</code>，新增兩行：</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deb http:<span class="er">//</span>cran.stat.ucla.edu/bin/linux/debian jessie-cran3/
+deb-src http:<span class="er">//</span>cran.stat.ucla.edu/bin/linux/debian jessie-cran3/</code></pre></div>
+</div>
+<div id="updateupgrader-baser-base-deverrorr-base-core3.1.1r3.1.1debhttpftp.us.debian.orgrarmadvanced-risc-machineraspberry-pir-base-core_3.3.1-1bpo81_armhf.debr-base-dev_3.3.1-1bpo81_all.debr-base_3.3.1-1bpo81_all.debr" class="section level3">
+<h3>然後再重新<code>update</code>、<code>upgrade</code>和安裝<code>r-base</code>和<code>r-base-dev</code>。可是，依然會出現error，表示<code>r-base-core</code>是3.1.1的版本，不夠潮，所以不能裝R。即便砍掉重練，依然只會抓到3.1.1的版本。這時候只能想辦法自己找deb檔來裝了。所幸，<a href="http://ftp.us.debian.org/debian/pool/main/r/r-base/">http://ftp.us.debian.org/</a>提供了各種R的安裝檔，只要下載與ARM（Advanced RISC Machine）架構相容的安裝檔，就可以安裝在Raspberry Pi。這裡選擇下載了<code>r-base-core_3.3.1-1~bpo8+1_armhf.deb</code>、<code>r-base-dev_3.3.1-1~bpo8+1_all.deb</code>和<code>r-base_3.3.1-1~bpo8+1_all.deb</code>，並且<strong>依序</strong>安裝（一定要依序，否則會裝不起來），就可以裝好R了。</h3>
+</div>
+</div>
+<div class="section level2">
+<h2>檔案權限</h2>
+<div id="usrlocallibrsite-libraryrsudo-chmod-2777-usrlocallibrsite-library" class="section level3">
+<h3>安裝套件之前，一定要更改<code>/usr/local/lib/R/site-library</code>的使用權限，才能直接在R裡安裝套件，所以執行<code>sudo chmod 2777 /usr/local/lib/R/site-library</code>。</h3>
+</div>
+<div id="terminalls--ldrw-r-xrwx" class="section level3">
+<h3>在terminal執行<code>ls -l</code>，可以看到每個檔案和資料夾的權限，如<code>drw-r-xrwx</code>。</h3>
+<ol style="list-style-type: decimal">
+<li>第1個字母</li>
+</ol>
+<ul>
+<li>d: directory</li>
+<li>-: file</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p>第2<sub>4個字母代表使用者的權限，第5</sub>7個字母代表group的權限，第8~10個字母則為others的權限。</p></li>
+<li><p>r代表read，w代表write，x代表execute。s代表 setUID或setGID，目的是使一般使用者執行此檔案時，能以檔案的擁有者身份來執行此檔案。-就代表無此權限。例如：rwx代表讀寫和執行都可以，r–就只有讀的權限。</p></li>
+<li><p>在使用<code>chmod</code>時，後面的數字代表每個角色的權限，r/w/x各自有各自的代表數字，分別是4/2/1，以相加的方式來表示，例如：rwx就是4+2+1=7，r–就是4+0+0=4；若一個檔案的權限為rwxr-xr–，就可以表示為754，</p></li>
+<li><p>s則是在上述的數列最前面加上4(setUID)或2(setGID)。</p></li>
+</ol>
+</div>
+</div>
+<div id="install-packages" class="section level2">
+<h2>install packages</h2>
+<div id="r-consoleinstall.packagesdependencylinux" class="section level3">
+<h3>接下來就可以在R console直接用<code>install.packages</code>，安裝套件了。但偶爾還是會有dependency的問題，這時候就會需要額外安裝linux的套件了，以下舉例：</h3>
+<div id="xml" class="section level4">
+<h4>- 安裝<code>XML</code>，需要先執行：</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get install libxml2-dev</code></pre></div>
+</div>
+<div id="httr" class="section level4">
+<h4>- 安裝<code>httr</code>，需要先執行：</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get libcurl4-openssl-dev
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libssl-dev</code></pre></div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
