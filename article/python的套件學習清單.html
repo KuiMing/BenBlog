@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>matplotlib要先設定 - Ben's blog</title>
+    <title>python的套件學習清單 - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
     <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Python" />
-    <meta name="description" content="      一開始使用matplotlib一定會遇到無法顯示圖形的情況，要執行以下的步驟，才可以化解這種尷尬：¶1. 用terminal，在Working directory執行cd ~/.matplotlib。¶2. 執行nano matplotlibrc¶3. 加上這一行backend: TkAgg¶4. 畫圖前記得使用：%matplotlib inline¶然後就可以開心畫圖了！¶      " />
+    <meta name="description" content="Python的套件學習清單Basic Libraries for Data ScienceNumPy（已接觸過）SciPyPandas（已接觸過）IPython（已接觸過）matplotlib（已接觸過）Libraries for Machine Learningscikit-learnTheanoTensorFlowLibraries for Data Mining and Natural Language ProcessingScrapyNLTKPatternLibraries for Plotting and VisualizationsSeabornBokehBasemapRead more at 15 Python Libraries for Data ScienceLibraries for Crawlerrequesturlliburllib2urllib3先整理一下，這是用來提醒自己的清單。" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2016-08-06_15-40-54/img/matplotlibrc.png" />
-    <meta property="og:title" content="matplotlib要先設定 - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="python的套件學習清單 - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="      一開始使用matplotlib一定會遇到無法顯示圖形的情況，要執行以下的步驟，才可以化解這種尷尬：¶1. 用terminal，在Working directory執行cd ~/.matplotlib。¶2. 執行nano matplotlibrc¶3. 加上這一行backend: TkAgg¶4. 畫圖前記得使用：%matplotlib inline¶然後就可以開心畫圖了！¶      " />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/matplotlib要先設定.html" />
+    <meta property="og:description" content="Python的套件學習清單Basic Libraries for Data ScienceNumPy（已接觸過）SciPyPandas（已接觸過）IPython（已接觸過）matplotlib（已接觸過）Libraries for Machine Learningscikit-learnTheanoTensorFlowLibraries for Data Mining and Natural Language ProcessingScrapyNLTKPatternLibraries for Plotting and VisualizationsSeabornBokehBasemapRead more at 15 Python Libraries for Data ScienceLibraries for Crawlerrequesturlliburllib2urllib3先整理一下，這是用來提醒自己的清單。" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/python的套件學習清單.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -91,53 +91,53 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>matplotlib要先設定</h2>
-            <div class='date timeago' data-time="2016-08-06 15:40:54">2016-08-06 15:40:54</div>
+            <h2>python的套件學習清單</h2>
+            <div class='date timeago' data-time="2016-08-24 09:03:15">2016-08-24 09:03:15</div>
           </div>
           <div class='content'>
-  <div tabindex="-1" id="notebook" class="border-box-sizing">
-    <div class="container" id="notebook-container">
+<h1>Python的套件學習清單</h1>
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="一開始使用matplotlib一定會遇到無法顯示圖形的情況，要執行以下的步驟，才可以化解這種尷尬：">一開始使用<code>matplotlib</code>一定會遇到無法顯示圖形的情況，要執行以下的步驟，才可以化解這種尷尬：<a class="anchor-link" href="#%E4%B8%80%E9%96%8B%E5%A7%8B%E4%BD%BF%E7%94%A8matplotlib%E4%B8%80%E5%AE%9A%E6%9C%83%E9%81%87%E5%88%B0%E7%84%A1%E6%B3%95%E9%A1%AF%E7%A4%BA%E5%9C%96%E5%BD%A2%E7%9A%84%E6%83%85%E6%B3%81%EF%BC%8C%E8%A6%81%E5%9F%B7%E8%A1%8C%E4%BB%A5%E4%B8%8B%E7%9A%84%E6%AD%A5%E9%A9%9F%EF%BC%8C%E6%89%8D%E5%8F%AF%E4%BB%A5%E5%8C%96%E8%A7%A3%E9%80%99%E7%A8%AE%E5%B0%B7%E5%B0%AC%EF%BC%9A">¶</a>
-</h3>
-<h4 id="1.-用terminal，在Working-directory執行cd-~/.matplotlib。">1. 用terminal，在Working directory執行<code>cd ~/.matplotlib</code>。<a class="anchor-link" href="#1.-%E7%94%A8terminal%EF%BC%8C%E5%9C%A8Working-directory%E5%9F%B7%E8%A1%8Ccd-~/.matplotlib%E3%80%82">¶</a>
-</h4>
-<h4 id="2.-執行nano-matplotlibrc">2. 執行<code>nano matplotlibrc</code><a class="anchor-link" href="#2.-%E5%9F%B7%E8%A1%8Cnano-matplotlibrc">¶</a>
-</h4>
-<h4 id="3.-加上這一行backend:-TkAgg">3. 加上這一行<code>backend: TkAgg</code><a class="anchor-link" href="#3.-%E5%8A%A0%E4%B8%8A%E9%80%99%E4%B8%80%E8%A1%8Cbackend:-TkAgg">¶</a>
-</h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><img src=".././markdowns/2016-08-06_15-40-54/img/matplotlibrc.png" alt=""></p>
+<h3>Basic Libraries for Data Science</h3>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="4.-畫圖前記得使用：%matplotlib-inline">4. 畫圖前記得使用：<code>%matplotlib inline</code><a class="anchor-link" href="#4.-%E7%95%AB%E5%9C%96%E5%89%8D%E8%A8%98%E5%BE%97%E4%BD%BF%E7%94%A8%EF%BC%9A%matplotlib-inline">¶</a>
-</h4>
-<h1 id="然後就可以開心畫圖了！">然後就可以開心畫圖了！<a class="anchor-link" href="#%E7%84%B6%E5%BE%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E9%96%8B%E5%BF%83%E7%95%AB%E5%9C%96%E4%BA%86%EF%BC%81">¶</a>
-</h1>
-</div>
-</div>
-</div>
-    </div>
-  </div>
+<ol>
+<li>NumPy（已接觸過）</li>
+<li>SciPy</li>
+<li>Pandas（已接觸過）</li>
+<li>IPython（已接觸過）</li>
+<li>matplotlib（已接觸過）</li>
+</ol>
+<h3>Libraries for Machine Learning</h3>
+
+<ol>
+<li>scikit-learn</li>
+<li>Theano</li>
+<li>TensorFlow</li>
+</ol>
+<h3>Libraries for Data Mining and Natural Language Processing</h3>
+
+<ol>
+<li>Scrapy</li>
+<li>NLTK</li>
+<li>Pattern</li>
+</ol>
+<h3>Libraries for Plotting and Visualizations</h3>
+
+<ol>
+<li>Seaborn</li>
+<li>Bokeh</li>
+<li>Basemap</li>
+</ol>
+<p>Read more at <a href="http://www.business2community.com/brandviews/upwork/15-python-libraries-data-science-01584664#e9j5SG7c8VMR2Eku.99">15 Python Libraries for Data Science</a></p>
+
+<h3>Libraries for Crawler</h3>
+
+<ol>
+<li>request</li>
+<li>urllib</li>
+<li>urllib2</li>
+<li>urllib3</li>
+</ol>
+<p>先整理一下，這是用來提醒自己的清單。</p>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
@@ -149,7 +149,7 @@
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="matplotlib要先設定"></div>
+                <div class='message hide' data-name="python的套件學習清單"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>
