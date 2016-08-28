@@ -2,33 +2,26 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>quantmod的問題 - Ben's blog</title>
+    <title>Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content="index,follow">
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | R | Stock" />
-    <meta name="description" content="之前就曾經提過，quantmod其實有一些問題，抓到的台股資料有時候會有缺漏，原因是資料來源是Yahoo! Finance，這裡所提供的資料有時並不齊全。舉例來說：library(quantmod)x=getSymbols('1707.TW', from='2016-07-01',              auto.assign = F)chartSeries(x, name = '1707')從圖上可以很明顯看出兩個問題：葡萄王的股價在2016/07/01~2016/07/15這段期間，開盤價、收盤價、最高和最低價都相同。而且，有幾天的交易量為零。為了解決這種問題，最簡單的方法就是去證券交易所抓資料，以下提供偷懶的做法：假裝人類上網的行為，先進去證…" />
+    <meta name="keywords" content="陳奎銘 | Ben | R" />
+    <meta name="description" content="紀錄學習歷程 CV_20160708" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2016-07-23_14-48-57/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C_files/figure-html/unnamed-chunk-1-1.png" />
-    <meta property="og:title" content="quantmod的問題 - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="之前就曾經提過，quantmod其實有一些問題，抓到的台股資料有時候會有缺漏，原因是資料來源是Yahoo! Finance，這裡所提供的資料有時並不齊全。舉例來說：library(quantmod)x=getSymbols('1707.TW', from='2016-07-01',              auto.assign = F)chartSeries(x, name = '1707')從圖上可以很明顯看出兩個問題：葡萄王的股價在2016/07/01~2016/07/15這段期間，開盤價、收盤價、最高和最低價都相同。而且，有幾天的交易量為零。為了解決這種問題，最簡單的方法就是去證券交易所抓資料，以下提供偷懶的做法：假裝人類上網的行為，先進去證…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/quantmod的問題.html" />
-
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.css" rel="stylesheet" type="text/css">
+    <meta property="og:description" content="紀錄學習歷程 CV_20160708" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/articles/3.html" />
 
     <link href="../css/frame.css" rel="stylesheet" type="text/css">
     <link href="../css/frame_pc.css" rel="stylesheet" type="text/css">
     <link href="../css/frame_mobile.css" rel="stylesheet" type="text/css">
-    <link href="../css/article.css" rel="stylesheet" type="text/css">
-    <link href="../css/article_pc.css" rel="stylesheet" type="text/css">
-    <link href="../css/article_mobile.css" rel="stylesheet" type="text/css">
 
     <script src="../js/ga.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jquery_v1.10.2/jquery-1.10.2.min.js" language="javascript" type="text/javascript"></script>
@@ -36,14 +29,8 @@
     <script src="../res/jquery-timeago_v1.3.1/jquery.timeago.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jquery-timeago_v1.3.1/locales/jquery.timeago.zh-TW.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jQuery-Mobile-v1.3.0/swipe.js" language="javascript" type="text/javascript"></script>
-    
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-media.js" language="javascript" type="text/javascript"></script>
 
     <script src="../js/frame.js" language="javascript" type="text/javascript"></script>
-    <script src="../js/article.js" language="javascript" type="text/javascript"></script>
   </head>
   <body lang="zh-tw">
 
@@ -89,123 +76,37 @@
     </div>
 
     <div id="container" class="clearfix">
-      <div class='left'>
-        <div class='block paper article'>
-          <div class='title clearfix'>
-            <h2>quantmod的問題</h2>
-            <div class='date timeago' data-time="2016-07-23 14:48:57">2016-07-23 14:48:57</div>
-          </div>
-          <div class='content'>
+      <div class="left">
 
+            <div class='block paper'>
+              <div class='title clearfix'>
+                <a href="../article/CV_20160708.html"><h2>CV_20160708</h2></a>
+                <div class='date timeago' data-time="2016-07-08 16:49:00">2016-07-08 16:49:00</div>
+              </div>
+              <div class='content'>Kui-Ming ChenPhone: 0919784598|Email: benjamin0901@gmail.com3F., No.10, Ln. 77, Jingren St., Wenshan Dist., Taipei City 116, TaiwanSUMMARY OF EXPERIENCESFamiliar with R and Git, and always trying to …</div>
+              <div class='info clearfix'>
+                <div class='tags'>
+                                  <span><a href=".././tag/cv">CV</a></span>
+                              </div>
+                <div class='more'>
+                  <a href="../article/CV_20160708.html">閱讀更多 »</a>
+                </div>
+              </div>
+            </div>
 
-
-
-<div class="container-fluid main-container">
-
-<!-- tabsets -->
-<script src=".././markdowns/2016-07-23_14-48-57/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C_files/navigation-1.0/tabsets.js"></script><script>
-
-</script><!-- code folding --><div id="quantmodyahoo-finance" class="section level3">
-<h3>之前就曾經提過，<code>quantmod</code>其實有一些問題，抓到的台股資料有時候會有缺漏，原因是資料來源是Yahoo! Finance，這裡所提供的資料有時並不齊全。舉例來說：</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(quantmod)
-x=<span class="kw">getSymbols</span>(<span class="st">'1707.TW'</span>, <span class="dt">from=</span><span class="st">'2016-07-01'</span>, 
-             <span class="dt">auto.assign =</span> F)
-<span class="kw">chartSeries</span>(x, <span class="dt">name =</span> <span class="st">'1707'</span>)</code></pre>
-<p><img src=".././markdowns/2016-07-23_14-48-57/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C_files/figure-html/unnamed-chunk-1-1.png" width="960"></p>
-</div>
-<div class="section level3">
-<h3>從圖上可以很明顯看出兩個問題：</h3>
-<ol style="list-style-type: decimal">
-<li><p>葡萄王的股價在2016/07/01~2016/07/15這段期間，開盤價、收盤價、最高和最低價都相同。</p></li>
-<li><p>而且，有幾天的交易量為零。</p></li>
-</ol>
-</div>
-<div class="section level3">
-<h3>為了解決這種問題，最簡單的方法就是去證券交易所抓資料，以下提供偷懶的做法：</h3>
-<ol style="list-style-type: decimal">
-<li>假裝人類上網的行為，先進去證券交易所『個股日成交資訊』的頁面，然後查詢葡萄王七月份股價：</li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(httr)
-<span class="kw">library</span>(XML)
-url &lt;-<span class="st"> "http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php"</span>
-res &lt;-<span class="st"> </span><span class="kw">POST</span>(url,
-            <span class="dt">body =</span> <span class="st">'myear=2016&amp;mmon=7&amp;STK_NO=1707&amp;B1=+Query+'</span>)</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>接著，直接抓取葡萄王七月份股價：</li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r">url &lt;-<span class="st">"http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/genpage/Report201607/201607_F3_1_8_1707.php?STK_NO=1707&amp;myear=2016&amp;mmon=07"</span>
-res &lt;-<span class="st"> </span><span class="kw">GET</span>(url,
-           <span class="kw">add_headers</span>(
-             <span class="dt">Referer=</span> <span class="st">"http://www.twse.com.tw/en/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php"</span>),
-           <span class="dt">encoding=</span><span class="st">'utf8'</span>)</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>這邊先以bin data的形式存下來（這是try and error的結果）</li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r">resStr &lt;-<span class="st"> </span><span class="kw">content</span>(res,<span class="dt">as=</span><span class="st">"raw"</span>,<span class="dt">encoding =</span> <span class="st">'utf8'</span>)
-<span class="kw">writeBin</span>(resStr, <span class="st">"myfile.txt"</span>)</code></pre>
-<ol start="4" style="list-style-type: decimal">
-<li>然後，再重新讀檔，並整理資料：</li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-tables &lt;-<span class="st"> </span><span class="kw">readLines</span>(<span class="st">'myfile.txt'</span>,<span class="dt">warn =</span> <span class="ot">FALSE</span>) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">paste</span>(<span class="dt">collapse =</span> <span class="st">""</span>) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">htmlParse</span>() %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">readHTMLTable</span>() %&gt;%<span class="st"> </span>
-<span class="st">  </span>.[[<span class="dv">8</span>]] 
-
-tables &lt;-<span class="st"> </span>tables[-<span class="dv">1</span>,<span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">2</span>,<span class="dv">4</span>:<span class="dv">7</span>)]
-tables[,<span class="dv">2</span>:<span class="dv">6</span>] &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="dv">2</span>:<span class="dv">6</span>, function(i){
-  <span class="kw">as.numeric</span>(<span class="kw">unlist</span>(<span class="kw">gsub</span>(<span class="st">','</span>,<span class="st">''</span>,<span class="kw">as.character</span>(tables[,i]))))
-})
-tables &lt;-<span class="st"> </span><span class="kw">mutate</span>(tables,<span class="dt">V1=</span><span class="kw">gsub</span>(<span class="st">'/'</span>,<span class="st">'-'</span>,V1)) %&gt;%<span class="st"> </span>
-<span class="st">  `</span><span class="dt">colnames&lt;-</span><span class="st">`</span>(<span class="kw">c</span>(<span class="st">"date"</span>,<span class="st">"Volume"</span>,<span class="st">"Open"</span>,<span class="st">"High"</span>,<span class="st">"Low"</span>,<span class="st">"Close"</span>))
-
-<span class="co"># 要轉成zoo與xts的格式，才可以用chartSeries作圖</span>
-tables &lt;-<span class="st"> </span><span class="kw">xts</span>(tables[,<span class="dv">2</span>:<span class="dv">6</span>], <span class="kw">as.Date</span>(tables[,<span class="dv">1</span>])) %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw">as.zoo</span>()</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>最後，直接畫圖：</li>
-</ol>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chartSeries</span>(tables, <span class="dt">name =</span> <span class="st">'1707'</span>)</code></pre>
-<p><img src=".././markdowns/2016-07-23_14-48-57/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C_files/figure-html/unnamed-chunk-6-1.png" width="960"></p>
-</div>
-<div class="section level3">
-<h3>如此一來，所有該有的東西就都有囉！</h3>
-</div>
-
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-$(document).ready(function () {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-});
-
-</script><!-- dynamically load mathjax for compatibility with self-contained --><script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-</div>
-          <div class='info clearfix'>
-            <div class='tags all'>
-                          <span><a href=".././tag/r">R</a></span>
-                            <span><a href=".././tag/stock">Stock</a></span>
-                      </div>
+            <div class='block pagination'>
+            <ul class="pagination clearfix">
+                        <li><a href="2.html">上一頁</a></li>
+                        <li><a href="1.html">2</a></li>
+                        <li><a href="2.html">3</a></li>
+                        <li class="active"><a href="3.html">4</a></li>
+                    </ul>
           </div>
         </div>
-      </div>
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="quantmod的問題"></div>
+                <div class='message hide'></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>

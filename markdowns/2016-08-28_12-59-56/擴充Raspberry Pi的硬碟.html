@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>之前留了一顆從舊筆電拆下來的160G硬碟，曾經被拿來應急，安裝了Ubuntu，一段時間沒用後，似乎再也讀不到Ubuntu，剛好可以拿來當作擴充Raspberry Pi的硬碟。</title>
+
+</head>
+<body>
+<h3>之前留了一顆從舊筆電拆下來的160G硬碟，曾經被拿來應急，安裝了Ubuntu，一段時間沒用後，似乎再也讀不到Ubuntu，剛好可以拿來當作擴充Raspberry Pi的硬碟。</h3>
+
+<h3>試了Arch、Windows和Mac，似乎只剩下Mac可以讀到這顆硬碟，只好先用Mac將它格式化。</h3>
+
+<h2>硬碟工具程式</h2>
+
+<h3>首先先找到硬碟工具程式。</h3>
+
+<p><img src="img/disk_tools.png" alt="" /></p>
+
+<h3>然後，選擇清除，格式選擇<em>MS-DOS (FAT)</em>，填上自己喜歡的名字之後，按下清除。</h3>
+
+<p><img src="img/clean.png" alt="" /></p>
+
+<h3>選擇<em>FAT</em>，其實就是將檔案系統格式設定為<em>FAT32</em>，FAT32對熱插拔支援性較強，單一檔案上限 4GB。如果選擇<em>ExFAT</em>的話，就不限制單一檔案大小，算是FAT32的改良版，但是Raspberry Pi不支援。至於MAC OS擴充格式，也就是<em>HFS+</em>，Raspberry Pi也無法支援，不過這對Mac來說則是最好的檔案系統格式，可以作為Mac 中的時光機（Time Machine）使用的檔案系統。</h3>
+
+<h1>Raspberry Pi擴充硬碟</h1>
+
+<h3>因為<em>FAT32</em>限制單一檔案大小，所以將硬碟接上Raspberry Pi後，就應該改變成 <em>ext4</em> (Fourth extended filesystem)的檔案系統格式。<em>ext4</em>可以支援1EB的分割磁區，以及1TB的檔案。這似乎是比FAT32更好的選項。</h3>
+
+<h3>接上硬碟之後，Raspberry Pi會自動掛載，可以用這個指令，<code>lsblk</code>，查看現在已掛載的儲存裝置，可以看到儲存裝置的容量，以及作為掛載點（MOUNTPOINT）的資料夾。</h3>
+
+<p><img src="img/lsblk.png" alt="" /></p>
+
+<h3>或者輸入<code>sudo fdisk -l</code>，也可以看到儲存裝置的資訊，還可以看出每個儲存裝置的檔案系統格式。</h3>
+
+<p><img src="img/fdisk-l.png" alt="" /></p>
+
+<h2>卸載磁碟</h2>
+
+<h3>因為Raspberry Pi 會自動掛載，所以可以先卸載磁碟。</h3>
+
+<pre><code>sudo umount /media/pi/RASPDB/ #當初掛載點是/media/pi/RASPDB/
+</code></pre>
+
+<h2>清理和分割</h2>
+
+<h3>接下來都要靠<code>fdisk</code>來完成了，首先執行<code>sudo fdisk /dev/sda</code>，<code>sda</code>是掛載的第一個磁碟的名稱，所以第二個會叫<code>sdb</code>，以此類推。</h3>
+
+<h3>一開始會看到：</h3>
+
+<pre><code>Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help):
+</code></pre>
+
+<h3>如果輸入<code>m</code>，就會看到各種指令的用法：</h3>
+
+<p><img src="img/fdisk_help.png" alt="" /></p>
+
+<h3>如果輸入<code>q</code>就會離開，<code>n</code>則是進行下一步。然後，接下來可以指定磁區的類型，通常會是primary，所以選擇<code>p</code>。接著是錯誤示範：因為一開始硬碟在Mac時，全部的空間都已經劃分成一個磁區了，所以所以選擇磁區編號就會有問題，1號已經有人用了，且沒有空間給2號了。</h3>
+
+<p><img src="img/wrong_example.png" alt="" /></p>
+
+<h3>正確的做法應該是要先刪除磁區，一開始選擇<code>d</code>。</h3>
+
+<p><img src="img/delete.png" alt="" /></p>
+
+<h3>再來，輸入<code>n</code>--><code>p</code>-->輸入磁區編號-->選擇磁區初始位置-->選擇磁區大小。如果一開始沒有把整個硬碟都劃分成同一分割區，可以再進行下一個分割區的設定，設定完再輸入<code>w</code>，就完成磁區分割了。</h3>
+
+<p><img src="img/sector.png" alt="" /></p>
+
+<h2>格式化</h2>
+
+<h3>系統會自動按照順序命名分割區名稱，第一個磁碟被分割成兩個分割區，名稱就會是<code>sda1</code>與<code>sda2</code>，分別對他們做格式化(ext4)：</h3>
+
+<pre><code>sudo mkfs.ext4 -L Data /dev/sda1
+sudo mkfs.ext4 -L Data /dev/sda2
+</code></pre>
+
+<h3>結果如下：</h3>
+
+<p><img src="img/mkfs.png" alt="" /></p>
+
+<h2>掛載磁碟</h2>
+
+<h3>掛載的方式其實有兩種，第一種就是直接重開機，讓系統自動掛載，掛載點就會是<code>/media/pi/Data</code>、<code>/media/pi/Data1</code>......，以此類推。另一種方式就是自己手動掛載：</h3>
+
+<h4>先建立掛載點，並且改變擁有者</h4>
+
+<pre><code>sudo mkdir /media/pi/Data
+sudo chown pi:pi /media/pi/Data 
+</code></pre>
+
+<h4>手動掛載：</h4>
+
+<pre><code>sudo mount -t vfat -o uid=pi,gid=pi /dev/sda1 /media/pi/Data
+</code></pre>
+
+<h3>到這邊其實就結束了。不過，另外要注意的是，硬碟的電源是否足夠，網路上通常會建議為求穩定，最好再外接電源給硬碟。</h3>
+</body>
+</html>

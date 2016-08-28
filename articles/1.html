@@ -9,14 +9,14 @@
     <meta name="robots" content="index,follow">
     <meta name="author" content="陳奎銘(Ben)" />
     <meta name="keywords" content="陳奎銘 | Ben | R" />
-    <meta name="description" content="紀錄學習歷程 TWSE似乎改版了, 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接, 以Rmarkdown發blog" />
+    <meta name="description" content="紀錄學習歷程 matplotlib要先設定, TWSE似乎改版了, 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
     <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
     <meta property="og:title" content="Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="紀錄學習歷程 TWSE似乎改版了, 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接, 以Rmarkdown發blog" />
+    <meta property="og:description" content="紀錄學習歷程 matplotlib要先設定, TWSE似乎改版了, 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接" />
     <meta property="og:url" content="http://kuiming.github.io/BenBlog/articles/1.html" />
 
     <link href="../css/frame.css" rel="stylesheet" type="text/css">
@@ -42,12 +42,13 @@
                                 <div class="unit shimmer">生日: 1984/09/01</div>
                                 <div class='unit title'>Ben's Tags</div>
 
-                                    <a href=".././tag/r"><div class='unit'>r(8)</div></a>
                                     <a href=".././tag/python"><div class='unit'>python(8)</div></a>
+                                    <a href=".././tag/r"><div class='unit'>r(8)</div></a>
                                     <a href=".././tag/stock"><div class='unit'>stock(6)</div></a>
                                     <a href=".././tag/osx"><div class='unit'>osx(3)</div></a>
-                                    <a href=".././tag/raspberry%20pi"><div class='unit'>raspberry pi(2)</div></a>
+                                    <a href=".././tag/raspberry%20pi"><div class='unit'>raspberry pi(3)</div></a>
                                     <a href=".././tag/google"><div class='unit'>google(2)</div></a>
+                                    <a href=".././tag/linux"><div class='unit'>linux(1)</div></a>
                                     <a href=".././tag/rmarkdown"><div class='unit'>rmarkdown(1)</div></a>
                                     <a href=".././tag/cv"><div class='unit'>cv(1)</div></a>
                             <div class='unit title'>Ben's Link</div>
@@ -77,6 +78,21 @@
     <div id="container" class="clearfix">
       <div class="left">
 
+            <div class='block paper'>
+              <div class='title clearfix'>
+                <a href="../article/matplotlib%E8%A6%81%E5%85%88%E8%A8%AD%E5%AE%9A.html"><h2>matplotlib要先設定</h2></a>
+                <div class='date timeago' data-time="2016-08-06 15:40:54">2016-08-06 15:40:54</div>
+              </div>
+              <div class='content'>      一開始使用matplotlib一定會遇到無法顯示圖形的情況，要執行以下的步驟，才可以化解這種尷尬：¶1. 用terminal，在Working directory執行cd ~/.matplotlib。¶2. 執行nano matplotlibrc¶3. 加上這一行backend: …</div>
+              <div class='info clearfix'>
+                <div class='tags'>
+                                  <span><a href=".././tag/python">Python</a></span>
+                              </div>
+                <div class='more'>
+                  <a href="../article/matplotlib%E8%A6%81%E5%85%88%E8%A8%AD%E5%AE%9A.html">閱讀更多 »</a>
+                </div>
+              </div>
+            </div>
             <div class='block paper'>
               <div class='title clearfix'>
                 <a href="../article/TWSE%E4%BC%BC%E4%B9%8E%E6%94%B9%E7%89%88%E4%BA%86.html"><h2>TWSE似乎改版了</h2></a>
@@ -157,22 +173,6 @@
                 </div>
               </div>
             </div>
-            <div class='block paper'>
-              <div class='title clearfix'>
-                <a href="../article/%E4%BB%A5Rmarkdown%E7%99%BCblog.html"><h2>以Rmarkdown發blog</h2></a>
-                <div class='date timeago' data-time="2016-07-23 15:48:30">2016-07-23 15:48:30</div>
-              </div>
-              <div class='content'>之前，就想過用rmarkdown搭配現在的blog格式，來發文章，但是遇到不少問題：1. 文章的摘要內容無法正常顯示：2. 進入文章後，會有奇怪的黑色條紋：3. 直接以rmarkdown產出的圖片無法正常顯示，但若直接開啟rmarkdow…</div>
-              <div class='info clearfix'>
-                <div class='tags'>
-                                  <span><a href=".././tag/r">R</a></span>
-                                    <span><a href=".././tag/rmarkdown">rmarkdown</a></span>
-                              </div>
-                <div class='more'>
-                  <a href="../article/%E4%BB%A5Rmarkdown%E7%99%BCblog.html">閱讀更多 »</a>
-                </div>
-              </div>
-            </div>
 
             <div class='block pagination'>
             <ul class="pagination clearfix">
@@ -180,6 +180,7 @@
                         <li><a href="0.html">1</a></li>
                         <li class="active"><a href="1.html">2</a></li>
                         <li><a href="2.html">3</a></li>
+                        <li><a href="3.html">4</a></li>
                         <li><a href="2.html">下一頁</a></li>
                     </ul>
           </div>
@@ -211,15 +212,16 @@
                                         <li>
                           <span class='folder'>
                             <span data-open='▼' data-close='►'>►</span>
-                            2016年 (18)
+                            2016年 (19)
                           </span>
                                                 <ul>
                                                         <li>
                                   <span class='folder'>
                                     <span data-open='▼' data-close='►'>►</span>
-                                    08月 (9)
+                                    08月 (10)
                                   </span>
                                                                 <ul>
+                                                                        <li><a class='item' href="../article/擴充Raspberry Pi的硬碟.html">擴充Raspberry Pi的硬碟</a></li>
                                                                         <li><a class='item' href="../article/python的套件學習清單.html">python的套件學習清單</a></li>
                                                                         <li><a class='item' href="../article/在Raspberry_Pi裝R.html">在Raspberry_Pi裝R</a></li>
                                                                         <li><a class='item' href="../article/crontab.html">crontab</a></li>
@@ -255,12 +257,13 @@
                 </div>
                         <div class='pin tags clearfix'>
                   <div class='title'>Ben's Tags</div>
-                                <a href=".././tag/r"><span class="tag"><div class="doc"></div><div class="name">r (8)</div></span></a>
                                 <a href=".././tag/python"><span class="tag"><div class="doc"></div><div class="name">python (8)</div></span></a>
+                                <a href=".././tag/r"><span class="tag"><div class="doc"></div><div class="name">r (8)</div></span></a>
                                 <a href=".././tag/stock"><span class="tag"><div class="doc"></div><div class="name">stock (6)</div></span></a>
                                 <a href=".././tag/osx"><span class="tag"><div class="doc"></div><div class="name">osx (3)</div></span></a>
-                                <a href=".././tag/raspberry%20pi"><span class="tag"><div class="doc"></div><div class="name">raspberry pi (2)</div></span></a>
+                                <a href=".././tag/raspberry%20pi"><span class="tag"><div class="doc"></div><div class="name">raspberry pi (3)</div></span></a>
                                 <a href=".././tag/google"><span class="tag"><div class="doc"></div><div class="name">google (2)</div></span></a>
+                                <a href=".././tag/linux"><span class="tag"><div class="doc"></div><div class="name">linux (1)</div></span></a>
                                 <a href=".././tag/rmarkdown"><span class="tag"><div class="doc"></div><div class="name">rmarkdown (1)</div></span></a>
                                 <a href=".././tag/cv"><span class="tag"><div class="doc"></div><div class="name">cv (1)</div></span></a>
                             </div>
