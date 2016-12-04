@@ -25,7 +25,7 @@
   /* 網頁右方的 widget */
   $_pins = array (
     'owner_info' => array (
-      'avatar' => 'https://scontent.xx.fbcdn.net/v/t1.0-0/s130x130/10002958_10204708170761300_1819003725744740100_n.jpg?oh=5478548dd0a1228e20a6b2060f9cb4e6&oe=582C0C0D',
+      'avatar' => 'http://i.imgur.com/8YSdNmE.jpg',
       'name'   => '陳奎銘(Ben)',
       'href'   => 'https://github.com/KuiMing',
       'info_1' => 'benjamin0901@gmail.com',
@@ -55,7 +55,7 @@
   /* 手機檢視 網頁上方的導航 bar */
   $_navbar_mobile = array (
     'title' => "Ben's blog",
-    'avatar' => 'https://scontent.xx.fbcdn.net/v/t1.0-0/s130x130/10002958_10204708170761300_1819003725744740100_n.jpg?oh=5478548dd0a1228e20a6b2060f9cb4e6&oe=582C0C0D',
+    'avatar' => 'http://i.imgur.com/8YSdNmE.jpg',
   );
 
   /* 手機檢視 右邊選單 */

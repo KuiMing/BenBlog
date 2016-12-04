@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="Probit_Analysis_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Probit_Analysis_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="Probit_Analysis_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Probit_Analysis_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Probit_Analysis_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="Probit_Analysis_files/navigation-1.1/tabsets.js"></script>
+<script>
+
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+
+
+
+<div id="ep17-a2-evaluation-of-detection-capability-for-clinical-laboratory-measurement-procedures-approved-guideline--second-editonprobit-analysisdata51" class="section level3">
+<h3>這份文件參照EP17-A2, Evaluation of Detection Capability for Clinical Laboratory Measurement Procedures; Approved Guideline- Second Editon實現Probit analysis，其中Data的部分在此文件的第51頁。</h3>
+</div>
+<div id="probit-analysislodlimit-of-detection95ld50lethal-dose-50lod" class="section level3">
+<h3>Probit Analysis是用來找出檢測方法的LOD（Limit of Detection），通常都會設定為可偵測到95%陽性樣本量的最小濃度。若在用藥上，則是找出半致死劑量LD50（Lethal Dose, 50%）。此處處要以LOD為主。</h3>
+</div>
+<div id="code-from-httpdx.plos.org10.1371journal.pone.0054092.s004" class="section level3">
+<h3>Code from: <a href="http://dx.plos.org/10.1371/journal.pone.0054092.s004" class="uri">http://dx.plos.org/10.1371/journal.pone.0054092.s004</a>。</h3>
+</div>
+<div id="sample-code" class="section level2">
+<h2>Sample Code</h2>
+<div class="section level3">
+<h3>一開始會需要知道每個濃度對應到的樣本數，以及偵測到陽性的樣本數。</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">posi=<span class="kw">c</span>(<span class="dv">11</span>,<span class="dv">15</span>,<span class="dv">23</span>,<span class="dv">29</span>,<span class="dv">32</span>,<span class="dv">32</span>,<span class="dv">32</span>)
+total=<span class="kw">c</span>(<span class="dv">30</span>,<span class="dv">30</span>,<span class="dv">32</span>,<span class="dv">32</span>,<span class="dv">32</span>,<span class="dv">32</span>,<span class="dv">32</span>)
+conce=<span class="kw">c</span>(<span class="fl">0.006</span>,<span class="fl">0.014</span>,<span class="fl">0.025</span>,<span class="fl">0.05</span>,<span class="fl">0.15</span>,<span class="fl">0.3</span>,<span class="fl">0.5</span>)</code></pre></div>
+</div>
+<div id="general-linear-modelfamilybinomiallinkprobit" class="section level3">
+<h3>1. 利用General Linear Model，在family這個參數選擇<code>binomial(link=&quot;probit&quot;)</code></h3>
+</div>
+<div id="logprobitlogistic" class="section level3">
+<h3>2. 在給變數的時候也要注意，實際上必須同時給偵測為陽性和陰性的數量，同時濃度必須取log（還蠻好理解的，probit有點像logistic）</h3>
+</div>
+<div id="ybeta-_1x-beta-_0" class="section level3">
+<h3><span class="math display">\[ y=\beta _{1}x-\beta _{0} \]</span></h3>
+</div>
+<div id="-beta-_1--beta-_0-normal-distribution95quantile-function10lod" class="section level3">
+<h3>3. 得到 <span class="math inline">\(\beta _{1}\)</span> 和 <span class="math inline">\(\beta _{0}\)</span> 後，就可以將normal distribution上95%的quantile function帶入，再帶入10的指數函數，就可求得LoD。</h3>
+</div>
+<div class="section level3">
+<h3>4. 這部分的信賴區間作法比較不熟，不多作解釋。</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">LD &lt;-<span class="st"> </span>function(r, n, d, conf.level) {
+  <span class="co">#Set up a number series </span>
+  p &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">99</span>, <span class="dv">1</span>)
+  
+  <span class="co">#r=number responding, n=number treated, d=dose (untransformed), confidence interval level</span>
+  mod &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="kw">cbind</span>(r, (n-r)) ~<span class="st"> </span><span class="kw">log10</span>(d), <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link=</span>probit))
+  <span class="co">#Calculate heterogeneity correction to confidence intervals according to Finney, 1971</span>
+  <span class="co">#(p.72, eq. 4.27; also called &quot;h&quot;)</span>
+  het =<span class="st"> </span><span class="kw">deviance</span>(mod)/<span class="kw">df.residual</span>(mod)
+  if(het &lt;<span class="st"> </span><span class="dv">1</span>){het =<span class="st"> </span><span class="dv">1</span>} 
+  
+  <span class="co">#Heterogeneity cannot be less than 1</span>
+  
+  <span class="co">#Extract slope and intercept</span>
+  summary &lt;-<span class="st"> </span><span class="kw">summary</span>(mod, <span class="dt">dispersion=</span>het, <span class="dt">cor =</span> F)
+  intercept &lt;-<span class="st"> </span>summary$coefficients[<span class="dv">1</span>]
+  interceptSE &lt;-<span class="st"> </span>summary$coefficients[<span class="dv">3</span>]
+  slope &lt;-<span class="st"> </span>summary$coefficients[<span class="dv">2</span>]
+  slopeSE &lt;-<span class="st"> </span>summary$coefficients[<span class="dv">4</span>]
+  z.value &lt;-<span class="st"> </span>summary$coefficients[<span class="dv">6</span>]
+  N &lt;-<span class="st"> </span><span class="kw">sum</span>(n)
+  
+  <span class="co">#Intercept (alpha)</span>
+  b0&lt;-intercept
+  <span class="co">#Slope (beta)</span>
+  b1&lt;-slope
+  <span class="co">#Slope variance </span>
+  vcov =<span class="st"> </span><span class="kw">summary</span>(mod)$cov.unscaled
+  var.b0&lt;-vcov[<span class="dv">1</span>,<span class="dv">1</span>]
+  <span class="co">#Intercept variance</span>
+  var.b1&lt;-vcov[<span class="dv">2</span>,<span class="dv">2</span>]
+  <span class="co">#Slope intercept covariance</span>
+  cov.b0.b1&lt;-vcov[<span class="dv">1</span>,<span class="dv">2</span>]
+  
+  <span class="co">#Adjust alpha depending on heterogeneity (Finney, 1971, p. 76)</span>
+  alpha&lt;-<span class="dv">1</span>-conf.level
+  if(het &gt;<span class="st"> </span><span class="dv">1</span>) {talpha &lt;-<span class="st"> </span>-<span class="kw">qt</span>(alpha/<span class="dv">2</span>, <span class="dt">df=</span><span class="kw">df.residual</span>(mod))} else {talpha &lt;-<span class="st"> </span>-<span class="kw">qnorm</span>(alpha/<span class="dv">2</span>)}
+  
+  <span class="co">#Calculate g (Finney, 1971, p 78, eq. 4.36)  </span>
+  <span class="co">#&quot;With almost all good sets of data, g will be substantially smaller than 1.0 and seldom greater than 0.4.&quot;</span>
+  g &lt;-<span class="st"> </span>het *<span class="st"> </span>((talpha^<span class="dv">2</span> *<span class="st"> </span>var.b1)/b1^<span class="dv">2</span>)
+  
+  <span class="co">#Calculate theta.hat for all LD levels based on probits in eta </span>
+  <span class="co">#(Robertson et al., 2007, pg. 27; or &quot;m&quot; in Finney, 1971, p. 78)</span>
+  eta =<span class="st"> </span><span class="kw">family</span>(mod)$<span class="kw">linkfun</span>(p/<span class="dv">100</span>)  <span class="co">#probit distribution curve</span>
+  theta.hat &lt;-<span class="st"> </span>(eta -<span class="st"> </span>b0)/b1
+  
+  <span class="co">#Calculate correction of fiducial limits according to Fieller method </span>
+  <span class="co">#(Finney, 1971, p. 78-79. eq. 4.35) </span>
+  const1 &lt;-<span class="st"> </span>(g/(<span class="dv">1</span>-g))*(theta.hat +<span class="st"> </span>cov.b0.b1/var.b1) 
+  const2a &lt;-<span class="st"> </span>var.b0 +<span class="st"> </span><span class="dv">2</span>*cov.b0.b1*theta.hat +<span class="st"> </span>var.b1*theta.hat^<span class="dv">2</span> -<span class="st"> </span>g*(var.b0 -<span class="st"> </span>(cov.b0.b1^<span class="dv">2</span>/var.b1))
+  const2 &lt;-<span class="st"> </span>talpha/((<span class="dv">1</span>-g)*b1) *<span class="st"> </span><span class="kw">sqrt</span>(het *<span class="st"> </span>(const2a))
+  
+  <span class="co">#Calculate the confidence intervals LCL=lower, UCL=upper </span>
+  <span class="co">#(Finney, 1971, p. 78-79. eq. 4.35) </span>
+  LCL &lt;-<span class="st"> </span>(theta.hat +<span class="st"> </span>const1 -<span class="st"> </span>const2)
+  UCL &lt;-<span class="st"> </span>(theta.hat +<span class="st"> </span>const1 +<span class="st"> </span>const2)
+  
+  <span class="co">#Calculate variance for theta.hat </span>
+  <span class="co">#(Robertson et al., 2007, pg. 27)</span>
+  var.theta.hat &lt;-<span class="st"> </span>(<span class="dv">1</span>/(theta.hat^<span class="dv">2</span>)) *<span class="st"> </span>( var.b0 +<span class="st"> </span><span class="dv">2</span>*cov.b0.b1*theta.hat +<span class="st"> </span>var.b1*theta.hat^<span class="dv">2</span> )
+  
+  <span class="co">#Make a data frame from the data at all the different values</span>
+  ECtable &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="st">&quot;probability&quot;</span>=p,
+    <span class="st">&quot;N&quot;</span>=N,
+    <span class="st">&quot;EC&quot;</span>=<span class="dv">10</span>^theta.hat,
+    <span class="st">&quot;LCL&quot;</span>=<span class="dv">10</span>^LCL,
+    <span class="st">&quot;UCL&quot;</span>=<span class="dv">10</span>^UCL, 
+    <span class="st">&quot;slope&quot;</span>=slope, 
+    <span class="st">&quot;slopeSE&quot;</span>=slopeSE, 
+    <span class="st">&quot;intercept&quot;</span>=intercept, 
+    <span class="st">&quot;interceptSE&quot;</span>=interceptSE, 
+    <span class="st">&quot;z.value&quot;</span>=z.value, 
+    <span class="st">&quot;chisquare&quot;</span>=<span class="kw">deviance</span>(mod), 
+    <span class="st">&quot;df&quot;</span>=<span class="kw">df.residual</span>(mod), 
+    <span class="st">&quot;h&quot;</span>=het, 
+    <span class="st">&quot;g&quot;</span>=g,
+    <span class="st">&quot;theta.hat&quot;</span>=theta.hat,
+    <span class="st">&quot;var.theta.hat&quot;</span>=var.theta.hat)
+  
+  <span class="co">#Select output level</span>
+  <span class="kw">return</span>(ECtable)
+}
+conf.level=<span class="fl">0.95</span>
+LoD.level=<span class="dv">95</span>
+test &lt;-<span class="st"> </span><span class="kw">LD</span>(posi,total,conce,conf.level)
+<span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;LoD&quot;</span>, <span class="st">&quot;= &quot;</span>, <span class="kw">round</span>(test[LoD.level,<span class="st">&quot;EC&quot;</span>], <span class="dv">3</span>) , <span class="st">&#39;,&#39;</span>,conf.level*<span class="dv">100</span>, <span class="st">&quot;% CI= &quot;</span>,<span class="kw">round</span>(test[LoD.level,<span class="st">&quot;LCL&quot;</span>], <span class="dv">3</span>),<span class="st">&quot;-&quot;</span>, <span class="kw">round</span>(test[LoD.level,<span class="st">&quot;UCL&quot;</span>], <span class="dv">3</span>)))</code></pre></div>
+<pre><code>## [1] &quot;LoD =  0.077 , 95 % CI=  0.051 - 0.155&quot;</code></pre>
+</div>
+<div id="probability95" class="section level3">
+<h3>畫圖表示不同Probability與濃度之間的關係，並加上虛線表示95%信賴區間</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">ggplot</span>(test, <span class="kw">aes</span>(<span class="dt">y=</span>probability))+
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>EC))+
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>LCL), <span class="dt">linetype=</span><span class="dv">2</span>)+
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span>UCL), <span class="dt">linetype=</span><span class="dv">2</span>)+
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">95</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>)+
+<span class="st">  </span><span class="kw">scale_x_log10</span>()</code></pre></div>
+<p><img src="Probit_Analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
