@@ -50,12 +50,12 @@ html body #container .left .block .content code{
   border-radius:3px;
   overflow:hidden;
   word-break:normal;
-  word-wrap:break-word;
-  white-space:pre-wrap;
-  white-space:-moz-pre-wrap;
-  white-space:-pre-wrap;
-  white-space:-o-pre-wrap
-}
+  overflow-x:scroll;
+  /*word-wrap:break-word;*/
+  /*white-space:pre-wrap;*/
+  /*white-space:-moz-pre-wrap;*/
+  /*white-space:-pre-wrap;*/
+/*white-space:-o-pre-wrap*/}
 html body #container .left .block .content pre{
   display:block;
   padding:14px;
@@ -67,11 +67,12 @@ html body #container .left .block .content pre{
   background-color: #3F3F3F;
   overflow:hidden;
   word-break:normal;
-  word-wrap:break-word;
-  white-space:pre-wrap;
-  white-space:-moz-pre-wrap;
-  white-space:-pre-wrap;
-  white-space:-o-pre-wrap}
+  overflow-x:scroll;
+  /*word-wrap:break-word;*/
+  /*white-space:pre-wrap;*/
+  /*white-space:-moz-pre-wrap;*/
+  /*white-space:-pre-wrap;*/
+/*white-space:-o-pre-wrap*/}
 html body #container .left .block .content pre code{
   background-color:#3F3F3F;
   color:#fff;
