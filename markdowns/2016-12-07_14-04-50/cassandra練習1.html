@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>Cassandra</title>
+
+</head>
+<body>
+<h1>Cassandra</h1>
+
+<h2>Cassandra Installation for Mac</h2>
+
+<h3>Method 1: Homebrew</h3>
+
+<pre><code>brew install cassandra
+pip install cqlsh
+</code></pre>
+
+<h4><code>cqlsh</code>是為了與cassandra連線互動的terminal，進入<code>cqlsh</code>便可以執行操作cassandra的指令。</h4>
+
+<h4>第一次以此方法操作，似乎會版本的問題（下載到3.7版），有一些指令無法順利執行，如：<code>copy</code>，所以只能殺掉舊版本，安裝新版本，以下介紹怎麼殺掉舊版本。</h4>
+
+<h3>Uninstall Cassandra</h3>
+
+<h4>1. 利用brew反安裝</h4>
+
+<pre><code>brew uninstall cassandra
+</code></pre>
+
+<h4>2. ps檢查目前是否有cassandra相關的process</h4>
+
+<pre><code>ps -ef | grep cassandra
+</code></pre>
+
+<p><img src="img/ps.png" alt="" /></p>
+
+<p>仔細看一下，應該可以看出Cassandra的版本。另外，第二個欄位的數值是PID，砍掉這個process，會需要用到PID。</p>
+
+<h4>3. kill process</h4>
+
+<pre><code>kill -9 26174
+</code></pre>
+
+<h4>4. 以Method 2安裝Cassandra可能會遇到某process佔用port，這時執行以下script，可以找到佔用port的程序，再以上面的步驟殺掉。之後也可以用此方法關掉Cassandra，以免浪費資源。</h4>
+
+<pre><code>lsof -i |grep :7199
+</code></pre>
+
+<h3>Method 2: Download from <a href="http://cassandra.apache.org/download/">http://cassandra.apache.org/download/</a></h3>
+
+<h4>下載後解壓縮，直接進到<code>appche-cassandra-3.9/bin/</code>，執行：</h4>
+
+<pre><code>./cassandra
+</code></pre>
+
+<h4>直接在此資料夾執行</h4>
+
+<pre><code>./cqlsh
+</code></pre>
+
+<h2>Cassandra 指令</h2>
+
+<h3>建立KEYSPACE，KEYSPACE指的就是Database</h3>
+
+<pre><code>CREATE KEYSPACE BEN
+WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 3};
+</code></pre>
+
+<h3>使用KEYSPACE</h3>
+
+<pre><code>use BEN;
+</code></pre>
+
+<h3>建立table</h3>
+
+<pre><code>create table tips(ind int primary key);
+</code></pre>
+
+<h4>只有某個column的data可以設定為primary key。</h4>
+
+<h3>輸入值到</h3>
+
+<pre><code>insert into tips(ind) values(1234);
+</code></pre>
+
+<h3>選擇table中所有資料</h3>
+
+<pre><code>select * from tips;
+</code></pre>
+
+<p><img src="img/show.png" alt="" /></p>
+
+<h3>殺掉table</h3>
+
+<pre><code>drop table tips;
+</code></pre>
+
+<h3>建立新table，依照每一欄位的情況設定資料格式</h3>
+
+<pre><code>create table tips( 
+            ind int primary key,
+            total_bill float,
+            tip float,
+            sex text,
+            smoker text,
+            day text,
+            time text,
+            size int);
+</code></pre>
+
+<h3>觀察table: DESCRIBE or DESC</h3>
+
+<pre><code>desc table tips;
+</code></pre>
+
+<h3>從csv檔load資料</h3>
+
+<pre><code>COPY tips FROM 'tip.csv';
+</code></pre>
+
+<h3>COPY失敗</h3>
+
+<p><img src="img/COPY_error.png" alt="" /></p>
+
+<h4>其實csv檔如果以Mac excel改過並存檔的話，可能無法用此方法讀入，可以先以python讀檔後，另外寫入新檔。在terminal，利用<code>file filename</code>可以觀察此兩個檔案的差異。</h4>
+
+<h3>殺了table後，將資料格式全改成text</h3>
+
+<pre><code>create table tips( 
+        ind text primary key, 
+        total_bill text, 
+        tip text, 
+        sex text, 
+        smoker text, 
+        day text, 
+        time text, 
+        size text);
+</code></pre>
+
+<pre><code>COPY tips FROM 'tip.csv';
+</code></pre>
+
+<h3>Bug of COPY</h3>
+
+<h4>把Column name也放入某一列了...</h4>
+
+<pre><code>SELECT * FROM tips WHERE ind IN ('ind');
+</code></pre>
+
+<p><img src="img/COPY_bug.png" alt="" /></p>
+
+<h3>刪除多餘的row</h3>
+
+<pre><code>DELETE FROM tips WHERE ind IN ('ind');
+</code></pre>
+</body>
+</html>
