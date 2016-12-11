@@ -1,0 +1,1395 @@
+<html lang="tw">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="zh-tw">
+    <title>cassandra練習2-用pyspark操作 - Ben's blog</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+    <meta name="robots" content="index,follow" />
+    <meta name="author" content="陳奎銘(Ben)" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Python | spark | Cassandra" />
+    <meta name="description" content="      Operate Cassandra with pyspark¶Connect to Cassandra¶下面的bash script是目前確定在Mac上可以執行，讓pyspark在jupyter notebook上運作，並且連到Cassandra。¶PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook' ./bin/pyspark --packages com.datastax.spark:spark-cassandra-connector_2.11:2.0.0-M3 --conf spark.cassandra.connection.host=127.0.0.1在此之前，試過以下套件：¶- cassandra.cluster：可以分別在python (on jupyter)和pyspark上執行，但暫時無法直接在載入pyspark的jupyter notebook執行…" />
+
+    <meta property="og:site_name" content="Ben's blog" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="cassandra練習2-用pyspark操作 - Ben's blog" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:description" content="      Operate Cassandra with pyspark¶Connect to Cassandra¶下面的bash script是目前確定在Mac上可以執行，讓pyspark在jupyter notebook上運作，並且連到Cassandra。¶PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS='notebook' ./bin/pyspark --packages com.datastax.spark:spark-cassandra-connector_2.11:2.0.0-M3 --conf spark.cassandra.connection.host=127.0.0.1在此之前，試過以下套件：¶- cassandra.cluster：可以分別在python (on jupyter)和pyspark上執行，但暫時無法直接在載入pyspark的jupyter notebook執行…" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/cassandra練習2-用pyspark操作.html" />
+
+    <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
+    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
+    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.css" rel="stylesheet" type="text/css">
+
+    <link href="../css/frame.css" rel="stylesheet" type="text/css">
+    <link href="../css/frame_pc.css" rel="stylesheet" type="text/css">
+    <link href="../css/frame_mobile.css" rel="stylesheet" type="text/css">
+    <link href="../css/article.css" rel="stylesheet" type="text/css">
+    <link href="../css/article_pc.css" rel="stylesheet" type="text/css">
+    <link href="../css/article_mobile.css" rel="stylesheet" type="text/css">
+
+    <script src="../js/ga.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/jquery_v1.10.2/jquery-1.10.2.min.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/oa-imgLiquid.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/jquery-timeago_v1.3.1/jquery.timeago.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/jquery-timeago_v1.3.1/locales/jquery.timeago.zh-TW.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/jQuery-Mobile-v1.3.0/swipe.js" language="javascript" type="text/javascript"></script>
+    
+    <script src="../res/fancyBox_v2.1.5/jquery.fancybox.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.js" language="javascript" type="text/javascript"></script>
+    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-media.js" language="javascript" type="text/javascript"></script>
+
+    <script src="../js/frame.js" language="javascript" type="text/javascript"></script>
+    <script src="../js/article.js" language="javascript" type="text/javascript"></script>
+  </head>
+  <body lang="zh-tw">
+
+    <div id='right_slide' class='close'>
+      <div class='units'>
+                <div class='unit title'>Ben's Info</div>
+                            <div class="unit shimmer">benjamin0901@gmail.com</div>
+                                <div class="unit shimmer">職業: R User</div>
+                                <div class="unit shimmer">生日: 1984/09/01</div>
+                                <div class='unit title'>Ben's Tags</div>
+
+                                    <a href=".././tag/python"><div class='unit'>python(10)</div></a>
+                                    <a href=".././tag/r"><div class='unit'>r(9)</div></a>
+                                    <a href=".././tag/stock"><div class='unit'>stock(7)</div></a>
+                                    <a href=".././tag/osx"><div class='unit'>osx(4)</div></a>
+                                    <a href=".././tag/raspberry%20pi"><div class='unit'>raspberry pi(3)</div></a>
+                                    <a href=".././tag/linux"><div class='unit'>linux(2)</div></a>
+                                    <a href=".././tag/cassandra"><div class='unit'>cassandra(2)</div></a>
+                                    <a href=".././tag/google"><div class='unit'>google(2)</div></a>
+                                    <a href=".././tag/cv"><div class='unit'>cv(2)</div></a>
+                                    <a href=".././tag/spark"><div class='unit'>spark(1)</div></a>
+                                    <a href=".././tag/rmarkdown"><div class='unit'>rmarkdown(1)</div></a>
+                            <div class='unit title'>Ben's Link</div>
+                            <a href="https://www.facebook.com/profile.php?id=523887614" target="_blank" title="ben's facebook"><div class="unit">Facebook</div></a>
+                                <a href="https://github.com/KuiMing" target="_blank" title="ben's github"><div class="unit">GitHub</div></a>
+                  </div>
+    </div>
+    <div id='slide_cover'></div>
+
+    <div id="header" class="oa-navbar">
+      <div class="oa-navbar-container">
+        <div class="oa-navbar-items clearfix">
+          <div class="oa-navbar-mobile home"><a href='../' alt="Ben's blog" title="Ben's blog"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16"><path d="M7.987 0h0.026c-0.005 0.001-0.009 0.002-0.013 0.002s-0.008-0.001-0.013-0.002zM15.424 6.834c0.771 0.771 0.771 2.023 0 2.795l-0.371 0.371h-1.053v4c0 1.104-0.896 2-2 2h-8c-1.104 0-2-0.896-2-2v-4h-1.053l-0.371-0.371c-0.771-0.772-0.771-2.024 0-2.795l6.289-6.288c0.319-0.319 0.72-0.492 1.135-0.544 0.415 0.052 0.816 0.225 1.135 0.544l6.289 6.288zM12 8h1.572c-0.042-0.17-0.112-0.334-0.244-0.468l-4.891-4.891c-0.125-0.125-0.278-0.194-0.437-0.238-0.159 0.044-0.312 0.114-0.436 0.238l-4.891 4.891c-0.133 0.134-0.203 0.298-0.245 0.468h1.572v5c0 0.553 0.447 1 1 1h1v-5h4v5h1c0.553 0 1-0.447 1-1v-5z" fill="#000000"></path></svg></a></div>
+          <div class="oa-navbar-mobile">Ben's blog</div>
+          <div class='oa-navbar-item'><a href='../' alt="Ben's blog" title="Ben's blog"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16"><path d="M7.987 0h0.026c-0.005 0.001-0.009 0.002-0.013 0.002s-0.008-0.001-0.013-0.002zM15.424 6.834c0.771 0.771 0.771 2.023 0 2.795l-0.371 0.371h-1.053v4c0 1.104-0.896 2-2 2h-8c-1.104 0-2-0.896-2-2v-4h-1.053l-0.371-0.371c-0.771-0.772-0.771-2.024 0-2.795l6.289-6.288c0.319-0.319 0.72-0.492 1.135-0.544 0.415 0.052 0.816 0.225 1.135 0.544l6.289 6.288zM12 8h1.572c-0.042-0.17-0.112-0.334-0.244-0.468l-4.891-4.891c-0.125-0.125-0.278-0.194-0.437-0.238-0.159 0.044-0.312 0.114-0.436 0.238l-4.891 4.891c-0.133 0.134-0.203 0.298-0.245 0.468h1.572v5c0 0.553 0.447 1 1 1h1v-5h4v5h1c0.553 0 1-0.447 1-1v-5z" fill="#000000"></path></svg></a></div>
+                  <div class='oa-navbar-item'><a href="https://www.facebook.com/profile.php?id=523887614" alt="Ben's facebook" title="Ben's facebook" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path d="M16.45 1.4h-12.9c-1.182 0-2.15 0.968-2.15 2.15v12.9c0 1.183 0.968 2.149 2.149 2.149h6.524v-6.167h-2.060v-2.686h2.060v-1.346c0-2.075 1.532-3.7 3.488-3.7h1.898v3.034h-1.699c-0.444 0-0.574 0.255-0.574 0.607v1.404h2.273v2.687h-2.273v6.168h3.263c1.183 0 2.149-0.967 2.149-2.149v-12.901c0.002-1.182-0.965-2.15-2.148-2.15z" fill="#000000"></path></svg></a></div>
+                  <div class='oa-navbar-item'><a href="https://github.com/KuiMing" alt="ben's github" title="ben's github" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="415px" height="414.996px" viewBox="0 0 415 414.996" enable-background="new 0 0 415 414.996" xml:space="preserve"><path d="M331.312,86.24c-33.747-33.745-74.246-50.62-122.165-50.62c-47.922,0-88.421,16.875-122.17,50.62 c-33.748,33.749-50.622,74.247-50.622,122.172c0,47.921,16.874,88.419,50.622,122.168c33.749,33.744,74.248,50.621,122.17,50.621 c47.919,0,88.418-16.877,122.165-50.621c33.746-33.749,50.624-74.247,50.624-122.168C381.937,160.487,365.059,119.989,331.312,86.24 z M265.842,342.053c-4.749,1.965-8.775,3.377-13.5,4.727v-25.65c0-13.499-4.725-23.625-14.171-30.375 c37.119-2.7,77.618-17.55,77.618-81.67c0-17.549-5.399-32.398-16.874-44.547c4.725-13.5,4.05-28.35-2.024-43.872l-4.05-0.677 c-5.369-0.893-22.275,4.727-41.174,17.549c-13.496-4.05-27.674-6.073-41.845-6.073c-14.174,0-28.349,2.023-41.174,6.073 c-33.072-20.922-45.222-17.549-45.897-16.872c-6.074,15.522-6.749,30.372-2.024,43.872c-11.476,12.149-16.874,26.999-16.874,44.547 c0,64.12,40.497,78.97,77.621,81.67c-8.775,6.076-13.5,16.199-13.5,30.375v26.323c-5.399-1.35-10.775-3.435-15.523-5.399 c-34.402-14.234-62.441-42.662-76.946-76.947c-15.194-35.912-15.194-77.479,0-113.391c14.505-34.285,42.66-62.441,76.946-76.947 c35.914-15.193,77.478-15.193,113.392,0c34.286,14.506,62.441,42.662,76.946,76.947c15.193,35.912,15.193,77.479,0,113.391 C328.283,299.391,300.24,327.818,265.842,342.053z"/></svg></a></div>
+            </div>
+      </div>
+      <div class="avatar_outline">
+        <div class="avatar">
+          <img src="http://i.imgur.com/8YSdNmE.jpg" style="position: absolute; width: 44px; height: 44px; top: 0px; left: 0px;">
+        </div>
+      </div>
+    </div>
+
+    <div id="container" class="clearfix">
+      <div class='left'>
+        <div class='block paper article'>
+          <div class='title clearfix'>
+            <h2>cassandra練習2-用pyspark操作</h2>
+            <div class='date timeago' data-time="2016-12-12 00:25:29">2016-12-12 00:25:29</div>
+          </div>
+          <div class='content'>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Operate-Cassandra-with-pyspark">Operate Cassandra with pyspark<a class="anchor-link" href="#Operate-Cassandra-with-pyspark">¶</a>
+</h1>
+<h2 id="Connect-to-Cassandra">Connect to Cassandra<a class="anchor-link" href="#Connect-to-Cassandra">¶</a>
+</h2>
+<h3 id="下面的bash-script是目前確定在Mac上可以執行，讓pyspark在jupyter-notebook上運作，並且連到Cassandra。">下面的bash script是目前確定在Mac上可以執行，讓pyspark在jupyter notebook上運作，並且連到Cassandra。<a class="anchor-link" href="#%E4%B8%8B%E9%9D%A2%E7%9A%84bash-script%E6%98%AF%E7%9B%AE%E5%89%8D%E7%A2%BA%E5%AE%9A%E5%9C%A8Mac%E4%B8%8A%E5%8F%AF%E4%BB%A5%E5%9F%B7%E8%A1%8C%EF%BC%8C%E8%AE%93pyspark%E5%9C%A8jupyter-notebook%E4%B8%8A%E9%81%8B%E4%BD%9C%EF%BC%8C%E4%B8%A6%E4%B8%94%E9%80%A3%E5%88%B0Cassandra%E3%80%82">¶</a>
+</h3>
+<pre><code>PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIVER_PYTHON_OPTS="notebook" ./bin/pyspark --packages com.datastax.spark:spark-cassandra-connector_2.11:2.0.0-M3 --conf spark.cassandra.connection.host=127.0.0.1</code></pre>
+<h3 id="在此之前，試過以下套件：">在此之前，試過以下套件：<a class="anchor-link" href="#%E5%9C%A8%E6%AD%A4%E4%B9%8B%E5%89%8D%EF%BC%8C%E8%A9%A6%E9%81%8E%E4%BB%A5%E4%B8%8B%E5%A5%97%E4%BB%B6%EF%BC%9A">¶</a>
+</h3>
+<h4 id="--cassandra.cluster：可以分別在python-(on-jupyter)和pyspark上執行，但暫時無法直接在載入pyspark的jupyter-notebook執行。">- <code>cassandra.cluster</code>：可以分別在python (on jupyter)和pyspark上執行，但暫時無法直接在載入pyspark的jupyter notebook執行。<a class="anchor-link" href="#--cassandra.cluster%EF%BC%9A%E5%8F%AF%E4%BB%A5%E5%88%86%E5%88%A5%E5%9C%A8python-(on-jupyter)%E5%92%8Cpyspark%E4%B8%8A%E5%9F%B7%E8%A1%8C%EF%BC%8C%E4%BD%86%E6%9A%AB%E6%99%82%E7%84%A1%E6%B3%95%E7%9B%B4%E6%8E%A5%E5%9C%A8%E8%BC%89%E5%85%A5pyspark%E7%9A%84jupyter-notebook%E5%9F%B7%E8%A1%8C%E3%80%82">¶</a>
+</h4>
+<h4 id="--pyspark_cassandra：可以類似spark-cassandra-connecto載入，套件的部分改成--packages-TargetHolding:pyspark-cassandra:0.3.5，但是載入後無法連結Cassandra。">- <code>pyspark_cassandra</code>：可以類似<code>spark-cassandra-connecto</code>載入，套件的部分改成<code>--packages TargetHolding:pyspark-cassandra:0.3.5</code>，但是載入後無法連結Cassandra。<a class="anchor-link" href="#--pyspark_cassandra%EF%BC%9A%E5%8F%AF%E4%BB%A5%E9%A1%9E%E4%BC%BCspark-cassandra-connecto%E8%BC%89%E5%85%A5%EF%BC%8C%E5%A5%97%E4%BB%B6%E7%9A%84%E9%83%A8%E5%88%86%E6%94%B9%E6%88%90--packages-TargetHolding:pyspark-cassandra:0.3.5%EF%BC%8C%E4%BD%86%E6%98%AF%E8%BC%89%E5%85%A5%E5%BE%8C%E7%84%A1%E6%B3%95%E9%80%A3%E7%B5%90Cassandra%E3%80%82">¶</a>
+</h4>
+<h2 id="Load-Table-From-Keyspace">Load Table From Keyspace<a class="anchor-link" href="#Load-Table-From-Keyspace">¶</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span><span class="o">=</span><span class="n">sqlContext</span><span class="o">.</span><span class="n">read</span>\
+    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">"org.apache.spark.sql.cassandra"</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="s">"tips"</span><span class="p">,</span> <span class="n">keyspace</span><span class="o">=</span><span class="s">"ben"</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="觀察資料格式">觀察資料格式<a class="anchor-link" href="#%E8%A7%80%E5%AF%9F%E8%B3%87%E6%96%99%E6%A0%BC%E5%BC%8F">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>pyspark.sql.dataframe.DataFrame</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+---+-----+----+------+------+----+------+----------+
+|ind|  day| sex|  size|smoker|time|   tip|total_bill|
++---+-----+----+------+------+----+------+----------+
+|  5|24.59|3.61|Female|    No| Sun|Dinner|         4|
+|100|12.46| 1.5|  Male|    No| Fri|Dinner|         2|
+|121|11.69|2.31|  Male|    No|Thur| Lunch|         2|
+| 57|38.01| 3.0|  Male|   Yes| Sat|Dinner|         4|
+|134|12.26| 2.0|Female|    No|Thur| Lunch|         2|
+|165|17.51| 3.0|Female|   Yes| Sun|Dinner|         2|
+|108|25.21|4.29|  Male|   Yes| Sat|Dinner|         2|
+|208|38.73| 3.0|  Male|   Yes| Sat|Dinner|         4|
+| 76|10.51|1.25|  Male|    No| Sat|Dinner|         2|
+|127| 8.52|1.48|  Male|    No|Thur| Lunch|         2|
+|209|24.27|2.03|  Male|   Yes| Sat|Dinner|         2|
+|107|20.49|4.06|  Male|   Yes| Sat|Dinner|         2|
+|157|48.17| 5.0|  Male|    No| Sun|Dinner|         6|
+|132|20.27|2.83|Female|    No|Thur| Lunch|         2|
+| 36|24.06| 3.6|  Male|    No| Sat|Dinner|         3|
+| 61|20.29|3.21|  Male|   Yes| Sat|Dinner|         2|
+|211|30.06| 2.0|  Male|   Yes| Sat|Dinner|         3|
+|235|15.53| 3.0|  Male|   Yes| Sat|Dinner|         2|
+|105|20.92|4.08|Female|    No| Sat|Dinner|         2|
+|140|13.16|2.75|Female|    No|Thur| Lunch|         2|
++---+-----+----+------+------+----+------+----------+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="轉換成Pandas-Dataframe">轉換成Pandas Dataframe<a class="anchor-link" href="#%E8%BD%89%E6%8F%9B%E6%88%90Pandas-Dataframe">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[5]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>ind</th>
+      <th>day</th>
+      <th>sex</th>
+      <th>size</th>
+      <th>smoker</th>
+      <th>time</th>
+      <th>tip</th>
+      <th>total_bill</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>5</td>
+      <td>24.59</td>
+      <td>3.61</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>100</td>
+      <td>12.46</td>
+      <td>1.5</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Fri</td>
+      <td>Dinner</td>
+      <td>2</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>121</td>
+      <td>11.69</td>
+      <td>2.31</td>
+      <td>Male</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>57</td>
+      <td>38.01</td>
+      <td>3.0</td>
+      <td>Male</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>4</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>134</td>
+      <td>12.26</td>
+      <td>2.0</td>
+      <td>Female</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="各種簡單操作">各種簡單操作<a class="anchor-link" href="#%E5%90%84%E7%A8%AE%E7%B0%A1%E5%96%AE%E6%93%8D%E4%BD%9C">¶</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="隨機挑選">隨機挑選<a class="anchor-link" href="#%E9%9A%A8%E6%A9%9F%E6%8C%91%E9%81%B8">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[19]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[Row(ind=u'165', day=u'17.51', sex=u'3.0', size=u'Female', smoker=u'Yes', time=u'Sun', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'108', day=u'25.21', sex=u'4.29', size=u'Male', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'107', day=u'20.49', sex=u'4.06', size=u'Male', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'211', day=u'30.06', sex=u'2.0', size=u'Male', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'3'),
+ Row(ind=u'193', day=u'28.44', sex=u'2.56', size=u'Male', smoker=u'Yes', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'33', day=u'15.06', sex=u'3.0', size=u'Female', smoker=u'No', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'114', day=u'23.95', sex=u'2.55', size=u'Male', smoker=u'No', time=u'Sun', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'106', day=u'15.36', sex=u'1.64', size=u'Male', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'99', day=u'21.01', sex=u'3.0', size=u'Male', smoker=u'Yes', time=u'Fri', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'184', day=u'23.17', sex=u'6.5', size=u'Male', smoker=u'Yes', time=u'Sun', tip=u'Dinner', total_bill=u'4'),
+ Row(ind=u'204', day=u'16.4', sex=u'2.5', size=u'Female', smoker=u'Yes', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'48', day=u'32.4', sex=u'6.0', size=u'Male', smoker=u'No', time=u'Sun', tip=u'Dinner', total_bill=u'4'),
+ Row(ind=u'163', day=u'16.21', sex=u'2.0', size=u'Female', smoker=u'No', time=u'Sun', tip=u'Dinner', total_bill=u'3'),
+ Row(ind=u'176', day=u'32.9', sex=u'3.11', size=u'Male', smoker=u'Yes', time=u'Sun', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'94', day=u'16.32', sex=u'4.3', size=u'Female', smoker=u'Yes', time=u'Fri', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'126', day=u'29.8', sex=u'4.2', size=u'Female', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'6'),
+ Row(ind=u'241', day=u'27.18', sex=u'2.0', size=u'Female', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'86', day=u'34.83', sex=u'5.17', size=u'Female', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'4'),
+ Row(ind=u'120', day=u'24.08', sex=u'2.92', size=u'Female', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'4'),
+ Row(ind=u'219', day=u'7.74', sex=u'1.44', size=u'Male', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'242', day=u'22.67', sex=u'2.0', size=u'Male', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'41', day=u'16.04', sex=u'2.24', size=u'Male', smoker=u'No', time=u'Sat', tip=u'Dinner', total_bill=u'3')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="filter（與where一樣）">filter（與where一樣）<a class="anchor-link" href="#filter%EF%BC%88%E8%88%87where%E4%B8%80%E6%A8%A3%EF%BC%89">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [174]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="s">"day &lt; 10"</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[174]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[Row(ind=u'127', day=u'8.52', sex=u'1.48', size=u'Male', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'136', day=u'8.51', sex=u'1.25', size=u'Female', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'31', day=u'9.55', sex=u'1.45', size=u'Male', smoker=u'No', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'179', day=u'9.6', sex=u'4.0', size=u'Female', smoker=u'Yes', time=u'Sun', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'146', day=u'8.35', sex=u'1.5', size=u'Female', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'7', day=u'8.77', sex=u'2.0', size=u'Male', smoker=u'No', time=u'Sun', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'68', day=u'3.07', sex=u'1.0', size=u'Female', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'1'),
+ Row(ind=u'112', day=u'7.25', sex=u'1.0', size=u'Female', smoker=u'No', time=u'Sat', tip=u'Dinner', total_bill=u'1'),
+ Row(ind=u'150', day=u'7.51', sex=u'2.0', size=u'Male', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'196', day=u'7.56', sex=u'1.44', size=u'Male', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'93', day=u'5.75', sex=u'1.0', size=u'Female', smoker=u'Yes', time=u'Fri', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'223', day=u'8.58', sex=u'1.92', size=u'Male', smoker=u'Yes', time=u'Fri', tip=u'Lunch', total_bill=u'1'),
+ Row(ind=u'149', day=u'9.78', sex=u'1.73', size=u'Male', smoker=u'No', time=u'Thur', tip=u'Lunch', total_bill=u'2'),
+ Row(ind=u'44', day=u'9.68', sex=u'1.32', size=u'Male', smoker=u'No', time=u'Sun', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'173', day=u'7.25', sex=u'5.15', size=u'Male', smoker=u'Yes', time=u'Sun', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'219', day=u'7.74', sex=u'1.44', size=u'Male', smoker=u'Yes', time=u'Sat', tip=u'Dinner', total_bill=u'2'),
+ Row(ind=u'54', day=u'9.94', sex=u'1.56', size=u'Male', smoker=u'No', time=u'Sun', tip=u'Dinner', total_bill=u'2')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="轉成RDD格式">轉成RDD格式<a class="anchor-link" href="#%E8%BD%89%E6%88%90RDD%E6%A0%BC%E5%BC%8F">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">df_x</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="n">rdd_x</span><span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">df_x</span><span class="p">)</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">rdd_x</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[13]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>pyspark.rdd.RDD</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="計算資料列數">計算資料列數<a class="anchor-link" href="#%E8%A8%88%E7%AE%97%E8%B3%87%E6%96%99%E5%88%97%E6%95%B8">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[25]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>244</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="改變data-type：withColumn改變整欄，cast則是改變data-type。">改變data type：<code>withColumn</code>改變整欄，<code>cast</code>則是改變data type。<a class="anchor-link" href="#%E6%94%B9%E8%AE%8Adata-type%EF%BC%9AwithColumn%E6%94%B9%E8%AE%8A%E6%95%B4%E6%AC%84%EF%BC%8Ccast%E5%89%87%E6%98%AF%E6%94%B9%E8%AE%8Adata-type%E3%80%82">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [73]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"total_bill"</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="s">"total_bill"</span><span class="p">]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s">'float'</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [74]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"day"</span><span class="p">,</span><span class="n">y</span><span class="p">[</span><span class="s">"day"</span><span class="p">]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s">'float'</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [75]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[75]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[('ind', 'string'),
+ ('day', 'float'),
+ ('sex', 'string'),
+ ('size', 'string'),
+ ('smoker', 'string'),
+ ('time', 'string'),
+ ('tip', 'string'),
+ ('total_bill', 'float')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="covariance和correlation">covariance和correlation<a class="anchor-link" href="#covariance%E5%92%8Ccorrelation">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [92]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="s">'total_bill'</span><span class="p">,</span><span class="s">'day'</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[92]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5.0659833456359635</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [76]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="s">'total_bill'</span><span class="p">,</span><span class="s">'day'</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[76]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.598315121611821</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="groupby">groupby<a class="anchor-link" href="#groupby">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [91]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s">'total_bill'</span><span class="p">)</span><span class="o">.</span><span class="n">avg</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[91]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[Row(total_bill=5.0, avg(day)=30.067999649047852, avg(total_bill)=5.0),
+ Row(total_bill=2.0, avg(day)=16.448012899129818, avg(total_bill)=2.0),
+ Row(total_bill=3.0, avg(day)=23.27763148357994, avg(total_bill)=3.0),
+ Row(total_bill=6.0, avg(day)=34.82999897003174, avg(total_bill)=6.0),
+ Row(total_bill=1.0, avg(day)=7.242499887943268, avg(total_bill)=1.0),
+ Row(total_bill=4.0, avg(day)=28.61351358568346, avg(total_bill)=4.0)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [80]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+---+-----+----+------+------+----+------+----------+
+|ind|  day| sex|  size|smoker|time|   tip|total_bill|
++---+-----+----+------+------+----+------+----------+
+|  5|24.59|3.61|Female|    No| Sun|Dinner|       4.0|
+|100|12.46| 1.5|  Male|    No| Fri|Dinner|       2.0|
+|121|11.69|2.31|  Male|    No|Thur| Lunch|       2.0|
+| 57|38.01| 3.0|  Male|   Yes| Sat|Dinner|       4.0|
+|134|12.26| 2.0|Female|    No|Thur| Lunch|       2.0|
+|165|17.51| 3.0|Female|   Yes| Sun|Dinner|       2.0|
+|108|25.21|4.29|  Male|   Yes| Sat|Dinner|       2.0|
+|208|38.73| 3.0|  Male|   Yes| Sat|Dinner|       4.0|
+| 76|10.51|1.25|  Male|    No| Sat|Dinner|       2.0|
+|127| 8.52|1.48|  Male|    No|Thur| Lunch|       2.0|
+|209|24.27|2.03|  Male|   Yes| Sat|Dinner|       2.0|
+|107|20.49|4.06|  Male|   Yes| Sat|Dinner|       2.0|
+|157|48.17| 5.0|  Male|    No| Sun|Dinner|       6.0|
+|132|20.27|2.83|Female|    No|Thur| Lunch|       2.0|
+| 36|24.06| 3.6|  Male|    No| Sat|Dinner|       3.0|
+| 61|20.29|3.21|  Male|   Yes| Sat|Dinner|       2.0|
+|211|30.06| 2.0|  Male|   Yes| Sat|Dinner|       3.0|
+|235|15.53| 3.0|  Male|   Yes| Sat|Dinner|       2.0|
+|105|20.92|4.08|Female|    No| Sat|Dinner|       2.0|
+|140|13.16|2.75|Female|    No|Thur| Lunch|       2.0|
++---+-----+----+------+------+----+------+----------+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Repartition">Repartition<a class="anchor-link" href="#Repartition">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [184]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">repartition</span><span class="p">(</span><span class="s">"total_bill"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+---+-----+----+------+------+----+------+----------+
+|ind|  day| sex|  size|smoker|time|   tip|total_bill|
++---+-----+----+------+------+----+------+----------+
+|186|20.69| 5.0|  Male|    No| Sun|Dinner|       5.0|
+|156|29.85|5.14|Female|    No| Sun|Dinner|       5.0|
+|217|28.15| 3.0|  Male|   Yes| Sat|Dinner|       5.0|
+|143|41.19| 5.0|  Male|    No|Thur| Lunch|       5.0|
+|188|30.46| 2.0|  Male|   Yes| Sun|Dinner|       5.0|
+|100|12.46| 1.5|  Male|    No| Fri|Dinner|       2.0|
+|121|11.69|2.31|  Male|    No|Thur| Lunch|       2.0|
+|134|12.26| 2.0|Female|    No|Thur| Lunch|       2.0|
+|165|17.51| 3.0|Female|   Yes| Sun|Dinner|       2.0|
+|108|25.21|4.29|  Male|   Yes| Sat|Dinner|       2.0|
+| 76|10.51|1.25|  Male|    No| Sat|Dinner|       2.0|
+|127| 8.52|1.48|  Male|    No|Thur| Lunch|       2.0|
+|209|24.27|2.03|  Male|   Yes| Sat|Dinner|       2.0|
+|107|20.49|4.06|  Male|   Yes| Sat|Dinner|       2.0|
+|132|20.27|2.83|Female|    No|Thur| Lunch|       2.0|
+| 61|20.29|3.21|  Male|   Yes| Sat|Dinner|       2.0|
+|235|15.53| 3.0|  Male|   Yes| Sat|Dinner|       2.0|
+|105|20.92|4.08|Female|    No| Sat|Dinner|       2.0|
+|140|13.16|2.75|Female|    No|Thur| Lunch|       2.0|
+| 97|27.28| 4.0|  Male|   Yes| Fri|Dinner|       2.0|
++---+-----+----+------+------+----+------+----------+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Replace-elements">Replace elements<a class="anchor-link" href="#Replace-elements">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [131]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"No"</span><span class="p">,</span><span class="s">"Ng"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+---+-----+----+------+------+----+------+----------+
+|ind|  day| sex|  size|smoker|time|   tip|total_bill|
++---+-----+----+------+------+----+------+----------+
+|  5|24.59|3.61|Female|    Ng| Sun|Dinner|       4.0|
+|100|12.46| 1.5|  Male|    Ng| Fri|Dinner|       2.0|
+|121|11.69|2.31|  Male|    Ng|Thur| Lunch|       2.0|
+| 57|38.01| 3.0|  Male|   Yes| Sat|Dinner|       4.0|
+|134|12.26| 2.0|Female|    Ng|Thur| Lunch|       2.0|
+|165|17.51| 3.0|Female|   Yes| Sun|Dinner|       2.0|
+|108|25.21|4.29|  Male|   Yes| Sat|Dinner|       2.0|
+|208|38.73| 3.0|  Male|   Yes| Sat|Dinner|       4.0|
+| 76|10.51|1.25|  Male|    Ng| Sat|Dinner|       2.0|
+|127| 8.52|1.48|  Male|    Ng|Thur| Lunch|       2.0|
+|209|24.27|2.03|  Male|   Yes| Sat|Dinner|       2.0|
+|107|20.49|4.06|  Male|   Yes| Sat|Dinner|       2.0|
+|157|48.17| 5.0|  Male|    Ng| Sun|Dinner|       6.0|
+|132|20.27|2.83|Female|    Ng|Thur| Lunch|       2.0|
+| 36|24.06| 3.6|  Male|    Ng| Sat|Dinner|       3.0|
+| 61|20.29|3.21|  Male|   Yes| Sat|Dinner|       2.0|
+|211|30.06| 2.0|  Male|   Yes| Sat|Dinner|       3.0|
+|235|15.53| 3.0|  Male|   Yes| Sat|Dinner|       2.0|
+|105|20.92|4.08|Female|    Ng| Sat|Dinner|       2.0|
+|140|13.16|2.75|Female|    Ng|Thur| Lunch|       2.0|
++---+-----+----+------+------+----+------+----------+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="針對欄位取代元素">針對欄位取代元素<a class="anchor-link" href="#%E9%87%9D%E5%B0%8D%E6%AC%84%E4%BD%8D%E5%8F%96%E4%BB%A3%E5%85%83%E7%B4%A0">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [130]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">'sex'</span><span class="p">,</span><span class="n">y</span><span class="o">.</span><span class="n">sex</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">'3.0'</span><span class="p">,</span><span class="s">'test'</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+---+-----+----+------+------+----+------+----------+
+|ind|  day| sex|  size|smoker|time|   tip|total_bill|
++---+-----+----+------+------+----+------+----------+
+|  5|24.59|3.61|Female|    No| Sun|Dinner|       4.0|
+|100|12.46| 1.5|  Male|    No| Fri|Dinner|       2.0|
+|121|11.69|2.31|  Male|    No|Thur| Lunch|       2.0|
+| 57|38.01|test|  Male|   Yes| Sat|Dinner|       4.0|
+|134|12.26| 2.0|Female|    No|Thur| Lunch|       2.0|
+|165|17.51|test|Female|   Yes| Sun|Dinner|       2.0|
+|108|25.21|4.29|  Male|   Yes| Sat|Dinner|       2.0|
+|208|38.73|test|  Male|   Yes| Sat|Dinner|       4.0|
+| 76|10.51|1.25|  Male|    No| Sat|Dinner|       2.0|
+|127| 8.52|1.48|  Male|    No|Thur| Lunch|       2.0|
+|209|24.27|2.03|  Male|   Yes| Sat|Dinner|       2.0|
+|107|20.49|4.06|  Male|   Yes| Sat|Dinner|       2.0|
+|157|48.17| 5.0|  Male|    No| Sun|Dinner|       6.0|
+|132|20.27|2.83|Female|    No|Thur| Lunch|       2.0|
+| 36|24.06| 3.6|  Male|    No| Sat|Dinner|       3.0|
+| 61|20.29|3.21|  Male|   Yes| Sat|Dinner|       2.0|
+|211|30.06| 2.0|  Male|   Yes| Sat|Dinner|       3.0|
+|235|15.53|test|  Male|   Yes| Sat|Dinner|       2.0|
+|105|20.92|4.08|Female|    No| Sat|Dinner|       2.0|
+|140|13.16|2.75|Female|    No|Thur| Lunch|       2.0|
++---+-----+----+------+------+----+------+----------+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="rollup跟groupby很像，不過會多一列總數的計算">
+<code>rollup</code>跟groupby很像，不過會多一列總數的計算<a class="anchor-link" href="#rollup%E8%B7%9Fgroupby%E5%BE%88%E5%83%8F%EF%BC%8C%E4%B8%8D%E9%81%8E%E6%9C%83%E5%A4%9A%E4%B8%80%E5%88%97%E7%B8%BD%E6%95%B8%E7%9A%84%E8%A8%88%E7%AE%97">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [140]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s">"size"</span><span class="p">,</span><span class="s">"total_bill"</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+------+----------+-----+
+|  size|total_bill|count|
++------+----------+-----+
+|  Male|       2.0|   98|
+|  Male|       3.0|   24|
+|  Male|       4.0|   28|
+|Female|       4.0|    9|
+|  Male|       1.0|    1|
+|Female|       1.0|    3|
+|  Male|       5.0|    4|
+|Female|       5.0|    1|
+|Female|       6.0|    2|
+|Female|       2.0|   58|
+|  Male|       6.0|    2|
+|Female|       3.0|   14|
++------+----------+-----+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [141]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">rollup</span><span class="p">(</span><span class="s">"size"</span><span class="p">,</span><span class="s">"total_bill"</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+------+----------+-----+
+|  size|total_bill|count|
++------+----------+-----+
+|  Male|      null|  157|
+|  Male|       4.0|   28|
+|  Male|       3.0|   24|
+|  null|      null|  244|
+|  Male|       5.0|    4|
+|  Male|       2.0|   98|
+|Female|       6.0|    2|
+|Female|       3.0|   14|
+|Female|       4.0|    9|
+|Female|       2.0|   58|
+|  Male|       1.0|    1|
+|Female|       1.0|    3|
+|  Male|       6.0|    2|
+|Female|       5.0|    1|
+|Female|      null|   87|
++------+----------+-----+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Select">Select<a class="anchor-link" href="#Select">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [144]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s">'sex'</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+----+
+| sex|
++----+
+|3.61|
+| 1.5|
+|2.31|
+| 3.0|
+| 2.0|
+| 3.0|
+|4.29|
+| 3.0|
+|1.25|
+|1.48|
+|2.03|
+|4.06|
+| 5.0|
+|2.83|
+| 3.6|
+|3.21|
+| 2.0|
+| 3.0|
+|4.08|
+|2.75|
++----+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [147]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">'total_bill*100'</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+------------------+
+|(total_bill * 100)|
++------------------+
+|             400.0|
+|             200.0|
+|             200.0|
+|             400.0|
+|             200.0|
+|             200.0|
+|             200.0|
+|             400.0|
+|             200.0|
+|             200.0|
+|             200.0|
+|             200.0|
+|             600.0|
+|             200.0|
+|             300.0|
+|             200.0|
+|             300.0|
+|             200.0|
+|             200.0|
+|             200.0|
++------------------+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="排序（sort和orderBy）">排序（sort和orderBy）<a class="anchor-link" href="#%E6%8E%92%E5%BA%8F%EF%BC%88sort%E5%92%8CorderBy%EF%BC%89">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [186]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">y</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s">'total_bill'</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>+---+-----+----+------+------+----+------+----------+
+|ind|  day| sex|  size|smoker|time|   tip|total_bill|
++---+-----+----+------+------+----+------+----------+
+|142| 34.3| 6.7|  Male|    No|Thur| Lunch|       6.0|
+|126| 29.8| 4.2|Female|    No|Thur| Lunch|       6.0|
+|157|48.17| 5.0|  Male|    No| Sun|Dinner|       6.0|
+|144|27.05| 5.0|Female|    No|Thur| Lunch|       6.0|
+|217|28.15| 3.0|  Male|   Yes| Sat|Dinner|       5.0|
+|188|30.46| 2.0|  Male|   Yes| Sun|Dinner|       5.0|
+|186|20.69| 5.0|  Male|    No| Sun|Dinner|       5.0|
+|143|41.19| 5.0|  Male|    No|Thur| Lunch|       5.0|
+|156|29.85|5.14|Female|    No| Sun|Dinner|       5.0|
+|205|20.53| 4.0|  Male|   Yes|Thur| Lunch|       4.0|
+| 24|39.42|7.58|  Male|    No| Sat|Dinner|       4.0|
+|220|30.14|3.09|Female|   Yes| Sat|Dinner|       4.0|
+| 53|34.81| 5.2|Female|    No| Sun|Dinner|       4.0|
+| 96|40.17|4.73|  Male|   Yes| Fri|Dinner|       4.0|
+|161| 21.5| 3.5|  Male|    No| Sun|Dinner|       4.0|
+|208|38.73| 3.0|  Male|   Yes| Sat|Dinner|       4.0|
+|168|31.71| 4.5|  Male|    No| Sun|Dinner|       4.0|
+| 57|38.01| 3.0|  Male|   Yes| Sat|Dinner|       4.0|
+|160|16.49| 2.0|  Male|    No| Sun|Dinner|       4.0|
+|181|34.65|3.68|  Male|   Yes| Sun|Dinner|       4.0|
++---+-----+----+------+------+----+------+----------+
+only showing top 20 rows
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+</div>
+          <div class='info clearfix'>
+            <div class='tags all'>
+                          <span><a href=".././tag/python">Python</a></span>
+                            <span><a href=".././tag/spark">spark</a></span>
+                            <span><a href=".././tag/cassandra">Cassandra</a></span>
+                      </div>
+          </div>
+        </div>
+      </div>
+
+      <div class='right'>
+                <div class='pin oa_infos'>
+                <div class='message hide' data-name="cassandra練習2-用pyspark操作"></div>
+                <div class='line1'></div><div class='line2'></div>
+                <a href="https://github.com/KuiMing" target='_blank'>
+                  <div class='avatar_outline'>
+                    <div class='avatar'>
+                      <img src="http://i.imgur.com/8YSdNmE.jpg">
+                    </div>
+                  </div>
+                </a>
+                <div class='info info1'>
+                  <a href="https://github.com/KuiMing" target='_blank'>
+                    陳奎銘(Ben)                  </a>
+                </div>
+                <div class='info info2'>benjamin0901@gmail.com</div>
+                <div class='info info3'>職業: R User</div>
+                <div class='info info4'>生日: 1984/09/01</div>
+              </div>
+                      <div class='pin tree'>
+                  <div class='title'>Ben's Date Tree</div>
+                  <div class="oa-tree">
+                    <ul>
+                                        <li>
+                          <span class='folder'>
+                            <span data-open='▼' data-close='►'>►</span>
+                            2016年 (24)
+                          </span>
+                                                <ul>
+                                                        <li>
+                                  <span class='folder'>
+                                    <span data-open='▼' data-close='►'>►</span>
+                                    12月 (3)
+                                  </span>
+                                                                <ul>
+                                                                        <li><a class='item' href="../article/cassandra練習2-用pyspark操作.html">cassandra練習2-用pyspark操作</a></li>
+                                                                        <li><a class='item' href="../article/cassandra練習1.html">cassandra練習1</a></li>
+                                                                        <li><a class='item' href="../article/Probit_Analysis.html">Probit_Analysis</a></li>
+                                                                    </ul>
+                                                            </li>
+                                                        <li>
+                                  <span class='folder'>
+                                    <span data-open='▼' data-close='►'>►</span>
+                                    10月 (1)
+                                  </span>
+                                                                <ul>
+                                                                        <li><a class='item' href="../article/Candlestick與matplotlib.html">Candlestick與matplotlib</a></li>
+                                                                    </ul>
+                                                            </li>
+                                                        <li>
+                                  <span class='folder'>
+                                    <span data-open='▼' data-close='►'>►</span>
+                                    08月 (11)
+                                  </span>
+                                                                <ul>
+                                                                        <li><a class='item' href="../article/CV_Bio_20160825.html">CV_Bio_20160825</a></li>
+                                                                        <li><a class='item' href="../article/擴充Raspberry Pi的硬碟.html">擴充Raspberry Pi的硬碟</a></li>
+                                                                        <li><a class='item' href="../article/python的套件學習清單.html">python的套件學習清單</a></li>
+                                                                        <li><a class='item' href="../article/在Raspberry_Pi裝R.html">在Raspberry_Pi裝R</a></li>
+                                                                        <li><a class='item' href="../article/crontab.html">crontab</a></li>
+                                                                        <li><a class='item' href="../article/從零開始Raspberry_Pi.html">從零開始Raspberry_Pi</a></li>
+                                                                        <li><a class='item' href="../article/Python-Brainstorm.html">Python-Brainstorm</a></li>
+                                                                        <li><a class='item' href="../article/matplotlib要先設定.html">matplotlib要先設定</a></li>
+                                                                        <li><a class='item' href="../article/TWSE似乎改版了.html">TWSE似乎改版了</a></li>
+                                                                        <li><a class='item' href="../article/為Blog寫的python小物.html">為Blog寫的python小物</a></li>
+                                                                        <li><a class='item' href="../article/用Python做查詢股價的小工具.html">用Python做查詢股價的小工具</a></li>
+                                                                    </ul>
+                                                            </li>
+                                                        <li>
+                                  <span class='folder'>
+                                    <span data-open='▼' data-close='►'>►</span>
+                                    07月 (9)
+                                  </span>
+                                                                <ul>
+                                                                        <li><a class='item' href="../article/quantmod的問題-爬蟲修正.html">quantmod的問題-爬蟲修正</a></li>
+                                                                        <li><a class='item' href="../article/R與GA串接.html">R與GA串接</a></li>
+                                                                        <li><a class='item' href="../article/以Rmarkdown發blog.html">以Rmarkdown發blog</a></li>
+                                                                        <li><a class='item' href="../article/quantmod的問題.html">quantmod的問題</a></li>
+                                                                        <li><a class='item' href="../article/Finance with Python.html">Finance with Python</a></li>
+                                                                        <li><a class='item' href="../article/收到跑完程式的通知.html">收到跑完程式的通知</a></li>
+                                                                        <li><a class='item' href="../article/python學習技巧.html">python學習技巧</a></li>
+                                                                        <li><a class='item' href="../article/投信認養股.html">投信認養股</a></li>
+                                                                        <li><a class='item' href="../article/CV_20160708.html">CV_20160708</a></li>
+                                                                    </ul>
+                                                            </li>
+                                                    </ul>
+                                            </li>
+                                    </ul>
+                  </div>
+                </div>
+                        <div class='pin tags clearfix'>
+                  <div class='title'>Ben's Tags</div>
+                                <a href=".././tag/python"><span class="tag"><div class="doc"></div><div class="name">python (10)</div></span></a>
+                                <a href=".././tag/r"><span class="tag"><div class="doc"></div><div class="name">r (9)</div></span></a>
+                                <a href=".././tag/stock"><span class="tag"><div class="doc"></div><div class="name">stock (7)</div></span></a>
+                                <a href=".././tag/osx"><span class="tag"><div class="doc"></div><div class="name">osx (4)</div></span></a>
+                                <a href=".././tag/raspberry%20pi"><span class="tag"><div class="doc"></div><div class="name">raspberry pi (3)</div></span></a>
+                                <a href=".././tag/linux"><span class="tag"><div class="doc"></div><div class="name">linux (2)</div></span></a>
+                                <a href=".././tag/cassandra"><span class="tag"><div class="doc"></div><div class="name">cassandra (2)</div></span></a>
+                                <a href=".././tag/google"><span class="tag"><div class="doc"></div><div class="name">google (2)</div></span></a>
+                                <a href=".././tag/cv"><span class="tag"><div class="doc"></div><div class="name">cv (2)</div></span></a>
+                                <a href=".././tag/spark"><span class="tag"><div class="doc"></div><div class="name">spark (1)</div></span></a>
+                                <a href=".././tag/rmarkdown"><span class="tag"><div class="doc"></div><div class="name">rmarkdown (1)</div></span></a>
+                            </div>
+              </div>
+    </div>
+
+    <div id="footer" class="oa-footer">
+      <div class="oa-footer-desc">
+        <div class="oa-footer-split-line"><hr></div>
+        <div class='oa-footer-content'>Ben's Blog © 2016<br />如有 <u>相關問題</u> 歡迎來信 <b>benjamin0901@gmail.com</b><br>
+    本作品授權採用 姓名標示-非商業性 2.0 台灣 (CC BY-NC 2.0 TW) 授權</br>
+    <br>Original source code: https://github.com/comdan66/blog</br></div>
+      </div>
+    </div>
+  </body>
+</html>

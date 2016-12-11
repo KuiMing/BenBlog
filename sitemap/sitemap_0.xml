@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
+  <loc>http://kuiming.github.io/BenBlog/article/cassandra%E7%B7%B4%E7%BF%922-%E7%94%A8pyspark%E6%93%8D%E4%BD%9C.html</loc>
+  <priority>0.8</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2016-12-12</lastmod>
+ </url>
+ <url>
   <loc>http://kuiming.github.io/BenBlog/article/cassandra%E7%B7%B4%E7%BF%921.html</loc>
   <priority>0.8</priority>
   <changefreq>daily</changefreq>

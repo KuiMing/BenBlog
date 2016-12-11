@@ -9,14 +9,14 @@
     <meta name="robots" content="index,follow">
     <meta name="author" content="陳奎銘(Ben)" />
     <meta name="keywords" content="陳奎銘 | Ben | R" />
-    <meta name="description" content="紀錄學習歷程 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接, 以Rmarkdown發blog, quantmod的問題" />
+    <meta name="description" content="紀錄學習歷程 TWSE似乎改版了, 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接, 以Rmarkdown發blog" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
     <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
     <meta property="og:title" content="Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="紀錄學習歷程 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接, 以Rmarkdown發blog, quantmod的問題" />
+    <meta property="og:description" content="紀錄學習歷程 TWSE似乎改版了, 為Blog寫的python小物, 用Python做查詢股價的小工具, quantmod的問題-爬蟲修正, R與GA串接, 以Rmarkdown發blog" />
     <meta property="og:url" content="http://kuiming.github.io/BenBlog/articles/2.html" />
 
     <link href="../css/frame.css" rel="stylesheet" type="text/css">
@@ -42,15 +42,16 @@
                                 <div class="unit shimmer">生日: 1984/09/01</div>
                                 <div class='unit title'>Ben's Tags</div>
 
-                                    <a href=".././tag/python"><div class='unit'>python(9)</div></a>
+                                    <a href=".././tag/python"><div class='unit'>python(10)</div></a>
                                     <a href=".././tag/r"><div class='unit'>r(9)</div></a>
                                     <a href=".././tag/stock"><div class='unit'>stock(7)</div></a>
                                     <a href=".././tag/osx"><div class='unit'>osx(4)</div></a>
                                     <a href=".././tag/raspberry%20pi"><div class='unit'>raspberry pi(3)</div></a>
-                                    <a href=".././tag/cv"><div class='unit'>cv(2)</div></a>
-                                    <a href=".././tag/google"><div class='unit'>google(2)</div></a>
                                     <a href=".././tag/linux"><div class='unit'>linux(2)</div></a>
-                                    <a href=".././tag/cassandra"><div class='unit'>cassandra(1)</div></a>
+                                    <a href=".././tag/cassandra"><div class='unit'>cassandra(2)</div></a>
+                                    <a href=".././tag/google"><div class='unit'>google(2)</div></a>
+                                    <a href=".././tag/cv"><div class='unit'>cv(2)</div></a>
+                                    <a href=".././tag/spark"><div class='unit'>spark(1)</div></a>
                                     <a href=".././tag/rmarkdown"><div class='unit'>rmarkdown(1)</div></a>
                             <div class='unit title'>Ben's Link</div>
                             <a href="https://www.facebook.com/profile.php?id=523887614" target="_blank" title="ben's facebook"><div class="unit">Facebook</div></a>
@@ -79,6 +80,23 @@
     <div id="container" class="clearfix">
       <div class="left">
 
+            <div class='block paper'>
+              <div class='title clearfix'>
+                <a href="../article/TWSE%E4%BC%BC%E4%B9%8E%E6%94%B9%E7%89%88%E4%BA%86.html"><h2>TWSE似乎改版了</h2></a>
+                <div class='date timeago' data-time="2016-08-05 14:37:04">2016-08-05 14:37:04</div>
+              </div>
+              <div class='content'>TWSE真的很麻煩，個股日成交資訊的網頁似乎又改版了，似乎已經沒辦法直接抓網頁了，一定得下載CSV。山不轉路轉！基本上，做法還是跟之前差不多，甚至更簡單，一樣還是要利用POST執行查詢的動作，接著下載CSV的時候…</div>
+              <div class='info clearfix'>
+                <div class='tags'>
+                                  <span><a href=".././tag/r">R</a></span>
+                                    <span><a href=".././tag/python">Python</a></span>
+                                    <span><a href=".././tag/stock">Stock</a></span>
+                              </div>
+                <div class='more'>
+                  <a href="../article/TWSE%E4%BC%BC%E4%B9%8E%E6%94%B9%E7%89%88%E4%BA%86.html">閱讀更多 »</a>
+                </div>
+              </div>
+            </div>
             <div class='block paper'>
               <div class='title clearfix'>
                 <a href="../article/%E7%82%BABlog%E5%AF%AB%E7%9A%84python%E5%B0%8F%E7%89%A9.html"><h2>為Blog寫的python小物</h2></a>
@@ -158,22 +176,6 @@
                 </div>
               </div>
             </div>
-            <div class='block paper'>
-              <div class='title clearfix'>
-                <a href="../article/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C.html"><h2>quantmod的問題</h2></a>
-                <div class='date timeago' data-time="2016-07-23 14:48:57">2016-07-23 14:48:57</div>
-              </div>
-              <div class='content'>之前就曾經提過，quantmod其實有一些問題，抓到的台股資料有時候會有缺漏，原因是資料來源是Yahoo! Finance，這裡所提供的資料有時並不齊全。舉例來說：library(quantmod)x=getSymbols('1707.TW', from='2016-07-01…</div>
-              <div class='info clearfix'>
-                <div class='tags'>
-                                  <span><a href=".././tag/r">R</a></span>
-                                    <span><a href=".././tag/stock">Stock</a></span>
-                              </div>
-                <div class='more'>
-                  <a href="../article/quantmod%E7%9A%84%E5%95%8F%E9%A1%8C.html">閱讀更多 »</a>
-                </div>
-              </div>
-            </div>
 
             <div class='block pagination'>
             <ul class="pagination clearfix">
@@ -213,15 +215,16 @@
                                         <li>
                           <span class='folder'>
                             <span data-open='▼' data-close='►'>►</span>
-                            2016年 (23)
+                            2016年 (24)
                           </span>
                                                 <ul>
                                                         <li>
                                   <span class='folder'>
                                     <span data-open='▼' data-close='►'>►</span>
-                                    12月 (2)
+                                    12月 (3)
                                   </span>
                                                                 <ul>
+                                                                        <li><a class='item' href="../article/cassandra練習2-用pyspark操作.html">cassandra練習2-用pyspark操作</a></li>
                                                                         <li><a class='item' href="../article/cassandra練習1.html">cassandra練習1</a></li>
                                                                         <li><a class='item' href="../article/Probit_Analysis.html">Probit_Analysis</a></li>
                                                                     </ul>
@@ -278,15 +281,16 @@
                 </div>
                         <div class='pin tags clearfix'>
                   <div class='title'>Ben's Tags</div>
-                                <a href=".././tag/python"><span class="tag"><div class="doc"></div><div class="name">python (9)</div></span></a>
+                                <a href=".././tag/python"><span class="tag"><div class="doc"></div><div class="name">python (10)</div></span></a>
                                 <a href=".././tag/r"><span class="tag"><div class="doc"></div><div class="name">r (9)</div></span></a>
                                 <a href=".././tag/stock"><span class="tag"><div class="doc"></div><div class="name">stock (7)</div></span></a>
                                 <a href=".././tag/osx"><span class="tag"><div class="doc"></div><div class="name">osx (4)</div></span></a>
                                 <a href=".././tag/raspberry%20pi"><span class="tag"><div class="doc"></div><div class="name">raspberry pi (3)</div></span></a>
-                                <a href=".././tag/cv"><span class="tag"><div class="doc"></div><div class="name">cv (2)</div></span></a>
-                                <a href=".././tag/google"><span class="tag"><div class="doc"></div><div class="name">google (2)</div></span></a>
                                 <a href=".././tag/linux"><span class="tag"><div class="doc"></div><div class="name">linux (2)</div></span></a>
-                                <a href=".././tag/cassandra"><span class="tag"><div class="doc"></div><div class="name">cassandra (1)</div></span></a>
+                                <a href=".././tag/cassandra"><span class="tag"><div class="doc"></div><div class="name">cassandra (2)</div></span></a>
+                                <a href=".././tag/google"><span class="tag"><div class="doc"></div><div class="name">google (2)</div></span></a>
+                                <a href=".././tag/cv"><span class="tag"><div class="doc"></div><div class="name">cv (2)</div></span></a>
+                                <a href=".././tag/spark"><span class="tag"><div class="doc"></div><div class="name">spark (1)</div></span></a>
                                 <a href=".././tag/rmarkdown"><span class="tag"><div class="doc"></div><div class="name">rmarkdown (1)</div></span></a>
                             </div>
               </div>
