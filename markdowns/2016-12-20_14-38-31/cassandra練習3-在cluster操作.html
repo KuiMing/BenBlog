@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>Operate Cassandra with pyspark</title>
+
+</head>
+<body>
+<h1>Operate Cassandra with pyspark</h1>
+
+<h2>雷</h2>
+
+<h3>1. 從Cassandra讀取資料後，資料型態為<code>pyspark.sql.dataframe.DataFrame</code>，延續上一篇的資料<code>x</code>，在jupyter notebook上執行以下程式：</h3>
+
+<pre><code>def f(i):
+    print(i.ind)
+x.foreeach(f)
+</code></pre>
+
+<h3>執行的結果不會在jupyter notebook上印出，會列在terminal上。</h3>
+
+<h3>2. 若在開啟一個<code>ipynb</code>執行與Cassandra連線，開啟第二個就無法連線了。</h3>
+
+<hr />
+
+<h2>在DC/OS Cluster上與Cassandra連線</h2>
+
+<h3>這次在DC/OS Cluster上試，OS是CentOS，可以直接在jupyter notebook上載入<code>cassandra.cluster</code>和<code>pyspark</code>。</h3>
+
+<pre><code>from pyspark.sql import SparkSession
+from pyspark import SparkContext, SparkConf
+conf = SparkConf().setAppName('default').set('spark.cassandra.connection.host', "10.140.0.4")
+sc = SparkContext(conf=conf)
+spark = SparkSession.builder.config(conf=conf).getOrCreate()
+</code></pre>
+
+<h3><code>SparkContext</code>只能設定一次，而且得在<code>SparkSession</code>之前做完，如果設定第二次就會吐出error：</h3>
+
+<h3><code>Cannot run multiple SparkContexts at once;</code></h3>
+
+<h3>接下來就跟之前沒什麼兩樣了，不同資料格式之間的轉換。</h3>
+
+<pre><code>df = spark.read.format("org.apache.spark.sql.cassandra").options(keyspace="raw", table="cpu_usage").load()
+df_pd=df.toPandas()
+df_rdd=sc.parallelize(df_pd)
+</code></pre>
+
+<hr />
+
+<h2>Reference</h2>
+
+<ul>
+<li><a href="https://medium.com/@amirziai/running-pyspark-with-cassandra-in-jupyter-2bf5e95c319#.vhfo89emr">Running PySpark with Cassandra in Jupyter</a></li>
+<li><a href="https://spark-packages.org/package/TargetHolding/pyspark-cassandra">pyspark-cassandra</a></li>
+<li><a href="https://github.com/TargetHolding/pyspark-cassandra">pyspark-cassandra github</a></li>
+<li><a href="https://github.com/datastax/spark-cassandra-connector/blob/master/doc/15_python.md">spark-cassandra-connector</a></li>
+<li><a href="http://spark.apache.org/docs/0.9.0/python-programming-guide.html">spark Python programming guide</a></li>
+</ul>
+
+</body>
+</html>

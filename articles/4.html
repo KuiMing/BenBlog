@@ -2,33 +2,26 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>在Raspberry_Pi裝R - Ben's blog</title>
+    <title>Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content="index,follow">
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Raspberry Pi | R | OSX" />
-    <meta name="description" content="安裝R在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行sudo apt-get install r-base一定可以裝好，但是問題來了，無法安裝dplpr，因為:dplyr not available for r 3.1.1這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行sudo apt-get update和sudo apt-get upgrade也無法解決。在網路上找到的解法是，把r-base、r-base-dev刪掉後，再修改/etc/apt/sources.list，新增兩行：deb http://cran.stat.ucla.edu/bin/linux/debian jessie-cran3/deb-src http://cran.stat.ucla.edu/bin/linux/debian jessie-c…" />
+    <meta name="keywords" content="陳奎銘 | Ben | R" />
+    <meta name="description" content="紀錄學習歷程 CV_20160708" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
     <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
-    <meta property="og:title" content="在Raspberry_Pi裝R - Ben's blog" />
+    <meta property="og:title" content="Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="安裝R在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行sudo apt-get install r-base一定可以裝好，但是問題來了，無法安裝dplpr，因為:dplyr not available for r 3.1.1這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行sudo apt-get update和sudo apt-get upgrade也無法解決。在網路上找到的解法是，把r-base、r-base-dev刪掉後，再修改/etc/apt/sources.list，新增兩行：deb http://cran.stat.ucla.edu/bin/linux/debian jessie-cran3/deb-src http://cran.stat.ucla.edu/bin/linux/debian jessie-c…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/在Raspberry_Pi裝R.html" />
-
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.css" rel="stylesheet" type="text/css">
+    <meta property="og:description" content="紀錄學習歷程 CV_20160708" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/articles/4.html" />
 
     <link href="../css/frame.css" rel="stylesheet" type="text/css">
     <link href="../css/frame_pc.css" rel="stylesheet" type="text/css">
     <link href="../css/frame_mobile.css" rel="stylesheet" type="text/css">
-    <link href="../css/article.css" rel="stylesheet" type="text/css">
-    <link href="../css/article_pc.css" rel="stylesheet" type="text/css">
-    <link href="../css/article_mobile.css" rel="stylesheet" type="text/css">
 
     <script src="../js/ga.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jquery_v1.10.2/jquery-1.10.2.min.js" language="javascript" type="text/javascript"></script>
@@ -36,14 +29,8 @@
     <script src="../res/jquery-timeago_v1.3.1/jquery.timeago.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jquery-timeago_v1.3.1/locales/jquery.timeago.zh-TW.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jQuery-Mobile-v1.3.0/swipe.js" language="javascript" type="text/javascript"></script>
-    
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-media.js" language="javascript" type="text/javascript"></script>
 
     <script src="../js/frame.js" language="javascript" type="text/javascript"></script>
-    <script src="../js/article.js" language="javascript" type="text/javascript"></script>
   </head>
   <body lang="zh-tw">
 
@@ -91,110 +78,37 @@
     </div>
 
     <div id="container" class="clearfix">
-      <div class='left'>
-        <div class='block paper article'>
-          <div class='title clearfix'>
-            <h2>在Raspberry_Pi裝R</h2>
-            <div class='date timeago' data-time="2016-08-23 20:40:52">2016-08-23 20:40:52</div>
-          </div>
-          <div class='content'>
+      <div class="left">
 
+            <div class='block paper'>
+              <div class='title clearfix'>
+                <a href="../article/CV_20160708.html"><h2>CV_20160708</h2></a>
+                <div class='date timeago' data-time="2016-07-08 16:49:00">2016-07-08 16:49:00</div>
+              </div>
+              <div class='content'>Kui-Ming ChenPhone: 0919784598|Email: benjamin0901@gmail.com3F., No.10, Ln. 77, Jingren St., Wenshan Dist., Taipei City 116, TaiwanSUMMARY OF EXPERIENCESFamiliar with R and Git, and always trying to …</div>
+              <div class='info clearfix'>
+                <div class='tags'>
+                                  <span><a href=".././tag/cv">CV</a></span>
+                              </div>
+                <div class='more'>
+                  <a href="../article/CV_20160708.html">閱讀更多 »</a>
+                </div>
+              </div>
+            </div>
 
-
-
-<div class="container-fluid main-container">
-
-<!-- tabsets -->
-<script src=".././markdowns/2016-08-23_20-40-52/%E5%9C%A8Raspberry_Pi%E8%A3%9DR_files/navigation-1.1/tabsets.js"></script><script>
-
-</script><!-- code folding --><div id="r" class="section level2">
-<h2>安裝R</h2>
-<div id="raspberry-pirsudo-apt-get-install-r-basedplpr" class="section level3">
-<h3>在Raspberry Pi上裝R最大的困難點在於不容易找到相對應的版本。一開始單純執行<code>sudo apt-get install r-base</code>一定可以裝好，但是問題來了，無法安裝dplpr，因為:</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dplyr not available for r <span class="fl">3.1.1</span></code></pre></div>
-</div>
-<div id="sudo-apt-get-updatesudo-apt-get-upgrader-baser-base-devetcaptsources.list" class="section level3">
-<h3>這有點尷尬，這代表套件庫尚未更新到最新的版本。試著執行<code>sudo apt-get update</code>和<code>sudo apt-get upgrade</code>也無法解決。在網路上找到的解法是，把<code>r-base</code>、<code>r-base-dev</code>刪掉後，再修改<code>/etc/apt/sources.list</code>，新增兩行：</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deb http:<span class="er">//</span>cran.stat.ucla.edu/bin/linux/debian jessie-cran3/
-deb-src http:<span class="er">//</span>cran.stat.ucla.edu/bin/linux/debian jessie-cran3/</code></pre></div>
-</div>
-<div id="updateupgrader-baser-base-deverrorr-base-core3.1.1r3.1.1debhttpftp.us.debian.orgrarmadvanced-risc-machineraspberry-pir-base-core_3.3.1-1bpo81_armhf.debr-base-dev_3.3.1-1bpo81_all.debr-base_3.3.1-1bpo81_all.debr" class="section level3">
-<h3>然後再重新<code>update</code>、<code>upgrade</code>和安裝<code>r-base</code>和<code>r-base-dev</code>。可是，依然會出現error，表示<code>r-base-core</code>是3.1.1的版本，不夠潮，所以不能裝R。即便砍掉重練，依然只會抓到3.1.1的版本。這時候只能想辦法自己找deb檔來裝了。所幸，<a href="http://ftp.us.debian.org/debian/pool/main/r/r-base/">http://ftp.us.debian.org/</a>提供了各種R的安裝檔，只要下載與ARM（Advanced RISC Machine）架構相容的安裝檔，就可以安裝在Raspberry Pi。這裡選擇下載了<code>r-base-core_3.3.1-1~bpo8+1_armhf.deb</code>、<code>r-base-dev_3.3.1-1~bpo8+1_all.deb</code>和<code>r-base_3.3.1-1~bpo8+1_all.deb</code>，並且<strong>依序</strong>安裝（一定要依序，否則會裝不起來），就可以裝好R了。</h3>
-</div>
-</div>
-<div class="section level2">
-<h2>檔案權限</h2>
-<div id="usrlocallibrsite-libraryrsudo-chmod-2777-usrlocallibrsite-library" class="section level3">
-<h3>安裝套件之前，一定要更改<code>/usr/local/lib/R/site-library</code>的使用權限，才能直接在R裡安裝套件，所以執行<code>sudo chmod 2777 /usr/local/lib/R/site-library</code>。</h3>
-</div>
-<div id="terminalls--ldrw-r-xrwx" class="section level3">
-<h3>在terminal執行<code>ls -l</code>，可以看到每個檔案和資料夾的權限，如<code>drw-r-xrwx</code>。</h3>
-<ol style="list-style-type: decimal">
-<li>第1個字母</li>
-</ol>
-<ul>
-<li>d: directory</li>
-<li>-: file</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li><p>第2<sub>4個字母代表使用者的權限，第5</sub>7個字母代表group的權限，第8~10個字母則為others的權限。</p></li>
-<li><p>r代表read，w代表write，x代表execute。s代表 setUID或setGID，目的是使一般使用者執行此檔案時，能以檔案的擁有者身份來執行此檔案。-就代表無此權限。例如：rwx代表讀寫和執行都可以，r–就只有讀的權限。</p></li>
-<li><p>在使用<code>chmod</code>時，後面的數字代表每個角色的權限，r/w/x各自有各自的代表數字，分別是4/2/1，以相加的方式來表示，例如：rwx就是4+2+1=7，r–就是4+0+0=4；若一個檔案的權限為rwxr-xr–，就可以表示為754，</p></li>
-<li><p>s則是在上述的數列最前面加上4(setUID)或2(setGID)。</p></li>
-</ol>
-</div>
-</div>
-<div id="install-packages" class="section level2">
-<h2>install packages</h2>
-<div id="r-consoleinstall.packagesdependencylinux" class="section level3">
-<h3>接下來就可以在R console直接用<code>install.packages</code>，安裝套件了。但偶爾還是會有dependency的問題，這時候就會需要額外安裝linux的套件了，以下舉例：</h3>
-<div id="xml" class="section level4">
-<h4>- 安裝<code>XML</code>，需要先執行：</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get install libxml2-dev</code></pre></div>
-</div>
-<div id="httr" class="section level4">
-<h4>- 安裝<code>httr</code>，需要先執行：</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sudo apt-get libcurl4-openssl-dev
-sudo apt-get install libcurl4-openssl-dev
-sudo apt-get install libssl-dev</code></pre></div>
-</div>
-</div>
-</div>
-
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-$(document).ready(function () {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-});
-
-</script><!-- dynamically load mathjax for compatibility with self-contained --><script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-</div>
-          <div class='info clearfix'>
-            <div class='tags all'>
-                          <span><a href=".././tag/raspberry%20pi">Raspberry Pi</a></span>
-                            <span><a href=".././tag/r">R</a></span>
-                            <span><a href=".././tag/osx">OSX</a></span>
-                      </div>
+            <div class='block pagination'>
+            <ul class="pagination clearfix">
+                        <li><a href="3.html">上一頁</a></li>
+                        <li><a href="2.html">3</a></li>
+                        <li><a href="3.html">4</a></li>
+                        <li class="active"><a href="4.html">5</a></li>
+                    </ul>
           </div>
         </div>
-      </div>
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="在Raspberry_Pi裝R"></div>
+                <div class='message hide'></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>
