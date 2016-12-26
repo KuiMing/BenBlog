@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>Pandas 小技巧</title>
+
+</head>
+<body>
+<h1>Pandas 小技巧</h1>
+
+<h2>Extract formatted strings specified by date_format</h2>
+
+<h3><code>datetime</code>的<code>datetime.strftime</code>原本就是用來取出date format中的數值，轉換成特定的string，例如：</h3>
+
+<pre><code>datetime.datetime.strftime(df_pd.ts[0],"%Y-%m")
+</code></pre>
+
+<p><code>2016-12</code></p>
+
+<h3>但是<code>datetime.strftime</code>無法一次處理一個array，所以對付array只能用迴圈處理。好在有<code>Pandas</code>，例如：</h3>
+
+<pre><code>df_pd.ts.dt.strftime('%S')
+</code></pre>
+
+<h3>一次就能把<code>df_pd</code>的<code>ts</code>欄位中所有資料處理好，從中取出秒數。</h3>
+
+<hr />
+
+<h2>Return indices of half-open bins to which each value of data</h2>
+
+<h3><code>Pandas</code>中<code>cut</code>，可以按照目前資料數值，分成指定個數的集群，並標上label。例如：</h3>
+
+<pre><code>pd.cut(df_pd.second,6,labels=list(range(0,60,10)))
+</code></pre>
+
+<h3>把秒數分成六等份，並且標上0,10,20,30,40,50。</h3>
+
+<hr />
+
+<h2>reset index of hierarchical index</h2>
+
+<h3><code>Pandas</code>的<code>groupby</code>跟R的<code>dplyr</code>的<code>group_by</code>很像，但就差這麼一點點，差的這一點點真的會讓人非常不爽。<code>dplyr</code>的<code>group_by</code>之後再<code>summarise</code>，資料會完整地展開，每一個欄位都會填好填滿。但如果是用<code>Pandas</code>的<code>groupby</code>之後再做處理，就會呈現<a href="https://www.google.com.tw/search?q=hierarchical+index+pandas&amp;espv=2&amp;biw=1280&amp;bih=703&amp;source=lnms&amp;tbm=isch&amp;sa=X&amp;ved=0ahUKEwjPoZL2z5DRAhXLipQKHfChCtkQ_AUIBigB#imgrc=N4RYl5e-bzmWlM%3A">hierarchical index</a>.....</h3>
+
+<h3>所以要想辦法flatten hierarchical index dataframe！</h3>
+
+<pre><code>df_10sec=df_pd.groupby(["machine_id","year","mon","day","hour","mins","sec"]).mean()
+df_10sec.reset_index(inplace=True)
+</code></pre>
+</body>
+</html>
