@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>收到跑完程式的通知 - Ben's blog</title>
+    <title>操作Marathon - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | R | google | OSX" />
-    <meta name="description" content="有時候程式就是會跑比較久，不可能總是盯著terminal等待，但又很想跑完的一瞬間就趕快看一下結果，或者一旦出錯，立刻收到通知。這邊提供三個方法：Gitter只要有github帳號就可以申請gitter帳號，在gitter內開一個聊天室之後，可以利用R將想說的話POST到聊天室。手機可以安裝gitter app，當有訊息傳到聊天室，手機便能同步提醒。Code可以參考Wush的Blog。不過，這邊有幾件事情要提醒各位：Room ID: 透過對網頁的觀察才會找到room ID。Token: 以Giiter帳號登入Gitter Developer，就可以直接看到Token了。用自己的gitter帳號POST訊息到給自…" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | DC/OS | Marathon" />
+    <meta name="description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2016-07-17_16-09-04/img/room_id.png" />
-    <meta property="og:title" content="收到跑完程式的通知 - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2017-01-01_23-31-31/img/login.png" />
+    <meta property="og:title" content="操作Marathon - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="有時候程式就是會跑比較久，不可能總是盯著terminal等待，但又很想跑完的一瞬間就趕快看一下結果，或者一旦出錯，立刻收到通知。這邊提供三個方法：Gitter只要有github帳號就可以申請gitter帳號，在gitter內開一個聊天室之後，可以利用R將想說的話POST到聊天室。手機可以安裝gitter app，當有訊息傳到聊天室，手機便能同步提醒。Code可以參考Wush的Blog。不過，這邊有幾件事情要提醒各位：Room ID: 透過對網頁的觀察才會找到room ID。Token: 以Giiter帳號登入Gitter Developer，就可以直接看到Token了。用自己的gitter帳號POST訊息到給自…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/收到跑完程式的通知.html" />
+    <meta property="og:description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/操作Marathon.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -96,71 +96,80 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>收到跑完程式的通知</h2>
-            <div class='date timeago' data-time="2016-07-17 16:09:04">2016-07-17 16:09:04</div>
+            <h2>操作Marathon</h2>
+            <div class='date timeago' data-time="2017-01-01 23:31:31">2017-01-01 23:31:31</div>
           </div>
           <div class='content'>
-<p>有時候程式就是會跑比較久，不可能總是盯著terminal等待，但又很想跑完的一瞬間就趕快看一下結果，或者一旦出錯，立刻收到通知。這邊提供三個方法：</p>
+<h1>DC/OS Marathon Operation</h1>
 
-<h2>Gitter</h2>
+<h2><a href="https://dcos.io/docs/1.7/administration/id-and-access-mgt/managing-authentication/">Managing Authentication</a></h2>
 
-<p>只要有github帳號就可以申請gitter帳號，在gitter內開一個聊天室之後，可以利用R將想說的話POST到聊天室。手機可以安裝gitter app，當有訊息傳到聊天室，手機便能同步提醒。Code可以參考<a href="http://wush.ghost.io/customize-r-environment/">Wush的Blog</a>。不過，這邊有幾件事情要提醒各位：</p>
+<h3>首先必須先Login DC/OS</h3>
 
-<ul>
-<li><p>Room ID: 透過對網頁的觀察才會找到room ID。
-<img src=".././markdowns/2016-07-17_16-09-04/img/room_id.png" alt=""></p></li>
-<li><p>Token: 以Giiter帳號登入<a href="https://developer.gitter.im/docs/authentication">Gitter Developer</a>，就可以直接看到Token了。</p></li>
-<li><p>用自己的gitter帳號POST訊息到給自己的聊天室，手機不會發出通知，因為畢竟是“自己”發的。所以，若希望手機會發出通知，最簡單的方法是去申請另一個帳號，以此帳號發出POST，這樣手機就會收到通知了。</p></li>
-</ul>
-<center><img src=".././markdowns/2016-07-17_16-09-04/img/gitter_phone.PNG" height="400"></center>
-
-
-<h2>Gmail</h2>
-
-<p>R的套件<code>gmailr</code>可透過gmail API連結自己的gmail帳號寄信，以下的步驟做完應該就沒問題了：</p>
-
-<ol>
-<li>
-<p>一開始先執行這一段code吧～～</p>
-
-<pre><code> library(gmailr)
- msg = mime() %&gt;%
-     from("your@gmail.com") %&gt;%
-     to("towhom0901@gmail.com") %&gt;%
-     subject("Test") %&gt;%
-     html_body("Gmailr is a very handy package!")
- send_message(msg)
+<pre><code>dcos auth login
 </code></pre>
-</li>
-<li><p>接著會出現以下的畫面，請選擇2，如果這個步驟已經執行過了，應該是不會出現這個畫面：
-<img src=".././markdowns/2016-07-17_16-09-04/img/gmail_OAuth.png" alt=""></p></li>
-<li><p>然後，會在預設的瀏覽器開啟網頁，要求使用者登入，並允許各項權限。</p></li>
-<li>完成上述步驟，信件就寄出了。</li>
-<li>萬一要換帳號，可以<code>clear_token</code>清理掉之前的權限，然後重開R，執行步驟1~2，選擇你要使用的帳號。</li>
-</ol>
-<h2>OSX say</h2>
 
-<p>有時候，只是希望主機發出一些聲音，讓我知道發生了什麼事情，<code>say</code>其實就足夠幫忙了，用法也非常簡單：</p>
+<p><img src=".././markdowns/2017-01-01_23-31-31/img/login.png" alt=""></p>
 
-<ul>
-<li><p><code>say "{{something you want to say}}"</code></p></li>
-<li><p>這還能選擇你喜歡的聲音：<code>say -v Samantha "{{Hello}}"</code></p></li>
-<li><p><code>say -v ?</code>可列出可以使用的聲音</p></li>
-<li><p>跑完R code想要出點聲音，可以這麼做<code>system('say -v Samantha "{{It was Done}}"')</code></p></li>
-<li>
-<p>或者直接把錯誤訊息念出來：</p>
+<h3>出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。</h3>
 
-<pre><code>  paste0('say "{{', geterrmessage(), '}}"') %&gt;% system()
+<h3>接著就在調一下config，輸入DC/OS的網址：</h3>
+
+<pre><code>dcos config set core.dcos_url http://xxx.xxx.xxx.xx/
 </code></pre>
-</li>
-</ul>
-<h3>上述幾招，之後配合Raspberry Pi應該可以做到遙控某些機器的功能，下次來嘗試一下。</h3>
+
+<h3>確認一下Token：</h3>
+
+<pre><code>dcos config show core.dcos_acs_token
+</code></pre>
+
+<h3>接下來的指令，只要輸入:</h3>
+
+<pre><code>dcos marathon help
+</code></pre>
+
+<h3>幾乎都能查到。以下紀錄幾個常用的指令。</h3>
+
+<hr>
+<h3>新增Application</h3>
+
+<pre><code>dcos marathon app add &lt;json file&gt;
+</code></pre>
+
+<h3>marathon 會依照json的內容新增Application，json的格式可參照<a href="https://mesosphere.github.io/marathon/docs/application-basics.html">Application Basics</a>。</h3>
+
+<h3>查看Application List</h3>
+
+<pre><code>dcos marathon app list
+</code></pre>
+
+<h3>移除Application</h3>
+
+<pre><code>dcos marathon app remove &lt;application name&gt;
+</code></pre>
+
+<h3>新增group</h3>
+
+<pre><code>dcos marathon group add &lt;group name&gt;
+</code></pre>
+
+<h3>group其實就是一個資料夾，可以在其中再加新的Application，之後scale in/out，就可以針對整個group處理。</h3>
+
+<hr>
+<h3>調整Application的資源：basic-0是Application的名稱，basic-0所用的CPU被調整成0.1，Memory為10M。</h3>
+
+<pre><code>dcos marathon app update basic-0 cpus=0.1 mem=10
+</code></pre>
+
+<h3>調整Group的資源：test是group名稱，test後面的2是指，將資源調整成目前的兩倍；同理，若數字為0.5，則為目前資源的一半。</h3>
+
+<pre><code>dcos marathon group scale test 2
+</code></pre>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
-                          <span><a href=".././tag/r">R</a></span>
-                            <span><a href=".././tag/google">google</a></span>
-                            <span><a href=".././tag/osx">OSX</a></span>
+                          <span><a href=".././tag/dc%2Fos">DC/OS</a></span>
+                            <span><a href=".././tag/marathon">Marathon</a></span>
                       </div>
           </div>
         </div>
@@ -168,7 +177,7 @@
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="收到跑完程式的通知"></div>
+                <div class='message hide' data-name="操作Marathon"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>

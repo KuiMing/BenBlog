@@ -9,14 +9,14 @@
     <meta name="robots" content="index,follow">
     <meta name="author" content="陳奎銘(Ben)" />
     <meta name="keywords" content="陳奎銘 | Ben | R" />
-    <meta name="description" content="紀錄學習歷程 Python正規表示法筆記, Matplotlib筆記, Pandas小技巧, cassandra練習4, cassandra練習3-在cluster操作, cassandra練習2-用pyspark操作" />
+    <meta name="description" content="紀錄學習歷程 操作Marathon, Python正規表示法筆記, Matplotlib筆記, Pandas小技巧, cassandra練習4, cassandra練習3-在cluster操作" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
     <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
     <meta property="og:title" content="Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="紀錄學習歷程 Python正規表示法筆記, Matplotlib筆記, Pandas小技巧, cassandra練習4, cassandra練習3-在cluster操作, cassandra練習2-用pyspark操作" />
+    <meta property="og:description" content="紀錄學習歷程 操作Marathon, Python正規表示法筆記, Matplotlib筆記, Pandas小技巧, cassandra練習4, cassandra練習3-在cluster操作" />
     <meta property="og:url" content="http://kuiming.github.io/BenBlog/articles/0.html" />
 
     <link href="../css/frame.css" rel="stylesheet" type="text/css">
@@ -50,8 +50,10 @@
                                     <a href=".././tag/linux"><div class='unit'>linux(3)</div></a>
                                     <a href=".././tag/raspberry%20pi"><div class='unit'>raspberry pi(3)</div></a>
                                     <a href=".././tag/google"><div class='unit'>google(2)</div></a>
-                                    <a href=".././tag/cv"><div class='unit'>cv(2)</div></a>
                                     <a href=".././tag/spark"><div class='unit'>spark(2)</div></a>
+                                    <a href=".././tag/cv"><div class='unit'>cv(2)</div></a>
+                                    <a href=".././tag/dc%2Fos"><div class='unit'>dc/os(1)</div></a>
+                                    <a href=".././tag/marathon"><div class='unit'>marathon(1)</div></a>
                                     <a href=".././tag/rmarkdown"><div class='unit'>rmarkdown(1)</div></a>
                             <div class='unit title'>Ben's Link</div>
                             <a href="https://www.facebook.com/profile.php?id=523887614" target="_blank" title="ben's facebook"><div class="unit">Facebook</div></a>
@@ -80,6 +82,22 @@
     <div id="container" class="clearfix">
       <div class="left">
 
+            <div class='block paper'>
+              <div class='title clearfix'>
+                <a href="../article/%E6%93%8D%E4%BD%9CMarathon.html"><h2>操作Marathon</h2></a>
+                <div class='date timeago' data-time="2017-01-01 23:31:31">2017-01-01 23:31:31</div>
+              </div>
+              <div class='content'>DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dc…</div>
+              <div class='info clearfix'>
+                <div class='tags'>
+                                  <span><a href=".././tag/dc%2Fos">DC/OS</a></span>
+                                    <span><a href=".././tag/marathon">Marathon</a></span>
+                              </div>
+                <div class='more'>
+                  <a href="../article/%E6%93%8D%E4%BD%9CMarathon.html">閱讀更多 »</a>
+                </div>
+              </div>
+            </div>
             <div class='block paper'>
               <div class='title clearfix'>
                 <a href="../article/Python%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%A4%BA%E6%B3%95%E7%AD%86%E8%A8%98.html"><h2>Python正規表示法筆記</h2></a>
@@ -159,23 +177,6 @@
                 </div>
               </div>
             </div>
-            <div class='block paper'>
-              <div class='title clearfix'>
-                <a href="../article/cassandra%E7%B7%B4%E7%BF%922-%E7%94%A8pyspark%E6%93%8D%E4%BD%9C.html"><h2>cassandra練習2-用pyspark操作</h2></a>
-                <div class='date timeago' data-time="2016-12-12 00:25:29">2016-12-12 00:25:29</div>
-              </div>
-              <div class='content'>      Operate Cassandra with pyspark¶Connect to Cassandra¶下面的bash script是目前確定在Mac上可以執行，讓pyspark在jupyter notebook上運作，並且連到Cassandra。¶PYSPARK_DRIVER_PYTHON=jupyter PYSPARK_DRIV…</div>
-              <div class='info clearfix'>
-                <div class='tags'>
-                                  <span><a href=".././tag/python">Python</a></span>
-                                    <span><a href=".././tag/spark">spark</a></span>
-                                    <span><a href=".././tag/cassandra">Cassandra</a></span>
-                              </div>
-                <div class='more'>
-                  <a href="../article/cassandra%E7%B7%B4%E7%BF%922-%E7%94%A8pyspark%E6%93%8D%E4%BD%9C.html">閱讀更多 »</a>
-                </div>
-              </div>
-            </div>
 
             <div class='block pagination'>
             <ul class="pagination clearfix">
@@ -213,15 +214,16 @@
                                         <li>
                           <span class='folder'>
                             <span data-open='▼' data-close='►'>►</span>
-                            2017年 (1)
+                            2017年 (2)
                           </span>
                                                 <ul>
                                                         <li>
                                   <span class='folder'>
                                     <span data-open='▼' data-close='►'>►</span>
-                                    01月 (1)
+                                    01月 (2)
                                   </span>
                                                                 <ul>
+                                                                        <li><a class='item' href="../article/操作Marathon.html">操作Marathon</a></li>
                                                                         <li><a class='item' href="../article/Python正規表示法筆記.html">Python正規表示法筆記</a></li>
                                                                     </ul>
                                                             </li>
@@ -308,8 +310,10 @@
                                 <a href=".././tag/linux"><span class="tag"><div class="doc"></div><div class="name">linux (3)</div></span></a>
                                 <a href=".././tag/raspberry%20pi"><span class="tag"><div class="doc"></div><div class="name">raspberry pi (3)</div></span></a>
                                 <a href=".././tag/google"><span class="tag"><div class="doc"></div><div class="name">google (2)</div></span></a>
-                                <a href=".././tag/cv"><span class="tag"><div class="doc"></div><div class="name">cv (2)</div></span></a>
                                 <a href=".././tag/spark"><span class="tag"><div class="doc"></div><div class="name">spark (2)</div></span></a>
+                                <a href=".././tag/cv"><span class="tag"><div class="doc"></div><div class="name">cv (2)</div></span></a>
+                                <a href=".././tag/dc%2Fos"><span class="tag"><div class="doc"></div><div class="name">dc/os (1)</div></span></a>
+                                <a href=".././tag/marathon"><span class="tag"><div class="doc"></div><div class="name">marathon (1)</div></span></a>
                                 <a href=".././tag/rmarkdown"><span class="tag"><div class="doc"></div><div class="name">rmarkdown (1)</div></span></a>
                             </div>
               </div>

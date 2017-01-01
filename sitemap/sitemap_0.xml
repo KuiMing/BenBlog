@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
  <url>
+  <loc>http://kuiming.github.io/BenBlog/article/%E6%93%8D%E4%BD%9CMarathon.html</loc>
+  <priority>0.8</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2017-01-01</lastmod>
+ </url>
+ <url>
   <loc>http://kuiming.github.io/BenBlog/article/Python%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%A4%BA%E6%B3%95%E7%AD%86%E8%A8%98.html</loc>
   <priority>0.8</priority>
   <changefreq>daily</changefreq>
