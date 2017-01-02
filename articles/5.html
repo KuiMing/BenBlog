@@ -2,33 +2,26 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>操作Marathon - Ben's blog</title>
+    <title>Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
-    <meta name="robots" content="index,follow" />
+    <meta name="robots" content="index,follow">
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | DC/OS | Marathon" />
-    <meta name="description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
+    <meta name="keywords" content="陳奎銘 | Ben | R" />
+    <meta name="description" content="紀錄學習歷程 CV_20160708" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2017-01-01_23-31-31/img/login.png" />
-    <meta property="og:title" content="操作Marathon - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/操作Marathon.html" />
-
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
-    <link href="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.css" rel="stylesheet" type="text/css">
+    <meta property="og:description" content="紀錄學習歷程 CV_20160708" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/articles/5.html" />
 
     <link href="../css/frame.css" rel="stylesheet" type="text/css">
     <link href="../css/frame_pc.css" rel="stylesheet" type="text/css">
     <link href="../css/frame_mobile.css" rel="stylesheet" type="text/css">
-    <link href="../css/article.css" rel="stylesheet" type="text/css">
-    <link href="../css/article_pc.css" rel="stylesheet" type="text/css">
-    <link href="../css/article_mobile.css" rel="stylesheet" type="text/css">
 
     <script src="../js/ga.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jquery_v1.10.2/jquery-1.10.2.min.js" language="javascript" type="text/javascript"></script>
@@ -36,14 +29,8 @@
     <script src="../res/jquery-timeago_v1.3.1/jquery.timeago.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jquery-timeago_v1.3.1/locales/jquery.timeago.zh-TW.js" language="javascript" type="text/javascript"></script>
     <script src="../res/jQuery-Mobile-v1.3.0/swipe.js" language="javascript" type="text/javascript"></script>
-    
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-thumbs.js" language="javascript" type="text/javascript"></script>
-    <script src="../res/fancyBox_v2.1.5/jquery.fancybox-media.js" language="javascript" type="text/javascript"></script>
 
     <script src="../js/frame.js" language="javascript" type="text/javascript"></script>
-    <script src="../js/article.js" language="javascript" type="text/javascript"></script>
   </head>
   <body lang="zh-tw">
 
@@ -93,91 +80,37 @@
     </div>
 
     <div id="container" class="clearfix">
-      <div class='left'>
-        <div class='block paper article'>
-          <div class='title clearfix'>
-            <h2>操作Marathon</h2>
-            <div class='date timeago' data-time="2017-01-01 23:31:31">2017-01-01 23:31:31</div>
-          </div>
-          <div class='content'>
-<h1>DC/OS Marathon Operation</h1>
+      <div class="left">
 
-<h2><a href="https://dcos.io/docs/1.7/administration/id-and-access-mgt/managing-authentication/">Managing Authentication</a></h2>
+            <div class='block paper'>
+              <div class='title clearfix'>
+                <a href="../article/CV_20160708.html"><h2>CV_20160708</h2></a>
+                <div class='date timeago' data-time="2016-07-08 16:49:00">2016-07-08 16:49:00</div>
+              </div>
+              <div class='content'>Kui-Ming ChenPhone: 0919784598|Email: benjamin0901@gmail.com3F., No.10, Ln. 77, Jingren St., Wenshan Dist., Taipei City 116, TaiwanSUMMARY OF EXPERIENCESFamiliar with R and Git, and always trying to …</div>
+              <div class='info clearfix'>
+                <div class='tags'>
+                                  <span><a href=".././tag/cv">CV</a></span>
+                              </div>
+                <div class='more'>
+                  <a href="../article/CV_20160708.html">閱讀更多 »</a>
+                </div>
+              </div>
+            </div>
 
-<h3>首先必須先Login DC/OS</h3>
-
-<pre><code>dcos auth login
-</code></pre>
-
-<p><img src=".././markdowns/2017-01-01_23-31-31/img/login.png" alt=""></p>
-
-<h3>出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。</h3>
-
-<h3>接著就在調一下config，輸入DC/OS的網址：</h3>
-
-<pre><code>dcos config set core.dcos_url http://xxx.xxx.xxx.xx/
-</code></pre>
-
-<h3>確認一下Token：</h3>
-
-<pre><code>dcos config show core.dcos_acs_token
-</code></pre>
-
-<h3>接下來的指令，只要輸入:</h3>
-
-<pre><code>dcos marathon help
-</code></pre>
-
-<h3>幾乎都能查到。以下紀錄幾個常用的指令。</h3>
-
-<hr>
-<h3>新增Application</h3>
-
-<pre><code>dcos marathon app add &lt;json file&gt;
-</code></pre>
-
-<h3>marathon 會依照json的內容新增Application，json的格式可參照<a href="https://mesosphere.github.io/marathon/docs/application-basics.html">Application Basics</a>。</h3>
-
-<h3>查看Application List</h3>
-
-<pre><code>dcos marathon app list
-</code></pre>
-
-<h3>移除Application</h3>
-
-<pre><code>dcos marathon app remove &lt;application name&gt;
-</code></pre>
-
-<h3>新增group</h3>
-
-<pre><code>dcos marathon group add &lt;group name&gt;
-</code></pre>
-
-<h3>group其實就是一個資料夾，可以在其中再加新的Application，之後scale in/out，就可以針對整個group處理。</h3>
-
-<hr>
-<h3>調整Application的資源：basic-0是Application的名稱，basic-0所用的CPU被調整成0.1，Memory為10M。</h3>
-
-<pre><code>dcos marathon app update basic-0 cpus=0.1 mem=10
-</code></pre>
-
-<h3>調整Group的資源：test是group名稱，test後面的2是指，將資源調整成目前的兩倍；同理，若數字為0.5，則為目前資源的一半。</h3>
-
-<pre><code>dcos marathon group scale test 2
-</code></pre>
-</div>
-          <div class='info clearfix'>
-            <div class='tags all'>
-                          <span><a href=".././tag/dc%2Fos">DC/OS</a></span>
-                            <span><a href=".././tag/marathon">Marathon</a></span>
-                      </div>
+            <div class='block pagination'>
+            <ul class="pagination clearfix">
+                        <li><a href="4.html">上一頁</a></li>
+                        <li><a href="3.html">4</a></li>
+                        <li><a href="4.html">5</a></li>
+                        <li class="active"><a href="5.html">6</a></li>
+                    </ul>
           </div>
         </div>
-      </div>
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="操作Marathon"></div>
+                <div class='message hide'></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>

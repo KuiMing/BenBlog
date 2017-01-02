@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>操作Marathon - Ben's blog</title>
+    <title>Pandas小技巧2 - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | DC/OS | Marathon" />
-    <meta name="description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Python" />
+    <meta name="description" content="      Resampling¶將資料依照時間切割，同一時間區段的資料，統整成一筆。這其實在Pandas小技巧裡有提到土法煉鋼的做法，下面要教比較帥氣的做法。首先，先將資料變成Time Series data，然後再resample。¶Time Series¶In [57]:    import numpy as npimport pandas as pddf_series=pd.Series(data=np.array(df_pd.cpu_usage),index=df_pd.ts)df_seriesOut[57]:ts2016-12-31 00:00:02    0.0292332016-12-31 00:00:04    0.0306002016-12-31 00:00:06    0.0195602016-12-31 00:00:08    0.0329672016-12-31 00:00:10    0.0379442016-12-…" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2017-01-01_23-31-31/img/login.png" />
-    <meta property="og:title" content="操作Marathon - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="Pandas小技巧2 - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/操作Marathon.html" />
+    <meta property="og:description" content="      Resampling¶將資料依照時間切割，同一時間區段的資料，統整成一筆。這其實在Pandas小技巧裡有提到土法煉鋼的做法，下面要教比較帥氣的做法。首先，先將資料變成Time Series data，然後再resample。¶Time Series¶In [57]:    import numpy as npimport pandas as pddf_series=pd.Series(data=np.array(df_pd.cpu_usage),index=df_pd.ts)df_seriesOut[57]:ts2016-12-31 00:00:02    0.0292332016-12-31 00:00:04    0.0306002016-12-31 00:00:06    0.0195602016-12-31 00:00:08    0.0329672016-12-31 00:00:10    0.0379442016-12-…" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/Pandas小技巧2.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -96,80 +96,518 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>操作Marathon</h2>
-            <div class='date timeago' data-time="2017-01-01 23:31:31">2017-01-01 23:31:31</div>
+            <h2>Pandas小技巧2</h2>
+            <div class='date timeago' data-time="2017-01-02 13:06:43">2017-01-02 13:06:43</div>
           </div>
           <div class='content'>
-<h1>DC/OS Marathon Operation</h1>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
 
-<h2><a href="https://dcos.io/docs/1.7/administration/id-and-access-mgt/managing-authentication/">Managing Authentication</a></h2>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Resampling">Resampling<a class="anchor-link" href="#Resampling">¶</a>
+</h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="將資料依照時間切割，同一時間區段的資料，統整成一筆。這其實在Pandas小技巧裡有提到土法煉鋼的做法，下面要教比較帥氣的做法。首先，先將資料變成Time-Series-data，然後再resample。">將資料依照時間切割，同一時間區段的資料，統整成一筆。這其實在<a href="https://kuiming.github.io/BenBlog/article/Pandas%E5%B0%8F%E6%8A%80%E5%B7%A7.html">Pandas小技巧</a>裡有提到土法煉鋼的做法，下面要教比較帥氣的做法。首先，先將資料變成Time Series data，然後再resample。<a class="anchor-link" href="#%E5%B0%87%E8%B3%87%E6%96%99%E4%BE%9D%E7%85%A7%E6%99%82%E9%96%93%E5%88%87%E5%89%B2%EF%BC%8C%E5%90%8C%E4%B8%80%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5%E7%9A%84%E8%B3%87%E6%96%99%EF%BC%8C%E7%B5%B1%E6%95%B4%E6%88%90%E4%B8%80%E7%AD%86%E3%80%82%E9%80%99%E5%85%B6%E5%AF%A6%E5%9C%A8Pandas%E5%B0%8F%E6%8A%80%E5%B7%A7%E8%A3%A1%E6%9C%89%E6%8F%90%E5%88%B0%E5%9C%9F%E6%B3%95%E7%85%89%E9%8B%BC%E7%9A%84%E5%81%9A%E6%B3%95%EF%BC%8C%E4%B8%8B%E9%9D%A2%E8%A6%81%E6%95%99%E6%AF%94%E8%BC%83%E5%B8%A5%E6%B0%A3%E7%9A%84%E5%81%9A%E6%B3%95%E3%80%82%E9%A6%96%E5%85%88%EF%BC%8C%E5%85%88%E5%B0%87%E8%B3%87%E6%96%99%E8%AE%8A%E6%88%90Time-Series-data%EF%BC%8C%E7%84%B6%E5%BE%8C%E5%86%8Dresample%E3%80%82">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Time-Series">Time Series<a class="anchor-link" href="#Time-Series">¶</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df_series</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_pd</span><span class="o">.</span><span class="n">cpu_usage</span><span class="p">),</span><span class="n">index</span><span class="o">=</span><span class="n">df_pd</span><span class="o">.</span><span class="n">ts</span><span class="p">)</span>
+<span class="n">df_series</span>
+</pre></div>
 
-<h3>首先必須先Login DC/OS</h3>
+</div>
+</div>
+</div>
 
-<pre><code>dcos auth login
-</code></pre>
+<div class="output_wrapper">
+<div class="output">
 
-<p><img src=".././markdowns/2017-01-01_23-31-31/img/login.png" alt=""></p>
 
-<h3>出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。</h3>
+<div class="output_area">
+<div class="prompt output_prompt">Out[57]:</div>
 
-<h3>接著就在調一下config，輸入DC/OS的網址：</h3>
 
-<pre><code>dcos config set core.dcos_url http://xxx.xxx.xxx.xx/
-</code></pre>
+<div class="output_text output_subarea output_execute_result">
+<pre>ts
+2016-12-31 00:00:02    0.029233
+2016-12-31 00:00:04    0.030600
+2016-12-31 00:00:06    0.019560
+2016-12-31 00:00:08    0.032967
+2016-12-31 00:00:10    0.037944
+2016-12-31 00:00:12    0.018405
+2016-12-31 00:00:14    0.032807
+2016-12-31 00:00:16    0.019560
+2016-12-31 00:00:18    0.033048
+2016-12-31 00:00:20    0.019584
+2016-12-31 00:00:22    0.018337
+2016-12-31 00:00:24    0.030562
+2016-12-31 00:00:26    0.025547
+2016-12-31 00:00:28    0.023227
+2016-12-31 00:00:30    0.041514
+2016-12-31 00:00:32    0.024450
+2016-12-31 00:00:34    0.024450
+2016-12-31 00:00:36    0.028083
+2016-12-31 00:00:39    0.031746
+2016-12-31 00:00:41    0.019560
+2016-12-31 00:00:43    0.022005
+2016-12-31 00:00:45    0.036541
+2016-12-31 00:00:47    0.019560
+2016-12-31 00:00:49    0.023199
+2016-12-31 00:00:51    0.019560
+2016-12-31 00:00:53    0.030600
+2016-12-31 00:00:55    0.021951
+2016-12-31 00:00:57    0.023171
+2016-12-31 00:00:59    0.020782
+2016-12-31 00:01:01    0.061199
+                         ...   
+2016-12-31 07:36:18    0.039168
+2016-12-31 07:36:20    0.020757
+2016-12-31 07:36:22    0.020757
+2016-12-31 07:36:24    0.023199
+2016-12-31 07:36:26    0.023227
+2016-12-31 07:36:28    0.034146
+2016-12-31 07:36:30    0.033088
+2016-12-31 07:36:32    0.020732
+2016-12-31 07:36:34    0.025610
+2016-12-31 07:36:36    0.028049
+2016-12-31 07:36:39    0.025672
+2016-12-31 07:36:41    0.030488
+2016-12-31 07:36:43    0.032887
+2016-12-31 07:36:45    0.023199
+2016-12-31 07:36:47    0.024390
+2016-12-31 07:36:49    0.026862
+2016-12-31 07:36:51    0.026829
+2016-12-31 07:36:53    0.024480
+2016-12-31 07:36:55    0.020732
+2016-12-31 07:36:57    0.019560
+2016-12-31 07:36:59    0.031824
+2016-12-31 07:37:01    0.035409
+2016-12-31 07:37:03    0.023171
+2016-12-31 07:37:05    0.022005
+2016-12-31 07:37:07    0.029376
+2016-12-31 07:37:09    0.026862
+2016-12-31 07:37:11    0.028117
+2016-12-31 07:37:13    0.024420
+2016-12-31 07:37:16    0.022005
+2016-12-31 07:37:18    0.025672
+dtype: float32</pre>
+</div>
 
-<h3>確認一下Token：</h3>
+</div>
 
-<pre><code>dcos config show core.dcos_acs_token
-</code></pre>
+</div>
+</div>
 
-<h3>接下來的指令，只要輸入:</h3>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="asfreq">asfreq<a class="anchor-link" href="#asfreq">¶</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="這個方法就可以做到resample的效果。但是，假設每十秒取一筆資料，第一筆是00:00:02，第二筆就會抓00:00:12，以此類推，如果有某個時間點沒有值，那就直接會以NAN呈現。">這個方法就可以做到resample的效果。但是，假設每十秒取一筆資料，第一筆是00:00:02，第二筆就會抓00:00:12，以此類推，如果有某個時間點沒有值，那就直接會以NAN呈現。<a class="anchor-link" href="#%E9%80%99%E5%80%8B%E6%96%B9%E6%B3%95%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0resample%E7%9A%84%E6%95%88%E6%9E%9C%E3%80%82%E4%BD%86%E6%98%AF%EF%BC%8C%E5%81%87%E8%A8%AD%E6%AF%8F%E5%8D%81%E7%A7%92%E5%8F%96%E4%B8%80%E7%AD%86%E8%B3%87%E6%96%99%EF%BC%8C%E7%AC%AC%E4%B8%80%E7%AD%86%E6%98%AF00:00:02%EF%BC%8C%E7%AC%AC%E4%BA%8C%E7%AD%86%E5%B0%B1%E6%9C%83%E6%8A%9300:00:12%EF%BC%8C%E4%BB%A5%E6%AD%A4%E9%A1%9E%E6%8E%A8%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%9C%89%E6%9F%90%E5%80%8B%E6%99%82%E9%96%93%E9%BB%9E%E6%B2%92%E6%9C%89%E5%80%BC%EF%BC%8C%E9%82%A3%E5%B0%B1%E7%9B%B4%E6%8E%A5%E6%9C%83%E4%BB%A5NAN%E5%91%88%E7%8F%BE%E3%80%82">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_asfreq</span><span class="o">=</span><span class="n">df_series</span><span class="o">.</span><span class="n">asfreq</span><span class="p">(</span><span class="s1">'10S'</span><span class="p">)</span>
+<span class="n">df_asfreq</span>
+</pre></div>
 
-<pre><code>dcos marathon help
-</code></pre>
+</div>
+</div>
+</div>
 
-<h3>幾乎都能查到。以下紀錄幾個常用的指令。</h3>
+<div class="output_wrapper">
+<div class="output">
 
-<hr>
-<h3>新增Application</h3>
 
-<pre><code>dcos marathon app add &lt;json file&gt;
-</code></pre>
+<div class="output_area">
+<div class="prompt output_prompt">Out[58]:</div>
 
-<h3>marathon 會依照json的內容新增Application，json的格式可參照<a href="https://mesosphere.github.io/marathon/docs/application-basics.html">Application Basics</a>。</h3>
 
-<h3>查看Application List</h3>
+<div class="output_text output_subarea output_execute_result">
+<pre>ts
+2016-12-31 00:00:02    0.029233
+2016-12-31 00:00:12    0.018405
+2016-12-31 00:00:22    0.018337
+2016-12-31 00:00:32    0.024450
+2016-12-31 00:00:42         NaN
+2016-12-31 00:00:52         NaN
+2016-12-31 00:01:02         NaN
+2016-12-31 00:01:12         NaN
+2016-12-31 00:01:22    0.018382
+2016-12-31 00:01:32    0.021951
+2016-12-31 00:01:42    0.025641
+2016-12-31 00:01:52    0.020732
+2016-12-31 00:02:02         NaN
+2016-12-31 00:02:12         NaN
+2016-12-31 00:02:22         NaN
+2016-12-31 00:02:32    0.032967
+2016-12-31 00:02:42    0.020732
+2016-12-31 00:02:52    0.019536
+2016-12-31 00:03:02    0.040293
+2016-12-31 00:03:12         NaN
+2016-12-31 00:03:22         NaN
+2016-12-31 00:03:32         NaN
+2016-12-31 00:03:42         NaN
+2016-12-31 00:03:52    0.018382
+2016-12-31 00:04:02    0.021951
+2016-12-31 00:04:12    0.021978
+2016-12-31 00:04:22         NaN
+2016-12-31 00:04:32         NaN
+2016-12-31 00:04:42         NaN
+2016-12-31 00:04:52         NaN
+                         ...   
+2016-12-31 07:32:22         NaN
+2016-12-31 07:32:32    0.023199
+2016-12-31 07:32:42    0.023199
+2016-12-31 07:32:52    0.020757
+2016-12-31 07:33:02         NaN
+2016-12-31 07:33:12         NaN
+2016-12-31 07:33:22         NaN
+2016-12-31 07:33:32         NaN
+2016-12-31 07:33:42    0.024450
+2016-12-31 07:33:52    0.028117
+2016-12-31 07:34:02    0.021951
+2016-12-31 07:34:12    0.029340
+2016-12-31 07:34:22         NaN
+2016-12-31 07:34:32         NaN
+2016-12-31 07:34:42         NaN
+2016-12-31 07:34:52    0.028117
+2016-12-31 07:35:02    0.020808
+2016-12-31 07:35:12    0.020782
+2016-12-31 07:35:22    0.020732
+2016-12-31 07:35:32         NaN
+2016-12-31 07:35:42         NaN
+2016-12-31 07:35:52         NaN
+2016-12-31 07:36:02         NaN
+2016-12-31 07:36:12    0.021978
+2016-12-31 07:36:22    0.020757
+2016-12-31 07:36:32    0.020732
+2016-12-31 07:36:42         NaN
+2016-12-31 07:36:52         NaN
+2016-12-31 07:37:02         NaN
+2016-12-31 07:37:12         NaN
+Freq: 10S, dtype: float32</pre>
+</div>
 
-<pre><code>dcos marathon app list
-</code></pre>
+</div>
 
-<h3>移除Application</h3>
+</div>
+</div>
 
-<pre><code>dcos marathon app remove &lt;application name&gt;
-</code></pre>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="可以用ffill或bfill補齊，分別是以前值和後值補齊缺值。">可以用<code>ffill</code>或<code>bfill</code>補齊，分別是以前值和後值補齊缺值。<a class="anchor-link" href="#%E5%8F%AF%E4%BB%A5%E7%94%A8ffill%E6%88%96bfill%E8%A3%9C%E9%BD%8A%EF%BC%8C%E5%88%86%E5%88%A5%E6%98%AF%E4%BB%A5%E5%89%8D%E5%80%BC%E5%92%8C%E5%BE%8C%E5%80%BC%E8%A3%9C%E9%BD%8A%E7%BC%BA%E5%80%BC%E3%80%82">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [71]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_asfreq</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
+</pre></div>
 
-<h3>新增group</h3>
+</div>
+</div>
+</div>
 
-<pre><code>dcos marathon group add &lt;group name&gt;
-</code></pre>
+<div class="output_wrapper">
+<div class="output">
 
-<h3>group其實就是一個資料夾，可以在其中再加新的Application，之後scale in/out，就可以針對整個group處理。</h3>
 
-<hr>
-<h3>調整Application的資源：basic-0是Application的名稱，basic-0所用的CPU被調整成0.1，Memory為10M。</h3>
+<div class="output_area">
+<div class="prompt output_prompt">Out[71]:</div>
 
-<pre><code>dcos marathon app update basic-0 cpus=0.1 mem=10
-</code></pre>
 
-<h3>調整Group的資源：test是group名稱，test後面的2是指，將資源調整成目前的兩倍；同理，若數字為0.5，則為目前資源的一半。</h3>
+<div class="output_text output_subarea output_execute_result">
+<pre>ts
+2016-12-31 00:00:02    0.029233
+2016-12-31 00:00:12    0.018405
+2016-12-31 00:00:22    0.018337
+2016-12-31 00:00:32    0.024450
+2016-12-31 00:00:42    0.024450
+2016-12-31 00:00:52    0.024450
+2016-12-31 00:01:02    0.024450
+2016-12-31 00:01:12    0.024450
+2016-12-31 00:01:22    0.018382
+2016-12-31 00:01:32    0.021951
+2016-12-31 00:01:42    0.025641
+2016-12-31 00:01:52    0.020732
+2016-12-31 00:02:02    0.020732
+2016-12-31 00:02:12    0.020732
+2016-12-31 00:02:22    0.020732
+2016-12-31 00:02:32    0.032967
+2016-12-31 00:02:42    0.020732
+2016-12-31 00:02:52    0.019536
+2016-12-31 00:03:02    0.040293
+2016-12-31 00:03:12    0.040293
+2016-12-31 00:03:22    0.040293
+2016-12-31 00:03:32    0.040293
+2016-12-31 00:03:42    0.040293
+2016-12-31 00:03:52    0.018382
+2016-12-31 00:04:02    0.021951
+2016-12-31 00:04:12    0.021978
+2016-12-31 00:04:22    0.021978
+2016-12-31 00:04:32    0.021978
+2016-12-31 00:04:42    0.021978
+2016-12-31 00:04:52    0.021978
+                         ...   
+2016-12-31 07:32:22    0.021978
+2016-12-31 07:32:32    0.023199
+2016-12-31 07:32:42    0.023199
+2016-12-31 07:32:52    0.020757
+2016-12-31 07:33:02    0.020757
+2016-12-31 07:33:12    0.020757
+2016-12-31 07:33:22    0.020757
+2016-12-31 07:33:32    0.020757
+2016-12-31 07:33:42    0.024450
+2016-12-31 07:33:52    0.028117
+2016-12-31 07:34:02    0.021951
+2016-12-31 07:34:12    0.029340
+2016-12-31 07:34:22    0.029340
+2016-12-31 07:34:32    0.029340
+2016-12-31 07:34:42    0.029340
+2016-12-31 07:34:52    0.028117
+2016-12-31 07:35:02    0.020808
+2016-12-31 07:35:12    0.020782
+2016-12-31 07:35:22    0.020732
+2016-12-31 07:35:32    0.020732
+2016-12-31 07:35:42    0.020732
+2016-12-31 07:35:52    0.020732
+2016-12-31 07:36:02    0.020732
+2016-12-31 07:36:12    0.021978
+2016-12-31 07:36:22    0.020757
+2016-12-31 07:36:32    0.020732
+2016-12-31 07:36:42    0.020732
+2016-12-31 07:36:52    0.020732
+2016-12-31 07:37:02    0.020732
+2016-12-31 07:37:12    0.020732
+Freq: 10S, dtype: float32</pre>
+</div>
 
-<pre><code>dcos marathon group scale test 2
-</code></pre>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="resample">resample<a class="anchor-link" href="#resample">¶</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="這個方法比較適合原本就有缺值得情況，每十秒切一個區段，然後再每個區段取平均。">這個方法比較適合原本就有缺值得情況，每十秒切一個區段，然後再每個區段取平均。<a class="anchor-link" href="#%E9%80%99%E5%80%8B%E6%96%B9%E6%B3%95%E6%AF%94%E8%BC%83%E9%81%A9%E5%90%88%E5%8E%9F%E6%9C%AC%E5%B0%B1%E6%9C%89%E7%BC%BA%E5%80%BC%E5%BE%97%E6%83%85%E6%B3%81%EF%BC%8C%E6%AF%8F%E5%8D%81%E7%A7%92%E5%88%87%E4%B8%80%E5%80%8B%E5%8D%80%E6%AE%B5%EF%BC%8C%E7%84%B6%E5%BE%8C%E5%86%8D%E6%AF%8F%E5%80%8B%E5%8D%80%E6%AE%B5%E5%8F%96%E5%B9%B3%E5%9D%87%E3%80%82">¶</a>
+</h3>
+<h3 id="如果怕依然缺值，一樣可以用bfill或ffill補齊。">如果怕依然缺值，一樣可以用<code>bfill</code>或<code>ffill</code>補齊。<a class="anchor-link" href="#%E5%A6%82%E6%9E%9C%E6%80%95%E4%BE%9D%E7%84%B6%E7%BC%BA%E5%80%BC%EF%BC%8C%E4%B8%80%E6%A8%A3%E5%8F%AF%E4%BB%A5%E7%94%A8bfill%E6%88%96ffill%E8%A3%9C%E9%BD%8A%E3%80%82">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [67]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_resample</span><span class="o">=</span><span class="n">df_series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">'10S'</span><span class="p">)</span>
+<span class="n">df_resample</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[67]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>DatetimeIndexResampler [freq=&lt;10 * Seconds&gt;, axis=0, closed=left, label=left, convention=start, base=0]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [68]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_resample</span><span class="o">=</span><span class="n">df_resample</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">df_resample</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[68]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ts
+2016-12-31 00:00:00    0.028090
+2016-12-31 00:00:10    0.028353
+2016-12-31 00:00:20    0.023452
+2016-12-31 00:00:30    0.030049
+2016-12-31 00:00:40    0.024173
+2016-12-31 00:00:50    0.023213
+2016-12-31 00:01:00    0.033727
+2016-12-31 00:01:10    0.026548
+2016-12-31 00:01:20    0.026083
+2016-12-31 00:01:30    0.032499
+2016-12-31 00:01:40    0.023704
+2016-12-31 00:01:50    0.024697
+2016-12-31 00:02:00    0.026831
+2016-12-31 00:02:10    0.026858
+2016-12-31 00:02:20    0.035733
+2016-12-31 00:02:30    0.027134
+2016-12-31 00:02:40    0.025402
+2016-12-31 00:02:50    0.023687
+2016-12-31 00:03:00    0.030281
+2016-12-31 00:03:10    0.025670
+2016-12-31 00:03:20    0.025859
+2016-12-31 00:03:30    0.028321
+2016-12-31 00:03:40    0.027426
+2016-12-31 00:03:50    0.025384
+2016-12-31 00:04:00    0.027099
+2016-12-31 00:04:10    0.026852
+2016-12-31 00:04:20    0.028075
+2016-12-31 00:04:30    0.027624
+2016-12-31 00:04:40    0.025178
+2016-12-31 00:04:50    0.024126
+                         ...   
+2016-12-31 07:32:20    0.034802
+2016-12-31 07:32:30    0.029114
+2016-12-31 07:32:40    0.025157
+2016-12-31 07:32:50    0.026614
+2016-12-31 07:33:00    0.031308
+2016-12-31 07:33:10    0.025154
+2016-12-31 07:33:20    0.028861
+2016-12-31 07:33:30    0.024463
+2016-12-31 07:33:40    0.029508
+2016-12-31 07:33:50    0.025667
+2016-12-31 07:34:00    0.027844
+2016-12-31 07:34:10    0.029316
+2016-12-31 07:34:20    0.027865
+2016-12-31 07:34:30    0.028343
+2016-12-31 07:34:40    0.026815
+2016-12-31 07:34:50    0.026884
+2016-12-31 07:35:00    0.030296
+2016-12-31 07:35:10    0.026621
+2016-12-31 07:35:20    0.024439
+2016-12-31 07:35:30    0.028587
+2016-12-31 07:35:40    0.028598
+2016-12-31 07:35:50    0.031745
+2016-12-31 07:36:00    0.029797
+2016-12-31 07:36:10    0.026898
+2016-12-31 07:36:20    0.024417
+2016-12-31 07:36:30    0.026630
+2016-12-31 07:36:40    0.027565
+2016-12-31 07:36:50    0.024685
+2016-12-31 07:37:00    0.027364
+2016-12-31 07:37:10    0.025054
+Freq: 10S, dtype: float32</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [72]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_resample</span><span class="o">=</span><span class="n">df_resample</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
-                          <span><a href=".././tag/dc%2Fos">DC/OS</a></span>
-                            <span><a href=".././tag/marathon">Marathon</a></span>
+                          <span><a href=".././tag/python">Python</a></span>
                       </div>
           </div>
         </div>
@@ -177,7 +615,7 @@
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="操作Marathon"></div>
+                <div class='message hide' data-name="Pandas小技巧2"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>
