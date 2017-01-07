@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>Crontab</title>
+
+</head>
+<body>
+<h1>Crontab</h1>
+
+<h2>啟動crontab</h2>
+
+<pre><code>sudo service cron start
+</code></pre>
+
+<h2>調整crontab時間</h2>
+
+<h3>之前雖然將crontab的時間調整成台北時間，但是後來時間不知為何跑掉了，按照<a href="https://kuiming.github.io/BenBlog/article/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8BRaspberry_Pi.html">之前的做法</a>卻無法改回時間。後來，執行<code>sudo raspi-config</code>再調整一次時間，然後直接執行<code>sudo service cron restart</code>，時間就重新調整回台北時間了。</h3>
+
+<h2>設定排程</h2>
+
+<h3>每五分鐘執行一次</h3>
+
+<pre><code>*/5 * * * * command
+</code></pre>
+
+<h3>分散執行時間：為了避免同一時間太多工作執行，佔用太多CPU和Memory。</h3>
+
+<pre><code>5,15,25,35,45,55 * * * * CMD1
+0,10,20,30,40,50 * * * * CMD2
+</code></pre>
+</body>
+</html>
