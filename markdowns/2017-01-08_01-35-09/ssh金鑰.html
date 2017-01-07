@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>ssh key</title>
+
+</head>
+<body>
+<h1>ssh key</h1>
+
+<h2>產生ssh key</h2>
+
+<pre><code>ssh-keygen -t rsa -f ~/.ssh/my-ssh-key -C [USERNAME]
+cat ~/.ssh/my-ssh-key.pub
+</code></pre>
+
+<h3>執行完上面的指令，.<code>ssh/</code>資料夾內就會有private key與public key，my-ssh-key.pub是public key，my-ssh-key是private key</h3>
+
+<h2>放private key到<code>.ssh/</code></h2>
+
+<h3>當需要登入遠端server時，必須把在server所提供的private key放入本地端的<code>.ssh/</code>。</h3>
+
+<pre><code>cd .ssh
+mv ../Downloads/aws01.pem .
+chmod 400 aws01.pem
+</code></pre>
+
+<h2>以private key登入server</h2>
+
+<pre><code>ssh -i aws01.pem ec2-user@&lt;IP&gt;
+</code></pre>
+
+<h2>加入他人的public key</h2>
+
+<h3>讓其他人登入自己的server，可以幫對方加public key到authorized_keys</h3>
+
+<pre><code>cd .ssh
+nano authorized_keys
+</code></pre>
+
+<h3>接著，貼上對方的public key即可。</h3>
+</body>
+</html>

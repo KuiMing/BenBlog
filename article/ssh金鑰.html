@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>操作Marathon - Ben's blog</title>
+    <title>ssh金鑰 - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | DC/OS | Marathon" />
-    <meta name="description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | linux | osx" />
+    <meta name="description" content="ssh key產生ssh keyssh-keygen -t rsa -f ~/.ssh/my-ssh-key -C [USERNAME]cat ~/.ssh/my-ssh-key.pub執行完上面的指令，.ssh/資料夾內就會有private key與public key，my-ssh-key.pub是public key，my-ssh-key是private key放private key到.ssh/當需要登入遠端server時，必須把在server所提供的private key放入本地端的.ssh/。cd .sshmv ../Downloads/aws01.pem .chmod 400 aws01.pem以private key登入serverssh -i aws01.pem ec2-user@&lt;IP&gt;加入他人的public key讓其他人登入自己的server，可以幫對方加public key到authorized_ke…" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2017-01-01_23-31-31/img/login.png" />
-    <meta property="og:title" content="操作Marathon - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="ssh金鑰 - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="DC/OS Marathon OperationManaging Authentication首先必須先Login DC/OSdcos auth login出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。接著就在調一下config，輸入DC/OS的網址：dcos config set core.dcos_url http://xxx.xxx.xxx.xx/確認一下Token：dcos config show core.dcos_acs_token接下來的指令，只要輸入:dcos marathon help幾乎都能查到。以下紀錄幾個常用的指令。新增Applicationdcos marathon app add &lt;json file&gt;marathon 會依照json的內容新增Application，json的格式可參照Applicat…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/操作Marathon.html" />
+    <meta property="og:description" content="ssh key產生ssh keyssh-keygen -t rsa -f ~/.ssh/my-ssh-key -C [USERNAME]cat ~/.ssh/my-ssh-key.pub執行完上面的指令，.ssh/資料夾內就會有private key與public key，my-ssh-key.pub是public key，my-ssh-key是private key放private key到.ssh/當需要登入遠端server時，必須把在server所提供的private key放入本地端的.ssh/。cd .sshmv ../Downloads/aws01.pem .chmod 400 aws01.pem以private key登入serverssh -i aws01.pem ec2-user@&lt;IP&gt;加入他人的public key讓其他人登入自己的server，可以幫對方加public key到authorized_ke…" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/ssh金鑰.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -96,80 +96,49 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>操作Marathon</h2>
-            <div class='date timeago' data-time="2017-01-01 23:31:31">2017-01-01 23:31:31</div>
+            <h2>ssh金鑰</h2>
+            <div class='date timeago' data-time="2017-01-08 01:35:09">2017-01-08 01:35:09</div>
           </div>
           <div class='content'>
-<h1>DC/OS Marathon Operation</h1>
+<h1>ssh key</h1>
 
-<h2><a href="https://dcos.io/docs/1.7/administration/id-and-access-mgt/managing-authentication/">Managing Authentication</a></h2>
+<h2>產生ssh key</h2>
 
-<h3>首先必須先Login DC/OS</h3>
-
-<pre><code>dcos auth login
+<pre><code>ssh-keygen -t rsa -f ~/.ssh/my-ssh-key -C [USERNAME]
+cat ~/.ssh/my-ssh-key.pub
 </code></pre>
 
-<p><img src=".././markdowns/2017-01-01_23-31-31/img/login.png" alt=""></p>
+<h3>執行完上面的指令，.<code>ssh/</code>資料夾內就會有private key與public key，my-ssh-key.pub是public key，my-ssh-key是private key</h3>
 
-<h3>出現網址後，以gmail登入，取得Token，貼在Enter OpenID Connect ID Token之後。</h3>
+<h2>放private key到<code>.ssh/</code>
+</h2>
 
-<h3>接著就在調一下config，輸入DC/OS的網址：</h3>
+<h3>當需要登入遠端server時，必須把在server所提供的private key放入本地端的<code>.ssh/</code>。</h3>
 
-<pre><code>dcos config set core.dcos_url http://xxx.xxx.xxx.xx/
+<pre><code>cd .ssh
+mv ../Downloads/aws01.pem .
+chmod 400 aws01.pem
 </code></pre>
 
-<h3>確認一下Token：</h3>
+<h2>以private key登入server</h2>
 
-<pre><code>dcos config show core.dcos_acs_token
+<pre><code>ssh -i aws01.pem ec2-user@&lt;IP&gt;
 </code></pre>
 
-<h3>接下來的指令，只要輸入:</h3>
+<h2>加入他人的public key</h2>
 
-<pre><code>dcos marathon help
+<h3>讓其他人登入自己的server，可以幫對方加public key到authorized_keys</h3>
+
+<pre><code>cd .ssh
+nano authorized_keys
 </code></pre>
 
-<h3>幾乎都能查到。以下紀錄幾個常用的指令。</h3>
-
-<hr>
-<h3>新增Application</h3>
-
-<pre><code>dcos marathon app add &lt;json file&gt;
-</code></pre>
-
-<h3>marathon 會依照json的內容新增Application，json的格式可參照<a href="https://mesosphere.github.io/marathon/docs/application-basics.html">Application Basics</a>。</h3>
-
-<h3>查看Application List</h3>
-
-<pre><code>dcos marathon app list
-</code></pre>
-
-<h3>移除Application</h3>
-
-<pre><code>dcos marathon app remove &lt;application name&gt;
-</code></pre>
-
-<h3>新增group</h3>
-
-<pre><code>dcos marathon group add &lt;group name&gt;
-</code></pre>
-
-<h3>group其實就是一個資料夾，可以在其中再加新的Application，之後scale in/out，就可以針對整個group處理。</h3>
-
-<hr>
-<h3>調整Application的資源：basic-0是Application的名稱，basic-0所用的CPU被調整成0.1，Memory為10M。</h3>
-
-<pre><code>dcos marathon app update basic-0 cpus=0.1 mem=10
-</code></pre>
-
-<h3>調整Group的資源：test是group名稱，test後面的2是指，將資源調整成目前的兩倍；同理，若數字為0.5，則為目前資源的一半。</h3>
-
-<pre><code>dcos marathon group scale test 2
-</code></pre>
+<h3>接著，貼上對方的public key即可。</h3>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
-                          <span><a href=".././tag/dc%2Fos">DC/OS</a></span>
-                            <span><a href=".././tag/marathon">Marathon</a></span>
+                          <span><a href=".././tag/linux">linux</a></span>
+                            <span><a href=".././tag/osx">osx</a></span>
                       </div>
           </div>
         </div>
@@ -177,7 +146,7 @@
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="操作Marathon"></div>
+                <div class='message hide' data-name="ssh金鑰"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>
