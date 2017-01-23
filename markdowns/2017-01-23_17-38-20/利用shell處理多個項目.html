@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+pre code {
+  display: block; padding: 0.5em;
+  background: #3F3F3F;
+  color: #DCDCDC;
+}
+
+pre .keyword,
+pre .tag,
+pre .css .class,
+pre .css .id,
+pre .lisp .title,
+pre .request,
+pre .status {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .title,
+pre .haskell .type,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .coffeescript .javascript,
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+</style>
+<title>在Linux上，如果一次要處理多個項目的話，以下介紹兩種做法：</title>
+
+</head>
+<body>
+<h3>在Linux上，如果一次要處理多個項目的話，以下介紹兩種做法：</h3>
+
+<h3>1. 利用<em>`</em> 把要處理的項目包起來：</h3>
+
+<pre><code>rm `ls | grep "*.h5"`
+</code></pre>
+
+<h3>其實就是先執行<code>ls</code>，利用<code>grep</code>抓到h5檔，然後再利用<code>rm</code>刪除。</h3>
+
+<h3>2. 利用<code>xargs</code>：</h3>
+
+<pre><code>ls | grep "*.h5" | xargs rm
+</code></pre>
+
+<h3>一樣是執行<code>ls</code>和<code>grep</code>，抓到<code>h5</code>檔，然後透過<code>xargs</code>傳給<code>rm</code>，刪除檔案。</h3>
+
+<h3>3. 某些指令會輸出多個欄位，例如：<code>ps</code>，可以看到目前進行的各項process以及相關資訊，所以會有很多欄位，這時可以利用<code>awk</code>選擇需要輸出的欄位。</h3>
+
+<pre><code>ps -ef | grep 'python' | awk -F " " '{print $2}' | xargs kill -9
+</code></pre>
+
+<h3><code>ps</code>取得執行中的process之後，只抓出python相關的process，利用<code>awk</code>去找第二個欄位的資料（<code>-F</code>後面的空字串，是代表欄位之間以空白相隔），再透過<code>xargs</code>傳給<code>kill</code>殺掉process。</h3>
+</body>
+</html>

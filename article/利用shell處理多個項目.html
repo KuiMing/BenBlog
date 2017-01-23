@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>cassandra練習4 - Ben's blog</title>
+    <title>利用shell處理多個項目 - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | Python | Cassandra" />
-    <meta name="description" content="Operate Cassandra with Python安裝套件在Python上操作Cassandra，需要cassandra-driver。pip install cassandra-driver問題用Python的cassandra套件，抓回資料，可能會遇到無法直接轉成pandas Dataframe的問題。解法連到Cassandrafrom cassandra.cluster import Clustercluster = Cluster(['your IP'])session=cluster.connect('your KEYSPACE')- NumpyProtocolHandler讓每個欄位的資料可以存成Numpy array- tuple_factory則是讓欄位名稱與資料以tuple的方式呈現。- 原本預設讀取資料的筆數是5000，改變default_fetch_size即可增加比數…" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | shell | linux" />
+    <meta name="description" content="在Linux上，如果一次要處理多個項目的話，以下介紹兩種做法：1. 利用` 把要處理的項目包起來：rm `ls | grep '*.h5'`其實就是先執行ls，利用grep抓到h5檔，然後再利用rm刪除。2. 利用xargs：ls | grep '*.h5' | xargs rm一樣是執行ls和grep，抓到h5檔，然後透過xargs傳給rm，刪除檔案。3. 某些指令會輸出多個欄位，例如：ps，可以看到目前進行的各項process以及相關資訊，所以會有很多欄位，這時可以利用awk選擇需要輸出的欄位。ps -ef | grep 'python' | awk -F ' ' '{print $2}' | xargs kill -9ps取得執行中的process之後，只抓出pyth…" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
     <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
-    <meta property="og:title" content="cassandra練習4 - Ben's blog" />
+    <meta property="og:title" content="利用shell處理多個項目 - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="Operate Cassandra with Python安裝套件在Python上操作Cassandra，需要cassandra-driver。pip install cassandra-driver問題用Python的cassandra套件，抓回資料，可能會遇到無法直接轉成pandas Dataframe的問題。解法連到Cassandrafrom cassandra.cluster import Clustercluster = Cluster(['your IP'])session=cluster.connect('your KEYSPACE')- NumpyProtocolHandler讓每個欄位的資料可以存成Numpy array- tuple_factory則是讓欄位名稱與資料以tuple的方式呈現。- 原本預設讀取資料的筆數是5000，改變default_fetch_size即可增加比數…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/cassandra練習4.html" />
+    <meta property="og:description" content="在Linux上，如果一次要處理多個項目的話，以下介紹兩種做法：1. 利用` 把要處理的項目包起來：rm `ls | grep '*.h5'`其實就是先執行ls，利用grep抓到h5檔，然後再利用rm刪除。2. 利用xargs：ls | grep '*.h5' | xargs rm一樣是執行ls和grep，抓到h5檔，然後透過xargs傳給rm，刪除檔案。3. 某些指令會輸出多個欄位，例如：ps，可以看到目前進行的各項process以及相關資訊，所以會有很多欄位，這時可以利用awk選擇需要輸出的欄位。ps -ef | grep 'python' | awk -F ' ' '{print $2}' | xargs kill -9ps取得執行中的process之後，只抓出pyth…" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/利用shell處理多個項目.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -97,74 +97,38 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>cassandra練習4</h2>
-            <div class='date timeago' data-time="2016-12-25 22:55:13">2016-12-25 22:55:13</div>
+            <h2>利用shell處理多個項目</h2>
+            <div class='date timeago' data-time="2017-01-23 17:38:20">2017-01-23 17:38:20</div>
           </div>
           <div class='content'>
-<h1>Operate Cassandra with Python</h1>
+<h3>在Linux上，如果一次要處理多個項目的話，以下介紹兩種做法：</h3>
 
-<h2>安裝套件</h2>
+<h3>1. 利用<em>`</em> 把要處理的項目包起來：</h3>
 
-<h3>在Python上操作Cassandra，需要<code>cassandra-driver</code>。</h3>
-
-<pre><code>pip install cassandra-driver
+<pre><code>rm `ls | grep "*.h5"`
 </code></pre>
 
-<h2>問題</h2>
+<h3>其實就是先執行<code>ls</code>，利用<code>grep</code>抓到h5檔，然後再利用<code>rm</code>刪除。</h3>
 
-<h3>用Python的<code>cassandra</code>套件，抓回資料，可能會遇到無法直接轉成pandas Dataframe的問題。</h3>
+<h3>2. 利用<code>xargs</code>：</h3>
 
-<h2>解法</h2>
-
-<h3>連到Cassandra</h3>
-
-<pre><code>from cassandra.cluster import Cluster
-cluster = Cluster(['your IP'])
-session=cluster.connect('your KEYSPACE')
+<pre><code>ls | grep "*.h5" | xargs rm
 </code></pre>
 
-<h3>- <code>NumpyProtocolHandler</code>讓每個欄位的資料可以存成Numpy array</h3>
+<h3>一樣是執行<code>ls</code>和<code>grep</code>，抓到<code>h5</code>檔，然後透過<code>xargs</code>傳給<code>rm</code>，刪除檔案。</h3>
 
-<h3>- <code>tuple_factory</code>則是讓欄位名稱與資料以tuple的方式呈現。</h3>
+<h3>3. 某些指令會輸出多個欄位，例如：<code>ps</code>，可以看到目前進行的各項process以及相關資訊，所以會有很多欄位，這時可以利用<code>awk</code>選擇需要輸出的欄位。</h3>
 
-<h3>- 原本預設讀取資料的筆數是5000，改變<code>default_fetch_size</code>即可增加比數，2147483647則是Java的最大數，設定值不能超過此數。</h3>
-
-<pre><code>from cassandra.protocol import NumpyProtocolHandler
-from cassandra.query import tuple_factory
-session.row_factory = tuple_factory
-session.client_protocol_handler = NumpyProtocolHandler
-session.default_fetch_size=2147483647
+<pre><code>ps -ef | grep 'python' | awk -F " " '{print $2}' | xargs kill -9
 </code></pre>
 
-<pre><code>data=session.execute("select * from data;")
-</code></pre>
-
-<h3>讀完資料後，會發現資料的型態會長得像...</h3>
-
-<pre><code>[{'col1': array([1,2,3,..,98,99,100], dtype=int),
-  'col2': array([datetime.datetime(2016, 12, 23, 18, 25, 31),
-         datetime.datetime(2016, 12, 19, 21, 42, 44),
-         datetime.datetime(2016, 12, 24, 21, 30, 52), ...,
-         datetime.datetime(2016, 12, 24, 22, 5, 24),
-         datetime.datetime(2016, 12, 15, 3, 41, 30),
-         datetime.datetime(2016, 12, 20, 16, 7, 40)], dtype=object),
-  'col3': array([UUID('32095806-c93d-11e6-ad9d-024228beed03'),
-         UUID('13988324-c634-11e6-bbdb-02de4a3b43bd'),
-         UUID('407c7006-ca20-11e6-ad9d-02de28beed03'), ...,
-         UUID('124d8614-ca25-11e6-ad9d-02wq28beed03'),
-         UUID('60673764-c278-11e6-865e-02qt4a3b43bd'),
-         UUID('71843070-c6ce-11e6-959c-02wq32b716c2')], dtype=object)}]
-</code></pre>
-
-<h3>轉成pandas.DataFrame</h3>
-
-<pre><code>df_pd=pd.DataFrame(data.current_rows[0])
-</code></pre>
+<h3>
+<code>ps</code>取得執行中的process之後，只抓出python相關的process，利用<code>awk</code>去找第二個欄位的資料（<code>-F</code>後面的空字串，是代表欄位之間以空白相隔），再透過<code>xargs</code>傳給<code>kill</code>殺掉process。</h3>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
-                          <span><a href=".././tag/python">Python</a></span>
-                            <span><a href=".././tag/cassandra">Cassandra</a></span>
+                          <span><a href=".././tag/shell">shell</a></span>
+                            <span><a href=".././tag/linux">linux</a></span>
                       </div>
           </div>
         </div>
@@ -172,7 +136,7 @@ session.default_fetch_size=2147483647
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="cassandra練習4"></div>
+                <div class='message hide' data-name="利用shell處理多個項目"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>
