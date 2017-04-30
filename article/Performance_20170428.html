@@ -2,22 +2,22 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-tw">
-    <title>收到跑完程式的通知 - Ben's blog</title>
+    <title>Performance_20170428 - Ben's blog</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <meta name="robots" content="index,follow" />
     <meta name="author" content="陳奎銘(Ben)" />
-    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | R | google | OSX" />
-    <meta name="description" content="有時候程式就是會跑比較久，不可能總是盯著terminal等待，但又很想跑完的一瞬間就趕快看一下結果，或者一旦出錯，立刻收到通知。這邊提供三個方法：Gitter只要有github帳號就可以申請gitter帳號，在gitter內開一個聊天室之後，可以利用R將想說的話POST到聊天室。手機可以安裝gitter app，當有訊息傳到聊天室，手機便能同步提醒。Code可以參考Wush的Blog。不過，這邊有幾件事情要提醒各位：Room ID: 透過對網頁的觀察才會找到room ID。Token: 以Giiter帳號登入Gitter Developer，就可以直接看到Token了。用自己的gitter帳號POST訊息到給自…" />
+    <meta name="keywords" content="陳奎銘(Ben) | Ben's blog | R | stock" />
+    <meta name="description" content=".main-container {  max-width: 940px;  margin-left: auto;  margin-right: auto;}code {  color: inherit;  background-color: rgba(0, 0, 0, 0.04);}img {  max-width:100%;  height: auto;}.tabbed-pane {  padding-top: 12px;}button.code-folding-btn:focus {  outline: none;}符合陰謀條件diff: 損益比例change: 損益金額(仟元)codenamestartenddiffchange2385群光80.5079.60-0.0111801-0.902392正崴40.5042.350.04567901.853548兆利54.7054.30-0.0073126-0.408091翔名58.0058.000.00000000.008131福懋科27.4028.400.03649641.003…" />
 
     <meta property="og:site_name" content="Ben's blog" />
     <meta property="og:type" content="profile" />
-    <meta property="og:image" content="http://kuiming.github.io/BenBlog/markdowns/2016-07-17_16-09-04/img/room_id.png" />
-    <meta property="og:title" content="收到跑完程式的通知 - Ben's blog" />
+    <meta property="og:image" content="http://kuiming.github.io/BenBlog/img/og.png" />
+    <meta property="og:title" content="Performance_20170428 - Ben's blog" />
     <meta property="og:locale" content="zh_TW" />
-    <meta property="og:description" content="有時候程式就是會跑比較久，不可能總是盯著terminal等待，但又很想跑完的一瞬間就趕快看一下結果，或者一旦出錯，立刻收到通知。這邊提供三個方法：Gitter只要有github帳號就可以申請gitter帳號，在gitter內開一個聊天室之後，可以利用R將想說的話POST到聊天室。手機可以安裝gitter app，當有訊息傳到聊天室，手機便能同步提醒。Code可以參考Wush的Blog。不過，這邊有幾件事情要提醒各位：Room ID: 透過對網頁的觀察才會找到room ID。Token: 以Giiter帳號登入Gitter Developer，就可以直接看到Token了。用自己的gitter帳號POST訊息到給自…" />
-    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/收到跑完程式的通知.html" />
+    <meta property="og:description" content=".main-container {  max-width: 940px;  margin-left: auto;  margin-right: auto;}code {  color: inherit;  background-color: rgba(0, 0, 0, 0.04);}img {  max-width:100%;  height: auto;}.tabbed-pane {  padding-top: 12px;}button.code-folding-btn:focus {  outline: none;}符合陰謀條件diff: 損益比例change: 損益金額(仟元)codenamestartenddiffchange2385群光80.5079.60-0.0111801-0.902392正崴40.5042.350.04567901.853548兆利54.7054.30-0.0073126-0.408091翔名58.0058.000.00000000.008131福懋科27.4028.400.03649641.003…" />
+    <meta property="og:url" content="http://kuiming.github.io/BenBlog/article/Performance_20170428.html" />
 
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox.css" rel="stylesheet" type="text/css">
     <link href="../res/fancyBox_v2.1.5/jquery.fancybox-buttons.css" rel="stylesheet" type="text/css">
@@ -97,71 +97,517 @@
       <div class='left'>
         <div class='block paper article'>
           <div class='title clearfix'>
-            <h2>收到跑完程式的通知</h2>
-            <div class='date timeago' data-time="2016-07-17 16:09:04">2016-07-17 16:09:04</div>
+            <h2>Performance_20170428</h2>
+            <div class='date timeago' data-time="2017-05-01 00:45:30">2017-05-01 00:45:30</div>
           </div>
           <div class='content'>
-<p>有時候程式就是會跑比較久，不可能總是盯著terminal等待，但又很想跑完的一瞬間就趕快看一下結果，或者一旦出錯，立刻收到通知。這邊提供三個方法：</p>
 
-<h2>Gitter</h2>
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+<div class="container-fluid main-container">
 
-<p>只要有github帳號就可以申請gitter帳號，在gitter內開一個聊天室之後，可以利用R將想說的話POST到聊天室。手機可以安裝gitter app，當有訊息傳到聊天室，手機便能同步提醒。Code可以參考<a href="http://wush.ghost.io/customize-r-environment/">Wush的Blog</a>。不過，這邊有幾件事情要提醒各位：</p>
+<!-- tabsets -->
+<script src=".././markdowns/2017-05-01_00-45-30/data:application/x-javascript,%0A%0Awindow%2EbuildTabsets%20%3D%20function%28tocID%29%20%7B%0A%0A%20%20%2F%2F%20build%20a%20tabset%20from%20a%20section%20div%20with%20the%20%2Etabset%20class%0A%20%20function%20buildTabset%28tabset%29%20%7B%0A%0A%20%20%20%20%2F%2F%20check%20for%20fade%20and%20pills%20options%0A%20%20%20%20var%20fade%20%3D%20tabset%2EhasClass%28%22tabset%2Dfade%22%29%3B%0A%20%20%20%20var%20pills%20%3D%20tabset%2EhasClass%28%22tabset%2Dpills%22%29%3B%0A%20%20%20%20var%20navClass%20%3D%20pills%20%3F%20%22nav%2Dpills%22%20%3A%20%22nav%2Dtabs%22%3B%0A%0A%20%20%20%20%2F%2F%20determine%20the%20heading%20level%20of%20the%20tabset%20and%20tabs%0A%20%20%20%20var%20match%20%3D%20tabset%2Eattr%28%27class%27%29%2Ematch%28%2Flevel%28%5Cd%29%20%2F%29%3B%0A%20%20%20%20if%20%28match%20%3D%3D%3D%20null%29%0A%20%20%20%20%20%20return%3B%0A%20%20%20%20var%20tabsetLevel%20%3D%20Number%28match%5B1%5D%29%3B%0A%20%20%20%20var%20tabLevel%20%3D%20tabsetLevel%20%2B%201%3B%0A%0A%20%20%20%20%2F%2F%20find%20all%20subheadings%20immediately%20below%0A%20%20%20%20var%20tabs%20%3D%20tabset%2Efind%28%22div%2Esection%2Elevel%22%20%2B%20tabLevel%29%3B%0A%20%20%20%20if%20%28%21tabs%2Elength%29%0A%20%20%20%20%20%20return%3B%0A%0A%20%20%20%20%2F%2F%20create%20tablist%20and%20tab%2Dcontent%20elements%0A%20%20%20%20var%20tabList%20%3D%20%24%28%27%3Cul%20class%3D%22nav%20%27%20%2B%20navClass%20%2B%20%27%22%20role%3D%22tablist%22%3E%3C%2Ful%3E%27%29%3B%0A%20%20%20%20%24%28tabs%5B0%5D%29%2Ebefore%28tabList%29%3B%0A%20%20%20%20var%20tabContent%20%3D%20%24%28%27%3Cdiv%20class%3D%22tab%2Dcontent%22%3E%3C%2Fdiv%3E%27%29%3B%0A%20%20%20%20%24%28tabs%5B0%5D%29%2Ebefore%28tabContent%29%3B%0A%0A%20%20%20%20%2F%2F%20build%20the%20tabset%0A%20%20%20%20tabs%2Eeach%28function%28i%29%20%7B%0A%0A%20%20%20%20%20%20%2F%2F%20get%20the%20tab%20div%0A%20%20%20%20%20%20var%20tab%20%3D%20%24%28tabs%5Bi%5D%29%3B%0A%0A%20%20%20%20%20%20%2F%2F%20get%20the%20id%20then%20sanitize%20it%20for%20use%20with%20bootstrap%20tabs%0A%20%20%20%20%20%20var%20id%20%3D%20tab%2Eattr%28%27id%27%29%3B%0A%0A%20%20%20%20%20%20%2F%2F%20remove%20any%20table%20of%20contents%20entries%20associated%20with%0A%20%20%20%20%20%20%2F%2F%20this%20ID%20%28since%20we%27ll%20be%20removing%20the%20heading%20element%29%0A%20%20%20%20%20%20%24%28%22div%23%22%20%2B%20tocID%20%2B%20%22%20li%20a%5Bhref%3D%27%23%22%20%2B%20id%20%2B%20%22%27%5D%22%29%2Eparent%28%29%2Eremove%28%29%3B%0A%0A%20%20%20%20%20%20%2F%2F%20sanitize%20the%20id%20for%20use%20with%20bootstrap%20tabs%0A%20%20%20%20%20%20id%20%3D%20id%2Ereplace%28%2F%5B%2E%5C%2F%3F%26%21%23%3C%3E%5D%2Fg%2C%20%27%27%29%2Ereplace%28%2F%5Cs%2Fg%2C%20%27%5F%27%29%3B%0A%20%20%20%20%20%20tab%2Eattr%28%27id%27%2C%20id%29%3B%0A%0A%20%20%20%20%20%20%2F%2F%20get%20the%20heading%20element%20within%20it%2C%20grab%20it%27s%20text%2C%20then%20remove%20it%0A%20%20%20%20%20%20var%20heading%20%3D%20tab%2Efind%28%27h%27%20%2B%20tabLevel%20%2B%20%27%3Afirst%27%29%3B%0A%20%20%20%20%20%20var%20headingText%20%3D%20heading%2Ehtml%28%29%3B%0A%20%20%20%20%20%20heading%2Eremove%28%29%3B%0A%0A%20%20%20%20%20%20%2F%2F%20build%20and%20append%20the%20tab%20list%20item%0A%20%20%20%20%20%20var%20a%20%3D%20%24%28%27%3Ca%20role%3D%22tab%22%20data%2Dtoggle%3D%22tab%22%3E%27%20%2B%20headingText%20%2B%20%27%3C%2Fa%3E%27%29%3B%0A%20%20%20%20%20%20a%2Eattr%28%27href%27%2C%20%27%23%27%20%2B%20id%29%3B%0A%20%20%20%20%20%20a%2Eattr%28%27aria%2Dcontrols%27%2C%20id%29%3B%0A%20%20%20%20%20%20var%20li%20%3D%20%24%28%27%3Cli%20role%3D%22presentation%22%3E%3C%2Fli%3E%27%29%3B%0A%20%20%20%20%20%20li%2Eappend%28a%29%3B%0A%20%20%20%20%20%20if%20%28i%20%3D%3D%3D%200%29%0A%20%20%20%20%20%20%20%20li%2Eattr%28%27class%27%2C%20%27active%27%29%3B%0A%20%20%20%20%20%20tabList%2Eappend%28li%29%3B%0A%0A%20%20%20%20%20%20%2F%2F%20set%20it%27s%20attributes%0A%20%20%20%20%20%20tab%2Eattr%28%27role%27%2C%20%27tabpanel%27%29%3B%0A%20%20%20%20%20%20tab%2EaddClass%28%27tab%2Dpane%27%29%3B%0A%20%20%20%20%20%20tab%2EaddClass%28%27tabbed%2Dpane%27%29%3B%0A%20%20%20%20%20%20if%20%28fade%29%0A%20%20%20%20%20%20%20%20tab%2EaddClass%28%27fade%27%29%3B%0A%20%20%20%20%20%20if%20%28i%20%3D%3D%3D%200%29%20%7B%0A%20%20%20%20%20%20%20%20tab%2EaddClass%28%27active%27%29%3B%0A%20%20%20%20%20%20%20%20if%20%28fade%29%0A%20%20%20%20%20%20%20%20%20%20tab%2EaddClass%28%27in%27%29%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%2F%2F%20move%20it%20into%20the%20tab%20content%20div%0A%20%20%20%20%20%20tab%2Edetach%28%29%2EappendTo%28tabContent%29%3B%0A%20%20%20%20%7D%29%3B%0A%20%20%7D%0A%0A%20%20%2F%2F%20convert%20section%20divs%20with%20the%20%2Etabset%20class%20to%20tabsets%0A%20%20var%20tabsets%20%3D%20%24%28%22div%2Esection%2Etabset%22%29%3B%0A%20%20tabsets%2Eeach%28function%28i%29%20%7B%0A%20%20%20%20buildTabset%28%24%28tabsets%5Bi%5D%29%29%3B%0A%20%20%7D%29%3B%0A%7D%3B%0A%0A"></script><script>
 
+</script><!-- code folding --><div class="section level2">
+<h2>符合陰謀條件</h2>
 <ul>
-<li><p>Room ID: 透過對網頁的觀察才會找到room ID。
-<img src=".././markdowns/2016-07-17_16-09-04/img/room_id.png" alt=""></p></li>
-<li><p>Token: 以Giiter帳號登入<a href="https://developer.gitter.im/docs/authentication">Gitter Developer</a>，就可以直接看到Token了。</p></li>
-<li><p>用自己的gitter帳號POST訊息到給自己的聊天室，手機不會發出通知，因為畢竟是“自己”發的。所以，若希望手機會發出通知，最簡單的方法是去申請另一個帳號，以此帳號發出POST，這樣手機就會收到通知了。</p></li>
+<li><strong><em>diff: 損益比例</em></strong></li>
+<li><strong><em>change: 損益金額(仟元)</em></strong></li>
 </ul>
-<center><img src=".././markdowns/2016-07-17_16-09-04/img/gitter_phone.PNG" height="400"></center>
+<table>
+<thead><tr class="header">
+<th align="right">code</th>
+<th align="left">name</th>
+<th align="right">start</th>
+<th align="right">end</th>
+<th align="right">diff</th>
+<th align="right">change</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">2385</td>
+<td align="left">群光</td>
+<td align="right">80.50</td>
+<td align="right">79.60</td>
+<td align="right">-0.0111801</td>
+<td align="right">-0.90</td>
+</tr>
+<tr class="even">
+<td align="right">2392</td>
+<td align="left">正崴</td>
+<td align="right">40.50</td>
+<td align="right">42.35</td>
+<td align="right">0.0456790</td>
+<td align="right">1.85</td>
+</tr>
+<tr class="odd">
+<td align="right">3548</td>
+<td align="left">兆利</td>
+<td align="right">54.70</td>
+<td align="right">54.30</td>
+<td align="right">-0.0073126</td>
+<td align="right">-0.40</td>
+</tr>
+<tr class="even">
+<td align="right">8091</td>
+<td align="left">翔名</td>
+<td align="right">58.00</td>
+<td align="right">58.00</td>
+<td align="right">0.0000000</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td align="right">8131</td>
+<td align="left">福懋科</td>
+<td align="right">27.40</td>
+<td align="right">28.40</td>
+<td align="right">0.0364964</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="right">3202</td>
+<td align="left">樺晟</td>
+<td align="right">13.15</td>
+<td align="right">12.90</td>
+<td align="right">-0.0190114</td>
+<td align="right">-0.25</td>
+</tr>
+<tr class="odd">
+<td align="right">6227</td>
+<td align="left">茂綸</td>
+<td align="right">20.55</td>
+<td align="right">20.60</td>
+<td align="right">0.0024331</td>
+<td align="right">0.05</td>
+</tr>
+<tr class="even">
+<td align="right">8299</td>
+<td align="left">群聯</td>
+<td align="right">290.00</td>
+<td align="right">284.50</td>
+<td align="right">-0.0189655</td>
+<td align="right">-5.50</td>
+</tr>
+<tr class="odd">
+<td align="right">1580</td>
+<td align="left">新麥</td>
+<td align="right">140.00</td>
+<td align="right">139.00</td>
+<td align="right">-0.0071429</td>
+<td align="right">-1.00</td>
+</tr>
+<tr class="even">
+<td align="right">1721</td>
+<td align="left">三晃</td>
+<td align="right">15.55</td>
+<td align="right">15.50</td>
+<td align="right">-0.0032154</td>
+<td align="right">-0.05</td>
+</tr>
+<tr class="odd">
+<td align="right">2059</td>
+<td align="left">川湖</td>
+<td align="right">451.00</td>
+<td align="right">464.50</td>
+<td align="right">0.0299335</td>
+<td align="right">13.50</td>
+</tr>
+<tr class="even">
+<td align="right">2887</td>
+<td align="left">台新金</td>
+<td align="right">12.55</td>
+<td align="right">12.45</td>
+<td align="right">-0.0079681</td>
+<td align="right">-0.10</td>
+</tr>
+<tr class="odd">
+<td align="right">3010</td>
+<td align="left">華立</td>
+<td align="right">49.50</td>
+<td align="right">49.60</td>
+<td align="right">0.0020202</td>
+<td align="right">0.10</td>
+</tr>
+<tr class="even">
+<td align="right">8213</td>
+<td align="left">志超</td>
+<td align="right">31.65</td>
+<td align="right">32.30</td>
+<td align="right">0.0205371</td>
+<td align="right">0.65</td>
+</tr>
+<tr class="odd">
+<td align="right">6175</td>
+<td align="left">立敦</td>
+<td align="right">18.50</td>
+<td align="right">18.80</td>
+<td align="right">0.0162162</td>
+<td align="right">0.30</td>
+</tr>
+<tr class="even">
+<td align="right">6263</td>
+<td align="left">普萊德</td>
+<td align="right">53.80</td>
+<td align="right">53.40</td>
+<td align="right">-0.0074349</td>
+<td align="right">-0.40</td>
+</tr>
+<tr class="odd">
+<td align="right">9914</td>
+<td align="left">美利達</td>
+<td align="right">160.00</td>
+<td align="right">162.00</td>
+<td align="right">0.0125000</td>
+<td align="right">2.00</td>
+</tr>
+<tr class="even">
+<td align="right">5201</td>
+<td align="left">凱衛</td>
+<td align="right">20.20</td>
+<td align="right">18.35</td>
+<td align="right">-0.0915842</td>
+<td align="right">-1.85</td>
+</tr>
+<tr class="odd">
+<td align="right">1215</td>
+<td align="left">卜蜂</td>
+<td align="right">57.30</td>
+<td align="right">56.90</td>
+<td align="right">-0.0069808</td>
+<td align="right">-0.40</td>
+</tr>
+<tr class="even">
+<td align="right">6123</td>
+<td align="left">上奇</td>
+<td align="right">33.80</td>
+<td align="right">33.20</td>
+<td align="right">-0.0177515</td>
+<td align="right">-0.60</td>
+</tr>
+<tr class="odd">
+<td align="right">2231</td>
+<td align="left">為升</td>
+<td align="right">279.00</td>
+<td align="right">316.00</td>
+<td align="right">0.1326165</td>
+<td align="right">37.00</td>
+</tr>
+<tr class="even">
+<td align="right">2478</td>
+<td align="left">大毅</td>
+<td align="right">22.75</td>
+<td align="right">22.60</td>
+<td align="right">-0.0065934</td>
+<td align="right">-0.15</td>
+</tr>
+<tr class="odd">
+<td align="right">8213</td>
+<td align="left">志超</td>
+<td align="right">32.90</td>
+<td align="right">32.30</td>
+<td align="right">-0.0182371</td>
+<td align="right">-0.60</td>
+</tr>
+<tr class="even">
+<td align="right">1593</td>
+<td align="left">祺驊</td>
+<td align="right">41.00</td>
+<td align="right">44.60</td>
+<td align="right">0.0878049</td>
+<td align="right">3.60</td>
+</tr>
+<tr class="odd">
+<td align="right">2015</td>
+<td align="left">豐興</td>
+<td align="right">52.30</td>
+<td align="right">51.00</td>
+<td align="right">-0.0248566</td>
+<td align="right">-1.30</td>
+</tr>
+<tr class="even">
+<td align="right">2841</td>
+<td align="left">台開</td>
+<td align="right">11.40</td>
+<td align="right">11.30</td>
+<td align="right">-0.0087719</td>
+<td align="right">-0.10</td>
+</tr>
+<tr class="odd">
+<td align="right">1617</td>
+<td align="left">榮星</td>
+<td align="right">9.52</td>
+<td align="right">8.97</td>
+<td align="right">-0.0577731</td>
+<td align="right">-0.55</td>
+</tr>
+<tr class="even">
+<td align="right">3169</td>
+<td align="left">亞信</td>
+<td align="right">25.85</td>
+<td align="right">24.95</td>
+<td align="right">-0.0348162</td>
+<td align="right">-0.90</td>
+</tr>
+<tr class="odd">
+<td align="right">2031</td>
+<td align="left">新光鋼</td>
+<td align="right">24.00</td>
+<td align="right">22.80</td>
+<td align="right">-0.0500000</td>
+<td align="right">-1.20</td>
+</tr>
+<tr class="even">
+<td align="right">5460</td>
+<td align="left">同協</td>
+<td align="right">13.30</td>
+<td align="right">12.80</td>
+<td align="right">-0.0375940</td>
+<td align="right">-0.50</td>
+</tr>
+<tr class="odd">
+<td align="right">2444</td>
+<td align="left">友旺</td>
+<td align="right">15.75</td>
+<td align="right">15.70</td>
+<td align="right">-0.0031746</td>
+<td align="right">-0.05</td>
+</tr>
+</tbody>
+</table>
+<div class="section level3">
+<h3>總和</h3>
+<table>
+<thead><tr class="header">
+<th align="center">買進價</th>
+<th align="center">市價</th>
+<th align="center">損益金額</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="center">2156.42</td>
+<td align="center">2199.67</td>
+<td align="center">43.25</td>
+</tr></tbody>
+</table>
+<p><strong><em>單位：仟元</em></strong> <br><br></p>
+<div id="0.0200564" class="section level4">
+<h4>損益比例：0.0200564</h4>
+</div>
+<div id="10" class="section level4">
+<h4>賺錢檔數：10</h4>
+</div>
+<div id="21" class="section level4">
+<h4>賠錢檔數：21</h4>
+<hr>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2>不符合陰謀條件</h2>
+<table>
+<thead><tr class="header">
+<th align="right">code</th>
+<th align="left">name</th>
+<th align="right">start</th>
+<th align="right">end</th>
+<th align="right">diff</th>
+<th align="right">change</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">4746</td>
+<td align="left">台耀</td>
+<td align="right">87.70</td>
+<td align="right">89.50</td>
+<td align="right">0.0205245</td>
+<td align="right">1.80</td>
+</tr>
+<tr class="even">
+<td align="right">4729</td>
+<td align="left">熒茂</td>
+<td align="right">16.85</td>
+<td align="right">16.85</td>
+<td align="right">0.0000000</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td align="right">5452</td>
+<td align="left">佶優</td>
+<td align="right">9.67</td>
+<td align="right">9.72</td>
+<td align="right">0.0051706</td>
+<td align="right">0.05</td>
+</tr>
+<tr class="even">
+<td align="right">6115</td>
+<td align="left">鎰勝</td>
+<td align="right">48.95</td>
+<td align="right">49.20</td>
+<td align="right">0.0051073</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td align="right">6605</td>
+<td align="left">帝寶</td>
+<td align="right">88.00</td>
+<td align="right">87.00</td>
+<td align="right">-0.0113636</td>
+<td align="right">-1.00</td>
+</tr>
+<tr class="even">
+<td align="right">2062</td>
+<td align="left">橋椿</td>
+<td align="right">45.20</td>
+<td align="right">45.00</td>
+<td align="right">-0.0044248</td>
+<td align="right">-0.20</td>
+</tr>
+<tr class="odd">
+<td align="right">8024</td>
+<td align="left">佑華</td>
+<td align="right">11.70</td>
+<td align="right">11.50</td>
+<td align="right">-0.0170940</td>
+<td align="right">-0.20</td>
+</tr>
+<tr class="even">
+<td align="right">1472</td>
+<td align="left">三洋紡</td>
+<td align="right">12.35</td>
+<td align="right">13.70</td>
+<td align="right">0.1093117</td>
+<td align="right">1.35</td>
+</tr>
+<tr class="odd">
+<td align="right">1526</td>
+<td align="left">日馳</td>
+<td align="right">17.35</td>
+<td align="right">16.85</td>
+<td align="right">-0.0288184</td>
+<td align="right">-0.50</td>
+</tr>
+<tr class="even">
+<td align="right">2409</td>
+<td align="left">友達</td>
+<td align="right">12.50</td>
+<td align="right">12.60</td>
+<td align="right">0.0080000</td>
+<td align="right">0.10</td>
+</tr>
+<tr class="odd">
+<td align="right">3144</td>
+<td align="left">新揚科</td>
+<td align="right">18.80</td>
+<td align="right">24.80</td>
+<td align="right">0.3191489</td>
+<td align="right">6.00</td>
+</tr>
+<tr class="even">
+<td align="right">6215</td>
+<td align="left">和椿</td>
+<td align="right">13.55</td>
+<td align="right">12.35</td>
+<td align="right">-0.0885609</td>
+<td align="right">-1.20</td>
+</tr>
+<tr class="odd">
+<td align="right">6419</td>
+<td align="left">京晨科</td>
+<td align="right">14.25</td>
+<td align="right">18.55</td>
+<td align="right">0.3017544</td>
+<td align="right">4.30</td>
+</tr>
+<tr class="even">
+<td align="right">1709</td>
+<td align="left">和益</td>
+<td align="right">20.15</td>
+<td align="right">20.25</td>
+<td align="right">0.0049628</td>
+<td align="right">0.10</td>
+</tr>
+<tr class="odd">
+<td align="right">3450</td>
+<td align="left">聯鈞</td>
+<td align="right">151.00</td>
+<td align="right">133.00</td>
+<td align="right">-0.1192053</td>
+<td align="right">-18.00</td>
+</tr>
+</tbody>
+</table>
+<div id="-1" class="section level3">
+<h3>總和</h3>
+<table>
+<thead><tr class="header">
+<th align="center">買進價</th>
+<th align="center">市價</th>
+<th align="center">損益金額</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="center">568.02</td>
+<td align="center">560.87</td>
+<td align="center">-7.15</td>
+</tr></tbody>
+</table>
+<p><strong><em>單位：仟元</em></strong></p>
+<p><br><br></p>
+<div id="-0.0125876" class="section level4">
+<h4>損益比例：-0.0125876</h4>
+</div>
+<div id="8" class="section level4">
+<h4>賺錢檔數：8</h4>
+</div>
+<div id="7" class="section level4">
+<h4>賠錢檔數：7</h4>
+</div>
+</div>
+</div>
 
 
-<h2>Gmail</h2>
 
-<p>R的套件<code>gmailr</code>可透過gmail API連結自己的gmail帳號寄信，以下的步驟做完應該就沒問題了：</p>
 
-<ol>
-<li>
-<p>一開始先執行這一段code吧～～</p>
+</div>
 
-<pre><code> library(gmailr)
- msg = mime() %&gt;%
-     from("your@gmail.com") %&gt;%
-     to("towhom0901@gmail.com") %&gt;%
-     subject("Test") %&gt;%
-     html_body("Gmailr is a very handy package!")
- send_message(msg)
-</code></pre>
-</li>
-<li><p>接著會出現以下的畫面，請選擇2，如果這個步驟已經執行過了，應該是不會出現這個畫面：
-<img src=".././markdowns/2016-07-17_16-09-04/img/gmail_OAuth.png" alt=""></p></li>
-<li><p>然後，會在預設的瀏覽器開啟網頁，要求使用者登入，並允許各項權限。</p></li>
-<li>完成上述步驟，信件就寄出了。</li>
-<li>萬一要換帳號，可以<code>clear_token</code>清理掉之前的權限，然後重開R，執行步驟1~2，選擇你要使用的帳號。</li>
-</ol>
-<h2>OSX say</h2>
+<script>
 
-<p>有時候，只是希望主機發出一些聲音，讓我知道發生了什麼事情，<code>say</code>其實就足夠幫忙了，用法也非常簡單：</p>
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
 
-<ul>
-<li><p><code>say "{{something you want to say}}"</code></p></li>
-<li><p>這還能選擇你喜歡的聲音：<code>say -v Samantha "{{Hello}}"</code></p></li>
-<li><p><code>say -v ?</code>可列出可以使用的聲音</p></li>
-<li><p>跑完R code想要出點聲音，可以這麼做<code>system('say -v Samantha "{{It was Done}}"')</code></p></li>
-<li>
-<p>或者直接把錯誤訊息念出來：</p>
-
-<pre><code>  paste0('say "{{', geterrmessage(), '}}"') %&gt;% system()
-</code></pre>
-</li>
-</ul>
-<h3>上述幾招，之後配合Raspberry Pi應該可以做到遙控某些機器的功能，下次來嘗試一下。</h3>
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </div>
           <div class='info clearfix'>
             <div class='tags all'>
                           <span><a href=".././tag/r">R</a></span>
-                            <span><a href=".././tag/google">google</a></span>
-                            <span><a href=".././tag/osx">OSX</a></span>
+                            <span><a href=".././tag/stock">stock</a></span>
                       </div>
           </div>
         </div>
@@ -169,7 +615,7 @@
 
       <div class='right'>
                 <div class='pin oa_infos'>
-                <div class='message hide' data-name="收到跑完程式的通知"></div>
+                <div class='message hide' data-name="Performance_20170428"></div>
                 <div class='line1'></div><div class='line2'></div>
                 <a href="https://github.com/KuiMing" target='_blank'>
                   <div class='avatar_outline'>

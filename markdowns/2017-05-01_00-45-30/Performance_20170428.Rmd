@@ -1,0 +1,82 @@
+---
+title: ""
+output: html_document
+---
+
+## 符合陰謀條件
+
+- ***diff: 損益比例***
+- ***change: 損益金額(仟元)***
+
+```{r,eval=FALSE,echo=FALSE}
+library(stfilter)
+newlist=gs_read(List,ws=1)
+daily=gs_read(List,ws=4)
+
+newlist$change=newlist$end - newlist$start
+newlist=filter(newlist, date!='2017-04-28')
+newlist$diff=(newlist$end-newlist$start)/newlist$start
+
+code=intersect(daily$code,newlist$code)
+ind=which(newlist$code %in% code)
+sel=newlist[ind,c('code','name','start','end','diff','change')]
+unsel=newlist[-ind,c('code','name','start','end','diff','change')]
+
+newlist$start=0
+newlist$end=0
+
+newlist$name=sapply(newlist$code,get_name)
+for  (i in 1:length(newlist$code)){
+  x=get_price(newlist$code[i])
+  newlist$start[i]=as.numeric(as.character(x$Close[newlist$date[i]]))
+  newlist$end[i]=as.numeric(as.character(x$Close['2017-04-28']))
+}
+```
+```{r,echo=FALSE}
+load('performance.RData')
+knitr::kable(sel)
+```
+
+
+### 總和
+
+```{r,echo=FALSE}
+x=data.frame(t(colSums(sel[,c('start','end','change')])))
+diff=(x$end-x$start)/x$start
+colnames(x)=c('買進價','市價','損益金額')
+knitr::kable(x)
+```
+
+***單位：仟元***
+<br></br>
+<br></br>
+
+#### 損益比例：`r diff`
+#### 賺錢檔數：`r length(which(sel$diff>0))`
+#### 賠錢檔數：`r length(which(sel$diff<=0))`
+
+---
+
+## 不符合陰謀條件
+
+```{r, echo=FALSE}
+knitr::kable(unsel)
+```
+
+### 總和
+
+```{r,echo=FALSE}
+x=data.frame(t(colSums(unsel[,c('start','end','change')])))
+diff=(x$end-x$start)/x$start
+colnames(x)=c('買進價','市價','損益金額')
+knitr::kable(x)
+```
+
+***單位：仟元***
+
+<br></br>
+<br></br>
+
+#### 損益比例：`r diff`
+#### 賺錢檔數：`r length(which(unsel$diff>0))`
+#### 賠錢檔數：`r length(which(unsel$diff<=0))`
