@@ -1,0 +1,44 @@
+---
+title: 
+output: 
+  html_document:
+    self_contained: false 
+    highlight: tango 
+---
+
+# 陰謀的回測
+
+## 以下結果是以低於月線為出場條件：
+[google spreadsheet](https://docs.google.com/spreadsheets/d/1_n9Ba3rzswv0L8gtETRXMFv-njcTTLKFLt3WozQCzJQ/edit#gid=2047053865) 
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+library(stfilter)
+url='https://docs.google.com/spreadsheets/d/1_n9Ba3rzswv0L8gtETRXMFv-njcTTLKFLt3WozQCzJQ'
+List=gs_url(url)
+vali_20=gs_read(List,ws='vali_cons')
+len=length(vali_20$code)
+vali_20$label="btween 30 and 100"
+vali_20$label[vali_20$in_price<=30]="<=30"
+vali_20$label[vali_20$in_price>=100]=">=100"
+xx=vali_20 %>% group_by(label) %>% summarise(prof=sum(profit),win=length(which(profit>0)),total=length(profit)) %>% mutate(wp=win/total) %>% 
+  select(label,prof,wp)
+xx=rbind(xx,data.frame(label='total',prof=sum(vali_20$profit),wp=length(which(vali_20$profit>0))/length(vali_20$profit)))
+colnames(xx)=c('price','profit','winning_probability')
+knitr::kable(xx)
+```
+
+## 以下結果是以低於季線為出場條件：
+[google spreadsheet](https://docs.google.com/spreadsheets/d/1_n9Ba3rzswv0L8gtETRXMFv-njcTTLKFLt3WozQCzJQ/edit#gid=1237368816) 
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+
+vali_60=gs_read(List,ws='vali_cons_60')
+len=length(vali_60$code)
+vali_60$label="btween 30 and 100"
+vali_60$label[vali_60$in_price<=30]="<=30"
+vali_60$label[vali_60$in_price>=100]=">=100"
+xx=vali_60 %>% group_by(label) %>% summarise(prof=sum(profit),win=length(which(profit>0)),total=length(profit)) %>% mutate(wp=win/total) %>% 
+  select(label,prof,wp)
+xx=rbind(xx,data.frame(label='total',prof=sum(vali_60$profit),wp=length(which(vali_60$profit>0))/len))
+colnames(xx)=c('price','profit','winning_probability')
+knitr::kable(xx)
+```
+
