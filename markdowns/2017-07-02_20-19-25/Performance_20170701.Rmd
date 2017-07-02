@@ -1,0 +1,43 @@
+---
+title: 
+output: 
+  html_document:
+    self_contained: false 
+    highlight: tango 
+---
+# 反陰謀的回測
+### 入場價格皆低於30
+## 以下結果是分別以低於月線與季線為出場條件：
+[google spreadsheet](https://docs.google.com/spreadsheets/d/1lmXm5Hd-tz_tdIz4Pg3g3jt8JhiI5Oqjf1oD1cl0OWc/edit#gid=229331477) 
+
+### 月線
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+library(stfilter)
+url='https://docs.google.com/spreadsheets/d/1lmXm5Hd-tz_tdIz4Pg3g3jt8JhiI5Oqjf1oD1cl0OWc/edit#gid=229331477'
+List=gs_url(url)
+vali_20=gs_read(List,ws='vali_real_un')
+len=length(vali_20$code)
+vali_20$strategy='月線出場'
+xx=vali_20 %>% group_by(strategy) %>% summarise(profit=sum(獲利),  winning_probability=length(which(獲利>0))/len)
+vali_20=vali_20[,-(9:10)]
+knitr::kable(vali_20)
+```
+
+### 季線
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+vali_20=gs_read(List,ws='vali_real_un_60')
+len=length(vali_20$code)
+vali_20$strategy='季線出場'
+yy=vali_20 %>% group_by(strategy) %>% summarise(profit=sum(獲利),  winning_probability=length(which(獲利>0))/len)
+vali_20=vali_20[,-(9:10)]
+knitr::kable(vali_20)
+```
+
+### 總結
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+xx=rbind(xx,yy)
+
+knitr::kable(xx)
+```
