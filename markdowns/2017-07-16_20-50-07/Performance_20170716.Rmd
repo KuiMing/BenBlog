@@ -1,0 +1,75 @@
+---
+title: 
+output: 
+  html_document:
+    self_contained: false 
+    highlight: tango 
+---
+
+# CCI
+
+此回測沒有很嚴謹，因為大量抓歷史資料，會常被ban，只是大概測測。
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+library(stfilter)
+url='https://docs.google.com/spreadsheets/d/1_n9Ba3rzswv0L8gtETRXMFv-njcTTLKFLt3WozQCzJQ/edit#gid=138357284'
+List=gs_url(url)
+vali_CCI=gs_read(List,ws='vali_CCI')
+len=length(vali_CCI$code)
+x=colSums(vali_CCI[,c('profit20','profit60','profitCCI0','profitCCI100')]) %>% as.numeric()
+winning_probability=c(length(which(vali_CCI$profit20>0))/len,length(which(vali_CCI$profit60>0))/len,length(which(vali_CCI$profitCCI0>0))/len,length(which(vali_CCI$profitCCI100>0))/len)
+vali=data.frame(出場策略=c("月線出場",'季線出場','CCI<0出場','CCI<-100出場'),profit= x, 勝率=winning_probability)
+
+knitr::kable(vali)
+```
+
+## 以下只考慮季線出場
+
+大致上獲利分布：
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+y=data.frame(x1=length(vali_CCI$profit60[vali_CCI$profit60<=0]),x2=length(vali_CCI$profit60[vali_CCI$profit60<500 & vali_CCI$profit60>0]),x3=length(vali_CCI$profit60[vali_CCI$profit60>=500 & vali_CCI$profit60>1000]),x4=length(vali_CCI$profit60[vali_CCI$profit60>=1000 & vali_CCI$profit60<10000]),x5=length(vali_CCI$profit60[vali_CCI$profit60>=10000]))
+
+colnames(y)=c("<0","0~500","500~1000","1000~10000",">=10000")
+
+knitr::kable(y)
+```
+
+
+大概觀察一下會被挑出的區間，進場價格幾乎都來自10~20之間，不過這點應該是因為目前都以外資買超張數來作考慮，若用外資金額考慮，可能又不一樣了。
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+ggplot(vali_CCI,aes(in_price))+geom_histogram()+scale_x_continuous(breaks = seq(10,250,10))
+```
+
+當然，會賺錢的，大概都落在10~20這個區間了。
+
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+ggplot(vali_CCI,aes(in_price,profit60))+geom_point()
+```
+
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+vali_CCI=filter(vali_CCI,profit60>0)
+ggplot(vali_CCI,aes(in_price))+
+  geom_histogram()+scale_x_continuous(breaks = seq(10,150,10))
+```
+
+另外，很容易挑到金融股，大約24%的機率。
+
+```{r , echo=FALSE, warning=FALSE, message=FALSE}
+ind=which(as.numeric(vali_CCI$code) > 2800 & as.numeric(vali_CCI$code) <2900)
+
+vali_CCI=vali_CCI[ind,]
+
+len=length(vali_CCI$code)
+x=colSums(vali_CCI[,c('profit20','profit60','profitCCI0','profitCCI100')]) %>% as.numeric()
+winning_probability=c(length(which(vali_CCI$profit20>0))/len,length(which(vali_CCI$profit60>0))/len,length(which(vali_CCI$profitCCI0>0))/len,length(which(vali_CCI$profitCCI100>0))/len)
+vali=data.frame(出場策略=c("月線出場",'季線出場','CCI<0出場','CCI<-100出場'),profit= x, 勝率=winning_probability)
+
+knitr::kable(vali)
+```
+
+不過，大概只能賺零用錢。
